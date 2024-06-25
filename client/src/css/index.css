@@ -1,0 +1,202 @@
+@import url(//fonts.googleapis.com/css?family=Nunito);
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+*{
+    padding: 0;
+    margin: 0;
+    font-family: 'Nunito' !important;
+}
+
+nav.nav1 {
+    background-color: #08142c;
+    padding: 32px 0 25px 0;
+    font-size: 17px !important;
+    justify-content: space-between;
+    font-weight: 500;
+}
+
+.nav2 {
+    font-size: 17px;
+    background-color: #031840;
+    top: 80px;
+    position: fixed;
+    width: 100%;
+    z-index: 2;
+    padding: 20px 0;
+    font-family: 'Nunito';
+    font-weight: 500;
+}
+
+body{
+    color: white;
+    
+    background-color: #08142c;
+}
+
+div.welcome,div.prize-info,div.social-media{ 
+    width: 77%;
+    padding: 180px 0 90px 0;
+    margin: 0px auto;
+    text-align: left;
+    display: flex;
+
+}
+div.social-media{
+    display: block;
+    padding-top: 0;
+    text-align: center;
+}
+
+div.why{
+    display: flex;
+    text-align: left;
+    width: 95%;
+
+    flex-direction: row-reverse;
+}
+div.prize-info{
+    padding-top: 0;
+    margin-top: 100px;
+    
+}
+div.prize-info img{
+    height: 440px;
+}
+section.text{
+    padding-top: 20px;
+    width: 80%;
+}
+div.why section.text{
+    margin-left: 50px;
+}
+h2{
+    font-size: 40px;
+    font-weight: 750;
+}
+div.social-link{
+    display: flex;
+    justify-content: center;
+    
+    margin-top: 40px;
+}
+div.facebook,div.instagram{
+    margin-right: 120px;
+}
+div.facebook,div.instagram,div.discord{
+    border: 3px white solid;
+    font-size: 25px;
+    width: 260px;
+    aspect-ratio: 1/1;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+    transition: 0.3s ease;
+}
+div.facebook:hover{
+    border: 3px rgb(77, 169, 255) solid;
+    transform: scale(1.08);
+}
+div.instagram:hover{
+    border: 3px rgb(255, 142, 227) solid;
+    transform: scale(1.08);
+}
+div.discord:hover{
+    border: 3px #5865F2 solid;
+    transform: scale(1.08);
+}
+a.linkinsta:hover{
+    text-decoration: none !important;
+    color: rgb(255, 142, 227);
+}
+a.linkfb:hover{
+    text-decoration: none !important;
+    color: rgb(138, 176, 255);
+}
+a.linkdis:hover{
+    color: #5865F2;
+}
+div.pa{
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    height: 280px;
+}
+a.linkfb,a.linkinsta,a.linkdis {
+    text-decoration: none !important;
+    color: white;
+    width: 260px;
+    aspect-ratio: 1/1;
+}
+
+a.linkfb p{
+    margin: 0;
+}
+svg.facebook,svg.instagram,svg.discord{
+    font-size: 120px;
+}
+section.text p{
+    list-style: none;
+    font-size: 20px;
+    width: 90%;
+}
+section.text a{
+    text-decoration: none;
+    font-weight: 700;
+    color: #e5ba85;
+    transition: 0.3s color;
+
+}
+section.text a:hover{
+    color: #f5921d;
+}
+footer{
+    text-align: center;
+    width: 100%;
+    background-color: black;
+    color: white;
+    padding:12px 0;
+
+}
+footer p{
+    margin: 0;
+    font-size: 18px;
+}
+
+
+.tag {
+    opacity: 0;
+    transform: translate(0, 15vh);
+    transition: all 1s;
+  }
+  
+  .tag.visible {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+@media screen and (max-width:992px) {
+    div.welcome{
+        display: block;
+        width: 90%;
+        justify-content: center;
+        padding-top: 130px;
+    }
+    section.text{
+        padding-top: 20px;
+        width: 100%;
+    }
+    h2{
+        font-size: 35px;
+        font-weight: 750;
+    }
+    
+    section.text p{
+        list-style: none;
+        font-size: 17px;
+        width: 100%;
+    }
+    div.image1{
+        padding: 5px 0 20px 0;
+    }
+}

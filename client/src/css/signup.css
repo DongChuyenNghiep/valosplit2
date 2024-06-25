@@ -1,0 +1,19 @@
+form{
+    display: flex;
+    flex-direction: column;
+}
+
+form input:where(.username,.email,.password),form button{
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 12px;
+    
+}
+form button{
+    background-color: rgb(232, 146, 146);
+    color:white;
+}
+div.haveaccount{
+    display: flex;
+    gap: 8px;
+}

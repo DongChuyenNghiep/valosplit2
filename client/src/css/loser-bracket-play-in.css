@@ -1,0 +1,232 @@
+@import 'https://fonts.googleapis.com/css?family=Roboto+Slab:4.win00,700';
+
+html {
+  font-size: 17px;
+}
+h2{
+  color: white !important;
+}
+.round-16 h2{
+  padding-bottom: 20px;
+}
+
+
+.loser-bracket img{
+  height: 30px;
+  padding-left: 10px;
+}
+
+div.cac-vong{
+  padding: 120px 0px 0 50px;
+}
+div.cac-vong li{
+  list-style: none;
+  display: inline-flex;
+  margin-right: 50px;
+  position: relative;
+}
+div.cac-vong a{
+  color: white !important;
+  text-decoration: none !important;
+  padding-bottom: 8px !important;
+}
+div.cac-vong a::after{
+  content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 3px; /* Adjust the height of the border as needed */
+    background-color: rgba(0, 255, 255, 0.762);
+    transition: width 0.3s ease; /* Adjust the duration and timing function as needed */
+
+}
+div.cac-vong a:hover::after{
+  width: 100%;
+}
+.loser-bracket {
+  display: inline-block;
+  position: relative;
+  white-space: nowrap;
+  font-size: 0;
+  padding-bottom: 50px;
+  padding-left: 60px;
+}
+h2{
+
+  padding-bottom: 40px;
+}
+.loser-bracket .round {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.loser-bracket .round .winners>div {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+
+
+.loser-bracket .round .winners>div.matchups .matchup .participants {
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.loser-bracket .round .winners>div.matchups .matchup .participants .participant {
+  box-sizing: border-box;
+  color: white;
+  border-left: 4px solid #858585;
+  background: black;
+  width: 290px;
+  height: 48px;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12);
+
+}
+
+.loser-bracket .round .winners>div.matchups .matchup .participants .participant.winner {
+  color: white;
+  border-color: rgba(255, 191, 0, 0.918);
+}
+.loser-bracket .round .winners>div.matchups .matchup .participants .participant.winner .score{
+  color: rgba(255, 191, 0, 0.918);
+}
+.loser-bracket .round .winners>div.matchups .matchup .participants .participant.advance {
+  color: black;
+  background-color: rgba(255, 191, 0, 0.918);
+  border-color: rgba(255, 191, 0, 0.918);
+  position: relative;
+
+
+}
+.loser-bracket .round .winners>div.matchups .matchup .participants .participant.eliminate {
+  background-color: rgb(251, 71, 71);
+  border-color: rgb(251, 71, 71);
+  color: white;
+  filter: brightness(60%);
+
+}
+.loser-bracket .round .winners>div.matchups .matchup .participants .participant.loser .score{
+  color: white;
+  filter: brightness(100%) !important;
+}
+.loser-bracket .round .winners>div.matchups .matchup .participants .participant:not(:last-child) {
+  border-bottom: thin solid #212529;
+}
+
+.loser-bracket .round .winners>div.matchups .matchup .participants .participant {
+  display: flex;
+  align-items: center;
+}
+
+.loser-bracket .round .winners>div.matchups .matchup .participants .participant span {
+  padding-left:5px;
+  line-height: 3;
+  font-size: 16.5px;
+  font-family: "Roboto Slab";
+}
+
+.loser-bracket .round .winners>div.matchups .matchup .participants .participant #score-lower-1,
+.loser-bracket .round .winners>div.matchups .matchup .participants .participant #score-lower-2,
+.loser-bracket .round .winners>div.matchups .matchup .participants .participant #score-lower-3,
+.loser-bracket .round .winners>div.matchups .matchup .participants .participant #score-lower-4,
+.loser-bracket .round .winners>div.matchups .matchup .participants .participant #semi-lowerscore-1,
+.loser-bracket .round .winners>div.matchups .matchup .participants .participant #semi-lowerscore-2,
+.loser-bracket .round .winners>div.matchups .matchup .participants .participant #semi-lowerscore-3,
+.loser-bracket .round .winners>div.matchups .matchup .participants .participant #semi-lowerscore-4,
+.loser-bracket .round .winners>div.matchups .matchup .participants .participant #final-lowerscore-1,
+.loser-bracket .round .winners>div.matchups .matchup .participants .participant #final-lowerscore-2,
+.loser-bracket .round .winners>div.matchups .matchup .participants .participant #score-advance-1,
+.loser-bracket .round .winners>div.matchups .matchup .participants .participant #score-advance-2,
+.loser-bracket .round .winners>div.matchups .matchup .participants .participant #final-lowerscore-1,
+.loser-bracket .round .winners>div.matchups .matchup .participants .participant #final-lowerscore-2
+{
+  margin-left: auto;
+  padding-right: 20px;
+}
+
+.loser-bracket .round .winners>div.connector.filled .line,
+.loser-bracket .round .winners>div.connector.filled.bottom .merger:after,
+.loser-bracket .round .winners>div.connector.filled.top .merger:before {
+  border-color: #60c645;
+}
+
+.loser-bracket .round .winners>div.connector .line
+{
+  box-sizing: border-box;
+  width: 80px;
+  display: inline-block;
+  vertical-align: top;
+}
+.loser-bracket .round .winners>div.connector .merger {
+  box-sizing: border-box;
+  width: 40px;
+  display: inline-block;
+  vertical-align: top;
+}
+.loser-bracket .round .winners>div.connector .line {
+  border-bottom: thin solid white;
+  height: 100px
+}
+
+.loser-bracket .round .winners>div.connector .merger {
+  position: relative;
+  height: 128px;
+}
+
+.loser-bracket .round .winners>div.connector .merger:before,
+.loser-bracket .round .winners>div.connector .merger:after {
+  content: "";
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  height: 50%;
+  border: 0 solid;
+  border-color: white;
+}
+
+.loser-bracket .round .winners>div.connector .merger:before {
+  border-right-width: thin;
+  border-top-width: thin;
+}
+
+.loser-bracket .round .winners>div.connector .merger:after {
+  border-right-width: thin;
+  border-bottom-width: thin;
+}
+
+.loser-bracket .round.loser2 .winners .matchups .matchup{
+  margin-bottom: 50px;
+}
+
+
+
+.loser-bracket .round.loser1 .winners .matchups .matchup:not(:last-child) {
+  margin-bottom: 0px;
+}
+
+
+.loser-bracket .round.loser1 .winners .connector .line {
+  height: 0px;
+  width: 120px;
+  border-top: 2px solid white;
+}
+
+
+.loser-bracket .round.loser2 .winners .matchups .matchup:not(:last-child) {
+  margin-bottom: 128px;
+}
+
+.loser-bracket .round.loser2 .winners .connector .merger {
+  height: 224px;
+}
+
+.loser-bracket .round.loser2 .winners .connector .line {
+  margin-bottom: 150px;
+  width: 50px;
+}
+
+.loser-bracket .round.loser3 .winners .connector .line {
+    height: 0px;
+  }
+  
