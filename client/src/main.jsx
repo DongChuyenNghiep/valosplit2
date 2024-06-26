@@ -14,8 +14,11 @@ import Playoff from './pages/playoff.jsx';
 import SignUp from './pages/signup.jsx';
 import Login from './pages/signin.jsx';
 const root = ReactDOM.createRoot(document.getElementById('root'));
+import { store } from '../redux/store.js';
+import {Provider} from 'react-redux';
 root.render(
   <>
+  <Provider store={store}>
   <BrowserRouter>
   <Navbar />
   <Routes>
@@ -32,7 +35,7 @@ root.render(
 
     <Footer />
   </BrowserRouter>
- 
+  </Provider>
   </>
 );
 
