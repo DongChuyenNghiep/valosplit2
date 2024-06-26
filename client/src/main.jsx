@@ -14,11 +14,13 @@ import Playoff from './pages/playoff.jsx';
 import SignUp from './pages/signup.jsx';
 import Login from './pages/signin.jsx';
 const root = ReactDOM.createRoot(document.getElementById('root'));
-import { store } from '../redux/store.js';
+import { persistor, store } from '../redux/store.js';
 import {Provider} from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 root.render(
   <>
   <Provider store={store}>
+    <PersistGate persistor={persistor} loading={null}>
   <BrowserRouter>
   <Navbar />
   <Routes>
@@ -35,6 +37,7 @@ root.render(
 
     <Footer />
   </BrowserRouter>
+  </PersistGate>
   </Provider>
   </>
 );
