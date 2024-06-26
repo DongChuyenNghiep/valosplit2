@@ -9,8 +9,8 @@ form input:where(.username,.email,.password),form button{
     margin-top: 12px;
     
 }
-form button{
-    background-color: rgb(232, 146, 146);
+form button.signup-confirm{
+    background-color: rgb(232, 122, 71);
     color:white;
 }
 div.haveaccount{

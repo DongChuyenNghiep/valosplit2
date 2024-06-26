@@ -61,6 +61,7 @@ export default function SignUp() {
                     onChange={handleChange}
                 />
                 <button disabled={loading} className="signup-confirm">{loading ? 'Loading...' : 'Sign Up'}</button>
+
             </form>
             <div className='haveaccount'>
                 <p>Have an account?</p>
