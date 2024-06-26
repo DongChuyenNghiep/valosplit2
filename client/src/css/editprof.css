@@ -26,6 +26,7 @@ span{
 .del-upd{
     margin-top: 15px;
     font-size: 17px;
+    cursor: pointer;
 }
 .delete-acc{
     margin-right: 75%;
