@@ -1,0 +1,32 @@
+div.profile{
+    width: 40%;
+    margin: 0 auto;
+    margin-top: 150px;
+    display: flex;
+    flex-direction: column;
+}
+img.prof-img{
+    width: 120px;
+    border-radius: 50%;
+    margin: 0 auto;
+}
+input{
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 12px;
+    
+}
+h1{
+    text-align: center;
+}
+span{
+    color: rgb(227, 101, 101);
+    
+}
+.del-upd{
+    margin-top: 15px;
+    font-size: 17px;
+}
+.delete-acc{
+    margin-right: 75%;
+}

@@ -17,6 +17,8 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 import { persistor, store } from '../redux/store.js';
 import {Provider} from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
+import PrivateRoute from './component/PrivateRouter.jsx';
+import Profile from './pages/profile.jsx';
 root.render(
   <>
   <Provider store={store}>
@@ -33,6 +35,9 @@ root.render(
     <Route path='/playoff' element={<Playoff />} />
     <Route path='/signup' element = {<SignUp />} />
     <Route path='/signin' element = {<Login/>} />
+    <Route element={<PrivateRoute />} >
+    <Route path='/profile' element={<Profile />} />
+    </Route>
   </Routes>
 
     <Footer />
