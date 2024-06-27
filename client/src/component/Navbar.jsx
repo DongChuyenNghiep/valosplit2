@@ -19,7 +19,7 @@ import '../css/index.css'
                         aria-label="Toggle navigation">&#9776;</button>
                     <div className="collapse navbar-collapse" id="navbarNav1" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <div style={{ flex: 1 }}>
-                            <ul className="navbar-nav justify-content-center" style={{ width: '112%' }}>
+                            <ul className="navbar-nav justify-content-center" style={{ width: '114.5%' }}>
                                 <Link to="/"><li style={{margin:'0px 15px'}} className="nav-item">
                                     Home
                                 </li></Link>
