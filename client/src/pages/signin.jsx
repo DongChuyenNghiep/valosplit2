@@ -46,9 +46,9 @@ export default function SignIn() {
             <form onSubmit={handleSubmit} className='signup'>
                 <input
                     type='text'
-                    placeholder='Email'
-                    id='email' 
-                    className='email'
+                    placeholder='Username'
+                    id='username' 
+                    className='username'
                     onChange={handleChange}
                 />
                 <input
