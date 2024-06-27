@@ -13,11 +13,22 @@ import {
     signOut,
   } from '../../redux/user/userSlice.js';
 export default function Profile() {
+  const [loading1, setLoading] = useState(true);
+  useEffect(() => {
+    const scrollToTop = () => {
+        document.documentElement.scrollTop = 0;
+        setLoading(false);
+    };
+    document.title = "Cập nhật Profile"
+    // Delay to show loading indicator and scroll to top
+    setTimeout(scrollToTop, 0); // Adjust delay as needed
+}, []);
+
     const navigate = useNavigate();
     const [formData, setFormData] = useState({});
     const { currentUser, loading, error } = useSelector((state) => state.user);
     const dispatch = useDispatch();
-
+    
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -75,15 +86,17 @@ export default function Profile() {
             <h1>Profile</h1>
             <form className="profile-user" onSubmit={handleSubmit}>
 
-                <img src={currentUser.profilePicture} className="prof-img" alt="Profile" />
+                <img src={`https://drive.google.com/thumbnail?id=${currentUser.profilePicture}`} className="prof-img" alt="Profile" />
+                <input type="text" onChange={handleChange} defaultValue={currentUser.profilePicture} id='profilePicture' placeholder="URL Avatar" className="input-info" />
+                <input type="text" onChange={handleChange} defaultValue={currentUser.riotID} id='riotID' placeholder="Riot ID" className="input-info" />
                 <input type="text" onChange={handleChange} defaultValue={currentUser.username} id='username' placeholder="Username" className="input-info" />
                 <input type="text" onChange={handleChange} defaultValue={currentUser.email} id='email' placeholder="Email" className="input-info" />
                 <input type="password" onChange={handleChange} id='password' placeholder="Password" className="input-info" />
                 <button className="update-btn"> {loading ? 'Loading...' : 'Update'}</button>
             </form>
             <div className="del-upd">
-                <span onClick={handleDeleteAccount} className="delete-acc">Delete Account</span>
-                <span onClick={handleSignOut} className="sign-out">Sign Out</span>
+                <span onClick={handleDeleteAccount} className="delete-acc">Xóa tài khoản</span>
+                <span onClick={handleSignOut} className="sign-out">Đăng xuất</span>
 
             </div>
 

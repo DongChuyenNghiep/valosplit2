@@ -128,7 +128,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 const matchValue = datajson.table.rows[k].c[0].v;
                 options.push({ value: matchValue, text: matchValue });
             }
-            console.log(options)
             options.forEach(optionData => {
                 const option = document.createElement('option');
                 option.value = optionData.value;

@@ -1,7 +1,7 @@
 div.profile{
     width: 40%;
     margin: 0 auto;
-    margin-top: 150px;
+    margin-top: 132px;
     display: flex;
     flex-direction: column;
 }
@@ -19,7 +19,7 @@ input{
 h1{
     text-align: center;
 }
-span{
+span.delete-acc,span.sign-out{
     color: rgb(227, 101, 101);
     
 }
@@ -27,7 +27,8 @@ span{
     margin-top: 15px;
     font-size: 17px;
     cursor: pointer;
+    margin-bottom: 15px;
 }
 .delete-acc{
-    margin-right: 75%;
+    margin-right: 68%;
 }

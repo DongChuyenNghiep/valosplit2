@@ -4,13 +4,13 @@ import React, { useEffect, useState } from 'react';
 
 export default function Rule() {
   const [loading, setLoading] = useState(true);
-
+  document.title='Luật lệ'
   useEffect(() => {
     const scrollToTop = () => {
       document.documentElement.scrollTop = 0;
       setLoading(false);
     };
-
+    
     // Delay to show loading indicator and scroll to top
     setTimeout(scrollToTop, 0); // Adjust delay as needed
   }, []);

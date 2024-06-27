@@ -11,6 +11,7 @@ export default function Calendar() {
   const FULL_URL_CALENDAR = `https://docs.google.com/spreadsheets/d/${SHEET_ID_CALENDAR}/gviz/tq?sheet=${SHEET_TITLE_CALENDAR}&range=${SHEET_RANGE_CALENDAR}`;
 
   useEffect(() => {
+    document.title = "Lịch thi đấu"
     fetch(FULL_URL_CALENDAR)
       .then((res) => res.text())
       .then((rep) => {

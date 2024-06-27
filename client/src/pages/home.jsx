@@ -19,7 +19,7 @@ export default function Home() {
             document.documentElement.scrollTop = 0;
             setLoading(false);
         };
-
+        document.title = "Trang chủ"
         // Delay to show loading indicator and scroll to top
         setTimeout(scrollToTop, 0); // Adjust delay as needed
     }, []);

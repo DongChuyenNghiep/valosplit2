@@ -4,6 +4,7 @@ import '../css/bracket.css'
 import '../css/loser-bracket-play-in.css'
 import '../css/valorant.css'
 export default function Playoff() {
+    document.title = "Vòng loại trực tiếp"
     return (
         <>
             <div className="back">

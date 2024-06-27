@@ -2,6 +2,10 @@ import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema(
   {
+    riotID:{
+      type:String,
+      unique: true
+    },
     username: {
       type: String,
       required: true,
@@ -19,7 +23,7 @@ const userSchema = new mongoose.Schema(
     profilePicture: {
       type: String,
       default:
-        'https://img.freepik.com/premium-vector/man-avatar-profile-picture-vector-illustration_268834-538.jpg',
+        '1dJXC3sq1fK3XKrRsTq3AfPUtalLrzds1',
     },
   },
   { timestamps: true }

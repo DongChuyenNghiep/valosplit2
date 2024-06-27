@@ -5,6 +5,9 @@ import { signInStart,signInFailure,signInSuccess } from '../../redux/user/userSl
 import { useDispatch, useSelector } from 'react-redux';
 
 export default function SignIn() {
+  const [loading1, setLoading] = useState(true);
+
+    document.title = "Đăng nhập"
     const [formData, setFormData] = useState({});
     const {loading,error} = useSelector((state) => state.user);
     const navigate = useNavigate();
@@ -12,7 +15,7 @@ export default function SignIn() {
     const handleChange = (e) => {
       setFormData({ ...formData, [e.target.id]: e.target.value });
     };
-  
+    
     const handleSubmit = async (e) => {
       e.preventDefault();
       try {
@@ -38,7 +41,8 @@ export default function SignIn() {
     };
     return (
         <>
-            <h1 style={{ marginTop: '200px' }} className='text-3xl text-center font-semibold'>Sign In</h1>
+        <div className='sign'>
+            <h1 style={{ marginTop: '100px' }} className='text-3xl text-center font-semibold'>Sign In</h1>
             <form onSubmit={handleSubmit} className='signup'>
                 <input
                     type='text'
@@ -58,11 +62,12 @@ export default function SignIn() {
 
             </form>
             <div className='haveaccount'>
-                <p>Dont have an account?</p>
-                <Link to='/signup'><span>Sign up</span></Link>
+                <p>Chưa có tài khoản?</p>
+                <Link to='/signup'><span style={{color:'orange'}}>Đăng kí</span></Link>
 
             </div>
             <p style={{color:'red'}}>{error ? error.message|| 'Something went wrong!' : ''}</p>
+            </div>
         </>
     )
 }

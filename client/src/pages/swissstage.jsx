@@ -11,7 +11,7 @@ export default function SwissStage() {
 
     useEffect(() => {
 
-
+        document.title = 'Vòng Swiss Play'
         // Close the modal when clicking outside of it
         window.onclick = function (event) {
             if (event.target.classList.contains('modal')) {
@@ -85,9 +85,6 @@ export default function SwissStage() {
         // Create matchups container
         const matchupsContainer = document.createElement('div');
         matchupsContainer.classList.add('matchups');
-        console.log(valueA);
-        console.log(valueB);
-        console.log(valueC);
         // Loop to create each matchup
         function createTeamDiv(logoSrc, score) {
             const teamDiv = document.createElement('div');

@@ -7,7 +7,7 @@ export default function Allteam() {
     useEffect(() => {
         createBoxes();
         Allteamdata();
-
+        document.title = "Các đội tham dự"
     }, []);
 
     return (

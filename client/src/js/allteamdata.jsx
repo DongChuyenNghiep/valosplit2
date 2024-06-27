@@ -5,7 +5,7 @@ const images = import.meta.glob('../image/*.{png,jpg,jpeg,gif}');
     let SHEET_ID = '1s2Lyk37v-hZcg7-_ag8S1Jq3uaeRR8u-oG0zviSc26E'
     let SHEET_TITLE = 'Sheet4'
     let FULL_URL_TABLE = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${SHEET_TITLE}&range=${SHEET_RANGE_TABLE}`;
-    console.log(images);
+
     fetch(FULL_URL_TABLE)
         .then((res) => res.text())
         .then((rep) => {

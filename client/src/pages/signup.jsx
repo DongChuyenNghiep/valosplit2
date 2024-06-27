@@ -2,6 +2,7 @@ import React,{ useState } from 'react';
 import '../css/signup.css';
 import { Link,useNavigate} from 'react-router-dom'
 export default function SignUp() {
+  document.title = "Đăng kí"
     const [formData, setFormData] = useState({});
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -37,8 +38,16 @@ export default function SignUp() {
     };
     return (
         <>
-            <h1 style={{ marginTop: '200px' }} className='text-3xl text-center font-semibold'>Sign Up</h1>
+        <div className='sign'>
+            <h1 style={{ marginTop: '100px' }} className='text-3xl text-center font-semibold'>Sign Up</h1>
             <form onSubmit={handleSubmit} className='signup'>
+                <input
+                    type='text'
+                    placeholder='RiotID'
+                    id='riotID'
+                    className='username'
+                    onChange={handleChange}
+                />
                 <input
                     type='text'
                     placeholder='Username'
@@ -64,11 +73,12 @@ export default function SignUp() {
 
             </form>
             <div className='haveaccount'>
-                <p>Have an account?</p>
-                <Link to='/signin'><span>Sign in</span></Link>
+                <p>Đã có tài khoản?</p>
+                <Link to='/signin'><span style={{color:'orange'}}>Đăng nhập</span></Link>
 
             </div>
             <p style={{color:'red'}}>{error && 'Something went wrong!'}</p>
+            </div>
         </>
     )
 }

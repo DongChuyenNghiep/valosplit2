@@ -4,6 +4,7 @@ import $ from 'jquery';
 import { Chart } from 'chart.js/auto';
 
 export default function Stat() {
+    document.title = "Thông số giải đấu"
     useEffect(() => {
         const Graph = () => {
         let SHEET_RANGE_TABLE_AGENT = 'D1:E8';
