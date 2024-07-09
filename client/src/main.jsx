@@ -19,8 +19,11 @@ import {Provider} from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import PrivateRoute from './component/PrivateRouter.jsx';
 import Profile from './pages/profile.jsx';
+import MatchInfo from './pages/playoffmatchdata.jsx';
+
 root.render(
   <>
+  
   <Provider store={store}>
     <PersistGate persistor={persistor} loading={null}>
   <BrowserRouter>
@@ -35,6 +38,7 @@ root.render(
     <Route path='/playoff' element={<Playoff />} />
     <Route path='/signup' element = {<SignUp />} />
     <Route path='/signin' element = {<Login/>} />
+    <Route path='/dataplayoff' element = {<MatchInfo/>} />
     <Route element={<PrivateRoute />} >
     <Route path='/profile' element={<Profile />} />
     </Route>
@@ -43,6 +47,7 @@ root.render(
     <Footer />
   </BrowserRouter>
   </PersistGate>
+
   </Provider>
   </>
 );

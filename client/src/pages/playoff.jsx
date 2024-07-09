@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { Link, BrowserRouter, Router } from "react-router-dom";
 import '../css/bracket.css'
 import '../css/loser-bracket-play-in.css'
@@ -8,7 +8,15 @@ export default function Playoff() {
     return (
         <>
             <div className="back">
-                <Link to = '/swissstage'> &lt; Swiss-stage</Link>
+                <Link to='/swissstage'> &lt; Swiss-stage</Link>
+            </div>
+            <div className='button-play-off'>
+            <button  className='active'>
+                <Link to='/playoff'>Nhánh Play-off</Link>
+            </button>
+            <button>
+                <Link to='/dataplayoff'>Match Data</Link>
+            </button>
             </div>
             <p style={{ textAlign: 'center', fontSize: '30px', fontWeight: 700, marginBottom: '5px', color: 'white' }}>
                 PLAY-OFF
@@ -22,12 +30,12 @@ export default function Playoff() {
                                 <div className="matchup">
                                     <div className="participants">
                                         <div className="participant">
-                                            <img id="teamSemi1" src=""  />
+                                            <img id="teamSemi1" src="" />
                                             <span id="semi-team-1"></span>
                                             <span className="score" id="semi-score-1"></span>
                                         </div>
                                         <div className="participant">
-                                            <img id="teamSemi2" src=""  />
+                                            <img id="teamSemi2" src="" />
                                             <span id="semi-team-2"></span>
                                             <span className="score" id="semi-score-2"></span>
                                         </div>
@@ -36,12 +44,12 @@ export default function Playoff() {
                                 <div className="matchup">
                                     <div className="participants">
                                         <div className="participant">
-                                            <img id="teamSemi3" src=""  />
+                                            <img id="teamSemi3" src="" />
                                             <span id="semi-team-3"></span>
                                             <span className="score" id="semi-score-3"></span>
                                         </div>
                                         <div className="participant">
-                                            <img id="teamSemi4" src=""  />
+                                            <img id="teamSemi4" src="" />
                                             <span id="semi-team-4"></span>
                                             <span className="score" id="semi-score-4"></span>
                                         </div>
@@ -60,12 +68,12 @@ export default function Playoff() {
                                 <div className="matchup">
                                     <div className="participants">
                                         <div className="participant">
-                                            <img id="teamfinal1" src=""  />
+                                            <img id="teamfinal1" src="" />
                                             <span id="teamfinal-1"></span>
                                             <span className="score" id="score-final-1"></span>
                                         </div>
                                         <div className="participant">
-                                            <img id="teamfinal2" src=""  />
+                                            <img id="teamfinal2" src="" />
                                             <span id="teamfinal-2"></span>
                                             <span className="score" id="score-final-2"></span>
                                         </div>
@@ -87,12 +95,12 @@ export default function Playoff() {
                                 <div className="matchup">
                                     <div className="participants">
                                         <div className="participant">
-                                            <img id="teamLower1" src=""  />
+                                            <img id="teamLower1" src="" />
                                             <span id="team-lower-1"></span>
                                             <span className="score" id="score-lower-1"></span>
                                         </div>
                                         <div className="participant">
-                                            <img id="teamLower2" src=""  />
+                                            <img id="teamLower2" src="" />
                                             <span id="team-lower-2"></span>
                                             <span className="score" id="score-lower-2"></span>
                                         </div>
@@ -110,12 +118,12 @@ export default function Playoff() {
                                 <div className="matchup">
                                     <div className="participants">
                                         <div className="participant">
-                                            <img id="teamSemilower1" src=""  />
+                                            <img id="teamSemilower1" src="" />
                                             <span id="semi-lower-1"></span>
                                             <span className="score" id="semi-lowerscore-1"></span>
                                         </div>
                                         <div className="participant">
-                                            <img id="teamSemilower2" src=""  />
+                                            <img id="teamSemilower2" src="" />
                                             <span id="semi-lower-2"></span>
                                             <span className="score" id="semi-lowerscore-2"></span>
                                         </div>
@@ -125,40 +133,40 @@ export default function Playoff() {
                         </div>
                     </section>
                     <section className="round grand-final">
-                <div className="winners">
-                    <div className="matchups">
-                        <div className="matchup">
-                            <div className="participants">
+                        <div className="winners">
+                            <div className="matchups">
+                                <div className="matchup">
+                                    <div className="participants">
 
-                                <div className="participant"><img id="advance-grandFinal-team-1" src=""/><span
-                                        id='teamgrandFinal-1'></span><span class="score" id="score-grandFinal-1"></span>
+                                        <div className="participant"><img id="advance-grandFinal-team-1" src="" /><span
+                                            id='teamgrandFinal-1'></span><span className="score" id="score-grandFinal-1"></span>
+                                        </div>
+                                        <div className="participant"><img id="advance-grandFinal-team-2" src="" /><span
+                                            id='teamgrandFinal-2'></span><span className="score" id="score-grandFinal-2"></span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="participant"><img id="advance-grandFinal-team-2" src=""/><span
-                                        id='teamgrandFinal-2'></span><span class="score" id="score-grandFinal-2"></span>
+                            </div>
+                            <div className="connector" >
+                                <div className="line" style={{ marginTop: '-304px', width: '50px', borderBottom: '2.5px white solid' }}></div>
+                            </div>
+                        </div>
+                    </section>
+                    <section className="round champion">
+                        <div className="winners">
+                            <div className="matchups">
+                                <div className="matchup" style={{ marginTop: '-256px', marginRight: '20px' }}>
+                                    <div className="participants">
+
+                                        <div className="participant advance"><img id="champion1st" src="" /><span
+                                            id='teamgrandChampion'></span>
+                                        </div>
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="connector" >
-                        <div className="line" style={{marginTop:'-304px', width: '50px', borderBottom: '2.5px white solid'}}></div>
-                    </div>
-                </div>
-            </section>
-            <section class="round champion">
-                <div class="winners">
-                    <div class="matchups">
-                        <div class="matchup" style={{marginTop:'-256px' , marginRight: '20px'}}>
-                            <div class="participants">
-
-                                <div class="participant advance"><img id="champion1st" src=""/><span
-                                        id='teamgrandChampion'></span>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+                    </section>
                 </div>
             </div>
         </>

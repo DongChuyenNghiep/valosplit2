@@ -3,7 +3,8 @@ import bcryptjs from 'bcryptjs';
 import { errorHandler } from '../utils/error.js';
 import jwt from 'jsonwebtoken';
 import Team from '../models/team.model.js';
-
+import Match from '../models/match.model.js';
+import mongoose from 'mongoose';
 export const signup = async (req, res, next) => {
   const { riotID,username, email, password } = req.body;
   const hashedPassword = bcryptjs.hashSync(password, 10);
@@ -46,6 +47,40 @@ export const findteam = async (req, res, next) => {
     if (!validUser) return next(errorHandler(404, 'User not found'));
     const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
     const { ...rest } = validUser._doc;
+    const expiryDate = new Date(Date.now() + 2629824000); // 1 hour
+    res
+      .cookie('access_token', token, { httpOnly: true, expires: expiryDate })
+      .status(200)
+      .json(rest);
+  } catch (error) {
+    next(error);
+  }
+};
+export const addMatch = async (req, res, next) => {
+  const {idmatch,teamNameleft,logoteamleft,logoteamright,scoreteamleft,teamNameright,scoreteamright, infoTeamleft,infoTeamright} = req.body;
+  const newTeam = new Match({idmatch,teamNameleft,teamNameright,infoTeamleft,scoreteamleft,infoTeamright,scoreteamright,logoteamleft,logoteamright});
+
+  try {
+    await newTeam.save();
+    res.status(201).json({ message: 'Match added successfully' });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+export const findMatch = async (req, res, next) => {
+  const { idmatch,_id} = req.body;
+  try {
+    const validMatch = await Match.findOne({
+      $or: [
+        { idmatch: idmatch },
+        {_id:_id}
+      ]
+    });
+    if (!validMatch) return next(errorHandler(404, 'User not found'));
+    const token = jwt.sign({ id: validMatch._id }, process.env.JWT_SECRET);
+    const { password: hashedPassword, ...rest } = validMatch._doc;
     const expiryDate = new Date(Date.now() + 2629824000); // 1 hour
     res
       .cookie('access_token', token, { httpOnly: true, expires: expiryDate })

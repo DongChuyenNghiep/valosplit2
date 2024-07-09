@@ -2,7 +2,7 @@ import '../css/chart.css';
 import { useEffect } from 'react';
 import $ from 'jquery';
 import { Chart } from 'chart.js/auto';
-
+import TeamInfo from '../App.jsx'
 export default function Stat() {
     document.title = "Thông số giải đấu"
     useEffect(() => {
@@ -223,6 +223,7 @@ export default function Stat() {
             <div className="chart">
                 <div id="chart-container-hs">
                     <h3>Headshot Percentage</h3>
+                    <TeamInfo />
                     <div id="option"></div>
                     <canvas id="myBarChartHS"></canvas>
                 </div>

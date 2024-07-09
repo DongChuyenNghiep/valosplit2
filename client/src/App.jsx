@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useSelector } from "react-redux";
-const TeamInfo = () => {
+export default function TeamInfo  ()  {
   const [team, setTeam] = useState(null);
   const [error, setError] = useState(null);
   const { currentUser, loading } = useSelector((state) => state.user); 
@@ -37,4 +37,3 @@ const TeamInfo = () => {
   );
 };
 
-export default TeamInfo;

@@ -9,8 +9,8 @@
 }
 
 nav.nav1 {
-    background-color: #08142c;
-    padding: 30px 0 25px 0;
+    background-color: #08142c !important;
+    padding: 20px 0 20px 0;
     font-size: 17px !important;
     justify-content: space-between;
     font-weight: 500;
@@ -34,7 +34,7 @@ body{
     background-color: #08142c;
 }
 
-div.welcome,div.prize-info,div.social-media{ 
+div.welcome,div.prize-info,div.social-media,div.hightlight{ 
     width: 77%;
     padding: 180px 0 90px 0;
     margin: 0px auto;
@@ -47,7 +47,16 @@ div.social-media{
     padding-top: 0;
     text-align: center;
 }
-
+div.hightlight{
+    padding-top: 0;
+    margin-top: 0px;
+}
+div.hightlight video{
+    width: 520px;
+}
+div.hightlight .text{
+    margin-right: 40px;
+}
 div.why{
     display: flex;
     text-align: left;

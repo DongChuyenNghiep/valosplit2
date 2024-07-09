@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faDiscord, faInstagram } from '@fortawesome/free-brands-svg-icons';
 import $ from 'jquery';
 import 'animate.css';
+import Video from '../image/4k hs - blur.mp4'
 
 document.addEventListener('DOMContentLoaded', function() {
     document.body.style.overflow = 'auto'; // Re-enable scrolling
@@ -41,7 +42,14 @@ export default function Home() {
                         </section>
                         <div className="image1"><img src={Waiting} alt="Waiting" /></div>
                     </div>
-                    <div className='why animate__animated animate__fadeInUp'>
+                    <div className='hightlight animate__animated animate__fadeInUp'>
+                        <section className='text'>
+                            <h2>Các hightlight trong giải đấu liệu có đăng lên không ?</h2>
+                            <p>Hiện tại tụi mình chỉ có thể đăng <b style={{ color: '#f59e34' }}>Hightlight</b> khi các bạn gửi VOD cho mình. Tụi mình sẽ không đăng lên page trong giải lần này nhé (do chưa đến giai đoạn để đăng)</p>
+                        </section>
+                        <div className='image1'><video controls><source src={Video}/></video></div>
+                    </div>
+                    <div className='why tag'>
                         <section className='text'>
                             <h2>Giải đang trong giai đoạn thử nghiệm.</h2>
                             <p><b style={{ color: '#f59e34' }}>Đúng vậy</b>, vì chúng mình mới tổ chức các giải đấu game gần đây nên vẫn còn thiếu kinh nghiệm, đồng thời
