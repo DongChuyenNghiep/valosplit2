@@ -7,6 +7,11 @@ const userSchema = new mongoose.Schema(
             unique: true,
             required:true
         },
+        logoURL:{
+            type: String,
+            unique: true,
+            required:true
+        },
         shortname:{
             type:String,
             unique: true,

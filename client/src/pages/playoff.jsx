@@ -11,12 +11,12 @@ export default function Playoff() {
                 <Link to='/swissstage'> &lt; Swiss-stage</Link>
             </div>
             <div className='button-play-off'>
-            <button  className='active'>
-                <Link to='/playoff'>Nhánh Play-off</Link>
-            </button>
-            <button>
+       
+                <Link to='/playoff' className='active'>Nhánh Play-off</Link>
+      
+         
                 <Link to='/dataplayoff'>Match Data</Link>
-            </button>
+           
             </div>
             <p style={{ textAlign: 'center', fontSize: '30px', fontWeight: 700, marginBottom: '5px', color: 'white' }}>
                 PLAY-OFF

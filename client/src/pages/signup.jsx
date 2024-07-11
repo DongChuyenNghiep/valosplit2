@@ -74,7 +74,7 @@ export default function SignUp() {
             </form>
             <div className='haveaccount'>
                 <p>Đã có tài khoản?</p>
-                <Link to='/signin'><span style={{color:'orange'}}>Đăng nhập</span></Link>
+                <Link to='/valorant/signin'><span style={{color:'orange'}}>Đăng nhập</span></Link>
 
             </div>
             <p style={{color:'red'}}>{error && 'Something went wrong!'}</p>

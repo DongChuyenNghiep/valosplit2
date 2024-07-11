@@ -34,7 +34,7 @@ export default function SignIn() {
           return;
         }
         dispatch(signInSuccess(data));
-        navigate('/')
+        navigate('/valorant')
       } catch (error) {
         dispatch(signInFailure(error))
       }
@@ -63,7 +63,7 @@ export default function SignIn() {
             </form>
             <div className='haveaccount'>
                 <p>Chưa có tài khoản?</p>
-                <Link to='/signup'><span style={{color:'orange'}}>Đăng kí</span></Link>
+                <Link to='/valorant/signup'><span style={{color:'orange'}}>Đăng kí</span></Link>
 
             </div>
             <p style={{color:'red'}}>{error ? error.message|| 'Something went wrong!' : ''}</p>

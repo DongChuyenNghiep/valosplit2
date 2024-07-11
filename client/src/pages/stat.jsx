@@ -1,232 +1,207 @@
+// Stat.js
 import '../css/chart.css';
-import { useEffect } from 'react';
-import $ from 'jquery';
-import { Chart } from 'chart.js/auto';
-import TeamInfo from '../App.jsx'
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
+import TeamInfo from '../App.jsx';
+import RadarChart from '../Chart.jsx';
+import '../css/stat.css';
+import MatchHistory from '../matchhistory.jsx';
 export default function Stat() {
-    document.title = "Thông số giải đấu"
+    document.title = "Thông số";
+    const [team, setTeam] = useState(null);
+    const [countMatch, setCountMatch] = useState(0);
+    const [totalKills, setTotalKills] = useState(0);
+    const [totalDeaths, setTotalDeaths] = useState(0);
+    const [totalAssists, setTotalAssists] = useState(0);
+    const [KDAAll, setKDAAll] = useState(0);
+    const [KDA, setKDA] = useState(0);
+    const [averageACSAll, setAverageACSAll] = useState(0);
+    const [averageADRAll, setAverageADRAll] = useState(0);
+    const [averageKASTAll, setAverageKASTAll] = useState(0);
+    const [averageHSAll, setAverageHSAll] = useState(0);
+    const [averageACS, setAverageACS] = useState(0);
+    const [averageADR, setAverageADR] = useState(0);
+    const [averageKAST, setAverageKAST] = useState(0);
+    const [averageHS, setAverageHS] = useState(0);
+    const [FirstKill, setFK] = useState(0);
+    const [Multikill, setMK] = useState(0);
+    const [error, setError] = useState(null);
+    const [win, setWin] = useState(0);
+    const { currentUser } = useSelector(state => state.user);
+
     useEffect(() => {
-        const Graph = () => {
-        let SHEET_RANGE_TABLE_AGENT = 'D1:E8';
-        let SHEET_ID = '1s2Lyk37v-hZcg7-_ag8S1Jq3uaeRR8u-oG0zviSc26E';
-        let SHEET_TITLE = 'Stat';
-        let FULL_URL_TABLE_AGENT = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${SHEET_TITLE}&range=${SHEET_RANGE_TABLE_AGENT}`;
-        let SHEET_RANGE_TABLE_MAP = 'D25:E31';
-        let FULL_URL_TABLE_MAP = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${SHEET_TITLE}&range=${SHEET_RANGE_TABLE_MAP}`;
-        let SHEET_RANGE_TABLE_HS = 'G1:J21';
-        let FULL_URL_TABLE_HS = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${SHEET_TITLE}&range=${SHEET_RANGE_TABLE_HS}`;
-
-        fetch(FULL_URL_TABLE_HS)
-            .then((res) => res.text())
-            .then((rep) => {
-                let datajson = JSON.parse(rep.substr(47).slice(0, -2));
-                let labels = ['Match 1', 'Match 2', 'Match 3'];
-                let values = [];
-                const data = {};
-                const options = [];
-
-                // Check if the dropdown already exists
-                let matchDropdown = $('#matchDropdown');
-                if (matchDropdown.length === 0) {
-                    matchDropdown = $('<select id="matchDropdown"></select>');
-                    $('#option').append(matchDropdown);
-                } else {
-                    // Clear existing options if the dropdown already exists
-                    matchDropdown.empty();
-                }
-
-                for (let k = 0; k < datajson.table.rows.length; k++) {
-                    const matchValue = datajson.table.rows[k].c[0].v;
-                    options.push({ value: matchValue, text: matchValue });
-                }
-
-                options.forEach(optionData => {
-                    const option = $('<option></option>')
-                        .attr('value', optionData.value)
-                        .text(optionData.text);
-                    matchDropdown.append(option);
+        const fetchMatches = async () => {
+            try {
+                const response = await axios.post('/api/auth/findmatchid', {
+                    ign: currentUser.riotID,
                 });
+                const matches = response.data;
+                console.log(matches)
+                const stats = matches.reduce((total, match) => {
+                    const players = [...match.infoTeamleft, ...match.infoTeamright]
+                        .filter(player => player.IGN === currentUser.riotID);
 
-                options.forEach(option => {
-                    data[option.value] = [];
-                });
+                    const kills = players.reduce((sum, player) => sum + parseInt(player.K, 10), 0);
+                    const deaths = players.reduce((sum, player) => sum + parseInt(player.D, 10), 0);
+                    const assists = players.reduce((sum, player) => sum + parseInt(player.A, 10), 0);
+                    const acsSum = players.reduce((sum, player) => sum + parseFloat(player.ACS), 0);
+                    const kastSum = players.reduce((sum, player) => sum + parseFloat(player.KAST), 0);
+                    const hsSum = players.reduce((sum, player) => sum + parseFloat(player.HS), 0);
+                    const adrSum = players.reduce((sum, player) => sum + parseFloat(player.ADR), 0);
+                    const fkSum = players.reduce((sum, player) => sum + parseFloat(player.FK), 0);
+                    const mkSum = players.reduce((sum, player) => sum + parseFloat(player.MK), 0);
 
-                for (let i = 1; i < 4; i++) {
-                    values.push(datajson.table.rows[0].c[i].v);
-                    // Populate the data object with the appropriate values
-                    for (let k = 0; k < options.length; k++) {
-                        const optionValue = options[k].value;
-                        data[optionValue].push(datajson.table.rows[k].c[i].v);
-                    }
-                }
+                    const win = total.win + (
+                        (match.infoTeamleft.some(player => player.IGN === currentUser.riotID) && match.scoreteamleft > match.scoreteamright) ||
+                            (match.infoTeamright.some(player => player.IGN === currentUser.riotID) && match.scoreteamright > match.scoreteamleft) ? 1 : 0
+                    );
 
-                const ctx = document.getElementById('myBarChartHS').getContext('2d');
-                const myBarChart = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'Average HS',
-                            data: values,
-                            fill: false,
-                            borderColor: 'rgb(75, 192, 192)',
-                            tension: 0.1
-                        },
-                        {
-                            label: 'Headshot',
-                            data: data['Match 1'],
-                            fill: false,
-                            borderColor: 'rgb(255, 99, 132)',
-                            tension: 0.1
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            x: {
-                                beginAtZero: true
-                            },
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
-                });
+                    return {
+                        kills: total.kills + kills,
+                        deaths: total.deaths + deaths,
+                        assists: total.assists + assists,
+                        acsSum: total.acsSum + acsSum,
+                        kastSum: total.kastSum + kastSum,
+                        hsSum: total.hsSum + hsSum,
+                        adrSum: total.adrSum + adrSum,
+                        playerCount: total.playerCount + players.length,
+                        fkSum: total.fkSum + fkSum,
+                        mkSum: total.mkSum + mkSum,
+                        win
+                    };
+                }, { kills: 0, deaths: 0, assists: 0, acsSum: 0, playerCount: 0, kastSum: 0, hsSum: 0, adrSum: 0, fkSum: 0, mkSum: 0, win: 0 });
 
-                $('#matchDropdown').on('change', function () {
-                    const selectedMatch = $(this).val();
-                    myBarChart.data.datasets[1].data = data[selectedMatch];
-                    myBarChart.update();
-                });
-            });
-            fetch(FULL_URL_TABLE_AGENT)
-            .then((res) => res.text())
-            .then((rep) => {
-                let data = JSON.parse(rep.substr(47).slice(0, -2));
-                let labels = [];
-                let values = [];
-                let backgroundColors = [];
-                let borderColors = [];
-    
-                let colors = [
-                    { background: 'rgba(255, 99, 132, 0.2)', border: 'rgba(255, 99, 132, 1)' },
-                    { background: 'rgba(54, 162, 235, 0.2)', border: 'rgba(54, 162, 235, 1)' },
-                    { background: 'rgba(255, 206, 86, 0.2)', border: 'rgba(255, 206, 86, 1)' },
-                    { background: 'rgba(75, 192, 192, 0.2)', border: 'rgba(75, 192, 192, 1)' },
-                    { background: 'rgba(153, 102, 255, 0.2)', border: 'rgba(153, 102, 255, 1)' },
-                    { background: 'rgba(255, 159, 64, 0.2)', border: 'rgba(255, 159, 64, 1)' },
-                    { background: 'rgba(199, 199, 199, 0.2)', border: 'rgba(199, 199, 199, 1)' },
-                    { background: 'rgba(226,210,18, 0.2)', border: 'rgba(226,210,18, 1)' }
-                ];
-    
-                for (let i = 0; i < data.table.rows.length; i++) {
-                    let row = data.table.rows[i].c;
-                    labels.push(row[0].v);
-                    values.push(row[1].v);
-                    backgroundColors.push(colors[i % colors.length].background);
-                    borderColors.push(colors[i % colors.length].border);
-                }
-    
-                const ctx = document.getElementById('myBarChartagent').getContext('2d');
-                const myBarChart = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'Agent Picks',
-                            data: values,
-                            backgroundColor: backgroundColors,
-                            borderColor: borderColors,
-                            borderWidth: 1
-                        }]
-                    },
-    
-                    options: {
-                        indexAxis: 'y',
-                        scales: {
-                            x: {
-                                beginAtZero: true,
-                            },
-                        }
-                    }
-                });
-            });
-    
-        fetch(FULL_URL_TABLE_MAP)
-            .then((res) => res.text())
-            .then((rep) => {
-                let data = JSON.parse(rep.substr(47).slice(0, -2));
-                let labels = [];
-                let values = [];
-                let backgroundColors = [];
-                let borderColors = [];
-    
-                let colors = [
-                    { background: 'rgba(255, 99, 132, 0.2)', border: 'rgba(255, 99, 132, 1)' },
-                    { background: 'rgba(54, 162, 235, 0.2)', border: 'rgba(54, 162, 235, 1)' },
-                    { background: 'rgba(255, 206, 86, 0.2)', border: 'rgba(255, 206, 86, 1)' },
-                    { background: 'rgba(75, 192, 192, 0.2)', border: 'rgba(75, 192, 192, 1)' },
-                    { background: 'rgba(153, 102, 255, 0.2)', border: 'rgba(153, 102, 255, 1)' },
-                    { background: 'rgba(255, 159, 64, 0.2)', border: 'rgba(255, 159, 64, 1)' },
-                    { background: 'rgba(199, 199, 199, 0.2)', border: 'rgba(199, 199, 199, 1)' },
-                    { background: 'rgba(226,210,18, 0.2)', border: 'rgba(226,210,18, 1)' }
-                ];
-    
-                for (let i = 0; i < data.table.rows.length; i++) {
-                    let row = data.table.rows[i].c;
-                    labels.push(row[0].v);
-                    values.push(row[1].v);
-                    backgroundColors.push(colors[i % colors.length].background);
-                    borderColors.push(colors[i % colors.length].border);
-                }
-    
-                const ctx = document.getElementById('myBarChartmap').getContext('2d');
-                const myBarChart = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'Picks',
-                            data: values,
-                            backgroundColor: backgroundColors,
-                            borderColor: borderColors,
-                            borderWidth: 1
-                        }]
-                    },
-    
-                    options: {
-                        indexAxis: 'y',
-                        scales: {
-                            x: {
-                                beginAtZero: true,
-                            },
-                        }
-                    }
-                });
-            });
-    
-        }
-        Graph();
-    }, []);
+                setKDA(stats.deaths > 0 ? (stats.kills + stats.assists) / stats.deaths : stats.kills + stats.assists);
+                setTotalKills(stats.kills);
+                setTotalDeaths(stats.deaths);
+                setTotalAssists(stats.assists);
+                setAverageACS(stats.playerCount > 0 ? stats.acsSum / stats.playerCount : 0);
+                setAverageKAST(stats.playerCount > 0 ? stats.kastSum / stats.playerCount : 0);
+                setAverageHS(stats.playerCount > 0 ? stats.hsSum / stats.playerCount : 0);
+                setAverageADR(stats.playerCount > 0 ? stats.adrSum / stats.playerCount : 0);
+                setFK(stats.fkSum);
+                setMK(stats.mkSum);
+                setCountMatch(stats.playerCount);
+                setWin(stats.playerCount > 0 ? stats.win * 100 / stats.playerCount : 0);
+                setTeam(matches);
+            } catch (err) {
+                console.error("Error occurred:", err);
+                setError(err);
+            }
+        };
+
+        const fetchAllMatches = async () => {
+            try {
+                const response = await axios.post('/api/auth/findallmatch');
+                const matches = response.data;
+                
+                const stats = matches.reduce((total, match) => {
+                    const players = [...match.infoTeamleft, ...match.infoTeamright];
+
+                    const kills = players.reduce((sum, player) => sum + parseInt(player.K, 10), 0);
+                    const deaths = players.reduce((sum, player) => sum + parseInt(player.D, 10), 0);
+                    const assists = players.reduce((sum, player) => sum + parseInt(player.A, 10), 0);
+                    const acsSum = players.reduce((sum, player) => sum + parseFloat(player.ACS), 0);
+                    const adrSum = players.reduce((sum, player) => sum + parseFloat(player.ADR), 0);
+                    const hsSum = players.reduce((sum, player) => sum + parseFloat(player.HS), 0);
+                    const kastSum = players.reduce((sum, player) => sum + parseFloat(player.KAST), 0);
+                    return {
+                        kills: total.kills + kills,
+                        deaths: total.deaths + deaths,
+                        assists: total.assists + assists,
+                        acsSum: total.acsSum + acsSum,
+                        adrSum: total.adrSum + adrSum,
+                        hsSum: total.hsSum + hsSum,
+                        kastSum: total.kastSum + kastSum,
+                        playerCount: total.playerCount + players.length,
+                    };
+                }, { kills: 0, deaths: 0, assists: 0, acsSum: 0, adrSum: 0, playerCount: 0, hsSum: 0, kastSum: 0 });
+
+                setKDAAll(stats.deaths > 0 ? (stats.kills + stats.assists) / stats.deaths : stats.kills + stats.assists);
+                setAverageACSAll(stats.playerCount > 0 ? stats.acsSum / stats.playerCount : 0);
+                setAverageADRAll(stats.playerCount > 0 ? stats.adrSum / stats.playerCount : 0);
+                setAverageHSAll(stats.playerCount > 0 ? stats.hsSum / stats.playerCount : 0);
+                setAverageKASTAll(stats.playerCount > 0 ? stats.kastSum / stats.playerCount : 0);
+            } catch (err) {
+                console.error("Error occurred:", err);
+                setError(err);
+            }
+        };
+
+        fetchAllMatches();
+        fetchMatches();
+    }, [currentUser.riotID]);
+
+    if (error) {
+        return <div>Error: {error.message}</div>;
+    }
+
+    if (!team) {
+        return <div>Loading...</div>;
+    }
+
+    const data = {
+        KDA: KDA.toFixed(1),
+        averageHS: averageHS.toFixed(1),
+        averageADR: averageADR.toFixed(1),
+        averageACS: averageACS.toFixed(1),
+        averageKAST: averageKAST.toFixed(1),
+        KDAAll: KDAAll.toFixed(1),
+        averageHSAll: averageHSAll.toFixed(1),
+        averageADRAll: averageADRAll.toFixed(1),
+        averageACSAll: averageACSAll.toFixed(1),
+        averageKASTAll: averageKASTAll.toFixed(1)
+    };
 
     return (
         <>
-            <div className="chart">
-                <div id="chart-container-agent">
-                    <h3>Top 7 most agent picked</h3>
-                    <canvas id="myBarChartagent"></canvas>
+            <div className='my-stat'>
+                <div className='upper'>
+                    <div className='info-me'>
+
+                        <img style={{ width: '100px', borderRadius: "50%", margin: "20px 0" }} src={`https://drive.google.com/thumbnail?id=${currentUser.profilePicture}`} alt="Profile" />
+                        <p>{currentUser.username}</p>
+                        <p>RiotID: {currentUser.riotID}</p>
+                        <TeamInfo />
+                    </div>
+                    <div className='main'>
+                        {[
+                            { title: 'Played', data: countMatch },
+                            { title: 'Win %', data: win.toFixed(1) },
+                            { title: 'ACS', data: averageACS.toFixed(1) },
+                            { title: 'Kill', data: totalKills },
+                            { title: 'Death', data: totalDeaths },
+                            { title: 'Assist', data: totalAssists },
+                            { title: 'KDA', data: KDA.toFixed(1) },
+                            { title: 'Headshot %', data: averageHS.toFixed(1) },
+                            { title: 'ADR', data: averageADR.toFixed(1) },
+                            { title: 'KAST %', data: averageKAST.toFixed(1) },
+                            { title: 'First Blood', data: FirstKill },
+                            { title: 'Multi Kill', data: Multikill },
+                        ].map((stat, index) => (
+                            <div key={index} className={`${stat.title.replace(' ', '').toLowerCase()} info-data`}>
+                                <span className='title'>{stat.title}</span>
+                                <span className='data'>{stat.data}</span>
+                            </div>
+                        ))}
+                    </div>
+
                 </div>
-                <div id="chart-container-map">
-                    <h3>Count map picked</h3>
-                    <canvas id="myBarChartmap"></canvas>
+                <div className='lower'>
+                    <div className='stat-graph'>
+                        <div className='radar-chart'>
+                            <RadarChart data={data} />
+                        </div>
+                    </div>
+                    <div className='match-history'>
+                        <section className='title-match-history'>
+                        <span >Lịch sử đấu</span>
+                        </section>
+                        <MatchHistory />
+                    </div>
                 </div>
-            </div>
-            <div className="chart">
-                <div id="chart-container-hs">
-                    <h3>Headshot Percentage</h3>
-                    <TeamInfo />
-                    <div id="option"></div>
-                    <canvas id="myBarChartHS"></canvas>
-                </div>
+
             </div>
         </>
     );

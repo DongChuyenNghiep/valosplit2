@@ -1,0 +1,127 @@
+.info-me {
+    background-color: rgba(128, 128, 128, 0.4);
+    width: 19%;
+    justify-content: center;
+    text-align: center;
+    padding: 20px 0;
+    aspect-ratio: 1/1;
+}
+
+.upper {
+    display: flex;
+    gap: 0 3%;
+}
+
+.my-stat {
+    width: 85%;
+    margin: 120px auto 30px;
+    display: grid;
+    gap: 40px 0;
+    grid-template-rows: auto auto;
+}
+
+.lower {
+    display: flex;
+    gap: 0 3%;
+}
+
+div.main {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(2, auto);
+    gap: 2px;
+    width: 78%;
+    background-color: #0f1923;
+    border-radius: 10px;
+    border: 0.25px white solid;
+}
+
+div.info-data {
+    display: flex;
+    gap: 8px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 100%;
+    border-radius: 10px;
+    transition: 0.2s background-color;
+}
+
+div.info-data:hover {
+    background-color: #596067;
+}
+
+div.info-data:hover span.title,
+div.info-data:hover span.data {
+    color: white;
+}
+
+span.title {
+    font-weight: 500;
+    font-size: 18px;
+    color: #d2e0f1;
+}
+
+span.data {
+    align-items: center;
+    color: #d2e0f1;
+}
+
+.stat-graph {
+    aspect-ratio: 1/1;
+    width: 19% !important;
+
+}
+
+canvas {
+    height: 320px !important;
+    background-color: #38343c;
+}
+
+div.match-history {
+    width: 78%;
+}
+
+div.match-history .row2 {
+    margin: 0;
+    width: 100%;
+}
+
+div.match-history .row1.winner {
+    background-color: rgb(69, 138, 80) !important;
+
+}
+
+div.match-history .row1.lose {
+    background-color: rgb(185, 83, 83) !important;
+
+}
+
+div.match-history .row2 {
+    margin-bottom: 20px;
+}
+
+section.title-match-history {
+    padding-bottom: 10px;
+    text-align: center;
+    font-size: 20px;
+
+}
+
+tr.me,
+.myteam {
+    color: yellow;
+}
+
+div.match-history .row2 .team-left,
+div.match-history .row2 .team-right,
+div.match-history .wordBox1 .team-left table td:nth-child(1),
+div.match-history .wordBox1 .team-left table th:first-child,
+div.match-history .wordBox1 .team-right table td:nth-child(1),
+div.match-history .wordBox1 .team-right table th:first-child {
+    background-color: #203152;
+}
+div.match-history .row2 div.first-col {
+    width: 240px;
+}

@@ -1,50 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom'; // Make sure you have react-router-dom installed
-import '../css/valorant.css';
+import { useSelector } from 'react-redux';
+const imagesagent = import.meta.glob('./agent/*.{png,jpg,jpeg,gif}');
 
-const imagesagent = import.meta.glob('../agent/*.{png,jpg,jpeg,gif}');
-
-export default function MatchHistoryPlayoff() {
-    const [matches, setMatches] = useState({ semiFinal: [], finalupper: [], semilower: [], finallower: [], finalall: [] });
-    const [agentImages, setAgentImages] = useState({});
+export default function MatchHistory() {
+    const { currentUser } = useSelector(state => state.user); // Assuming you are using Redux to get the current user
+    const [matches, setMatches] = useState([]);
     const [error, setError] = useState(null);
-    const [isActive, setIsActive] = useState(false); // State for active class
-
-    const idmatches = ["semifinal1", "semifinal2", "semifinal3", "semifinal4", "semifinal5", "semifinal6", "finalupper1", "finalupper2", "finalupper3", "semilower1", "semilower2", "semilower3", "finallower1", "finallower2", "finallower3", "finalall1", "finalall2", "finalall3"];
-    const semiFinalsIds = ["semifinal1", "semifinal2", "semifinal3", "semifinal4", "semifinal5", "semifinal6"];
-    const finalupperIds = ["finalupper1", "finalupper2", "finalupper3"];
-    const semilowerIds = ["semilower1", "semilower2", "semilower3"];
-    const finallowerIds = ["finallower1", "finallower2", "finallower3"];
-    const finalallIds = ["finalall1", "finalall2", "finalall3"];
-    const matchTitles = {
-        "semifinal1": "Team Young Gen vs Team DCN",
-        "semifinal4": "Team NPC Slayder vs Team Good Eco",
-    };
-
-    useEffect(() => {
-        const fetchMatches = async () => {
-            const fetchedMatches = [];
-            for (const idmatch of idmatches) {
-                try {
-                    const res = await axios.post('/api/auth/findallmatchplayoff', { idmatch });
-                    fetchedMatches.push({ ...res.data, id: idmatch });
-                } catch (err) {
-                    console.error(`Failed to fetch match with id ${idmatch}:`, err);
-                }
-            }
-            setMatches({
-                semiFinal: fetchedMatches.filter(match => semiFinalsIds.includes(match.id)),
-                finalupper: fetchedMatches.filter(match => finalupperIds.includes(match.id)),
-                semilower: fetchedMatches.filter(match => semilowerIds.includes(match.id)),
-                finallower: fetchedMatches.filter(match => finallowerIds.includes(match.id)),
-                finalall: fetchedMatches.filter(match => finalallIds.includes(match.id))
-            });
-        };
-
-        fetchMatches();
-    }, []); // Empty dependency array ensures this effect runs only once on mount
-
+    const [agentImages, setAgentImages] = useState({});
+    
     useEffect(() => {
         const loadImages = async () => {
             const loadedImages = {};
@@ -57,8 +21,8 @@ export default function MatchHistoryPlayoff() {
         };
 
         loadImages();
-    }, []); // Empty dependency array ensures this effect runs only once on mount
-    
+    }, []);
+
     useEffect(() => {
         function show() {
             const showWordsElements = document.querySelectorAll('.row1');
@@ -82,31 +46,61 @@ export default function MatchHistoryPlayoff() {
 
         show();
 
-    }, [matches]); // Depend on matches to rerun only when matches change
+    }, [matches]);
+    
+    useEffect(() => {
+        const fetchMatches = async () => {
+            try {
+                const response = await axios.post('/api/auth/findmatchid', {
+                    ign: currentUser.riotID,
+                });
+                const matches = response.data;
+                
+                setMatches(matches);
+            } catch (err) {
+                console.error("Error occurred:", err);
+                setError(err);
+            }
+        };
 
+        fetchMatches();
+    }, [currentUser.riotID]);
+    
     const calculateKDA = (teamData) => {
         const totalKills = teamData.reduce((total, player) => total + parseInt(player.K, 10), 0);
         const totalDeaths = teamData.reduce((total, player) => total + parseInt(player.D, 10), 0);
         const totalAssists = teamData.reduce((total, player) => total + parseInt(player.D, 10), 0);
         return `${totalKills}/${totalDeaths}/${totalAssists}`
     }
+    
+    const determineWinner = (match) => {
+        if (match.scoreteamleft > match.scoreteamright) {
+            return 'left';
+        } else {
+            return 'right';
+        }
+    };
 
-    const handleButtonClick = () => {
-        setIsActive(!isActive); // Toggle the active state
-    }
+    const isCurrentUserInTeam = (teamData) => {
+        return teamData.some(player => player.IGN === currentUser.riotID);
+    };
 
-    const renderMatches = (matches, title) => (
+    const renderMatches = (matches) => (
         <>
-            <h3 style={{ textAlign: "center"}}>{title}</h3>
             {matches.length > 0 ? (
-                matches.map((match, index) => (
-                    <div key={index}>
-                        <h3 >{matchTitles[match.id]}</h3>
-                        <div className="row2">
-                            <div className="row1">
+                matches.map((match, index) => {
+                    const winningTeam = determineWinner(match);
+                    const currentUserTeam = isCurrentUserInTeam(match.infoTeamleft) ? 'left' : 'right';
+                    const resultClass = (currentUserTeam === winningTeam) ? 'winner' : 'lose';
+                    const leftTeamClass = isCurrentUserInTeam(match.infoTeamleft) ? 'myteam' : '';
+                    const rightTeamClass = isCurrentUserInTeam(match.infoTeamright) ? 'myteam' : '';
+
+                    return (
+                        <div key={index} className="row2">
+                            <div className={`row1 ${resultClass}`}>
                                 <div className="team">
-                                    <img className="team-logo loser-darker" src={`https://drive.google.com/thumbnail?id=${match.logoteamleft}`} alt="Logo" />
-                                    <span className="team-name loser-darker">{match.teamNameleft}</span>
+                                    <img className="team-logo" src={`https://drive.google.com/thumbnail?id=${match.logoteamleft}`} alt="Logo" />
+                                    <span className={`team-name ${leftTeamClass}`}>{match.teamNameleft}</span>
                                 </div>
                                 <div className="score-container">
                                     <span className="score">
@@ -116,20 +110,20 @@ export default function MatchHistoryPlayoff() {
                                     </span>
                                 </div>
                                 <div className="team">
-                                    <span className="team-name winner-brighter">{match.teamNameright}</span>
-                                    <img className="team-logo winner-brighter" src={`https://drive.google.com/thumbnail?id=${match.logoteamright}`} alt="Logo" />
+                                    <span className={`team-name ${rightTeamClass}`}>{match.teamNameright}</span>
+                                    <img className="team-logo" src={`https://drive.google.com/thumbnail?id=${match.logoteamright}`} alt="Logo" />
                                 </div>
                             </div>
                             <div className='wordBox1'>
                                 {['infoTeamleft', 'infoTeamright'].map((team, i) => (
                                     <div key={i} className={i === 0 ? 'team-left' : 'team-right'}>
+                                        <p style={{ textAlign: "center", padding: "15px 0 5px", margin:"0" }}>
+                                            {i === 0 ? match.teamNameleft : match.teamNameright}
+                                        </p>
+                                        <p style={{ textAlign: "center", padding: "5px 0 5px" }}>
+                                            KDA: {calculateKDA(match[team])}
+                                        </p>
                                         <div className='wrapper'>
-                                            <p style={{ textAlign: "center", margin: "15px 0 5px" }}>
-                                                {i === 0 ? match.teamNameleft : match.teamNameright}
-                                            </p>
-                                            <p style={{ textAlign: "center", margin: "12px 0 15px" }}>
-                                                KDA: {calculateKDA(match[team])}
-                                            </p>
                                             <table className={`team${i + 1}`}>
                                                 <thead>
                                                     <tr className='title'>
@@ -141,7 +135,7 @@ export default function MatchHistoryPlayoff() {
                                                 </thead>
                                                 <tbody>
                                                     {match[team].map((player, index) => (
-                                                        <tr key={index}>
+                                                        <tr key={index} className={player.IGN === currentUser.riotID ? 'me' : ''}>
                                                             <td>
                                                                 <div className="first-col">
                                                                     <img className="agent-pick" src={agentImages[player.Agent]} />
@@ -160,8 +154,8 @@ export default function MatchHistoryPlayoff() {
                                 ))}
                             </div>
                         </div>
-                    </div>
-                ))
+                    );
+                })
             ) : (
                 <p style={{ textAlign: "center", fontSize: "18px" }}>Kết quả sẽ cập nhật sau khi trận đấu kết thúc.</p>
             )}
@@ -170,25 +164,11 @@ export default function MatchHistoryPlayoff() {
 
     return (
         <>
-            <div className="back">
-                <Link to='/swissstage'> &lt; Swiss-stage</Link>
-            </div>
-            <div className='button-play-off'>
-
-                <Link to='/playoff'>Nhánh Play-off</Link>
-
-
-                <Link to='/dataplayoff' className='active'>Match Data</Link>
-
-            </div>
-            <div style={{ width: "75%", margin: "0 auto" }}>
-                {renderMatches(matches.semiFinal, 'Vòng bán kết')}
-                {renderMatches(matches.finalupper, 'Vòng chung kết nhánh trên')}
-                {renderMatches(matches.semilower, 'Bán kết nhánh dưới')}
-                {renderMatches(matches.finallower, 'Chung kết nhánh dưới')}
-                {renderMatches(matches.finalall, 'Chung kết tổng')}
-            </div>
-            {error && <p className="error">{error}</p>}
+            {error ? (
+                <p>Error occurred: {error.message}</p>
+            ) : (
+                renderMatches(matches)
+            )}
         </>
     );
 }

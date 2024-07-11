@@ -17,27 +17,27 @@ const Navbar1 = () => {
                 <Navbar.Brand href="/" className="disabled" style={{ filter: 'brightness(100%)' }}>
                     <img src={Logo} alt="Bootstrap" height={70} />
                 </Navbar.Brand>
-                <Navbar.Toggle aria-controls="navbarNav1" />
+                <Navbar.Toggle aria-controls="navbarNav1" className="button1"/>
                 <Navbar.Collapse id="navbarNav1">
                     <Nav className="navbar-nav w-100 justify-content-center">
-                        <LinkContainer to="/">
+                        <LinkContainer to="/valorant">
                             <Nav.Link>Home</Nav.Link>
                         </LinkContainer>
-                        <LinkContainer to="/swissstage">
+                        <LinkContainer to="/valorant/swissstage">
                             <Nav.Link>Các trận đấu</Nav.Link>
                         </LinkContainer>
-                        <LinkContainer to="/allteam">
+                        <LinkContainer to="/valorant/allteam">
                             <Nav.Link>Các đội tham dự</Nav.Link>
                         </LinkContainer>
-                        <LinkContainer to="/stat">
+                        <LinkContainer to="/valorant/stat">
                             <Nav.Link>Stat</Nav.Link>
                         </LinkContainer>
-                        <LinkContainer to="/rule">
+                        <LinkContainer to="/valorant/rule">
                             <Nav.Link>Rule</Nav.Link>
                         </LinkContainer>
                     </Nav>
                     <Nav className="ml-auto">
-                        <LinkContainer to='/profile'>
+                        <LinkContainer to='/valorant/profile'>
                             <Nav.Link>
                                 {currentUser ? (
                                     <img style={{ width: '50px', borderRadius: '50%' }} src={`https://drive.google.com/thumbnail?id=${currentUser.profilePicture}`} alt="Profile" />

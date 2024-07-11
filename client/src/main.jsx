@@ -29,18 +29,18 @@ root.render(
   <BrowserRouter>
   <Navbar />
   <Routes>
-    <Route exact path='/' element={<Home />} />
-    <Route path='/swissstage' element={<SwissStage />} />
-    <Route path='/rule' element={<Rule />} />
-    <Route path='/allteam' element={<Allteam />} />
-    <Route path='/stat' element={<Stat />} />
-    <Route path='/calendar' element={<Calendar />} />
-    <Route path='/playoff' element={<Playoff />} />
-    <Route path='/signup' element = {<SignUp />} />
-    <Route path='/signin' element = {<Login/>} />
-    <Route path='/dataplayoff' element = {<MatchInfo/>} />
+    <Route exact path='/valorant' element={<Home />} />
+    <Route path='/valorant/swissstage' element={<SwissStage />} />
+    <Route path='/valorant/rule' element={<Rule />} />
+    <Route path='/valorant/allteam' element={<Allteam />} />
+    <Route path='/valorant/stat' element={<Stat />} />
+    <Route path='/valorant/calendar' element={<Calendar />} />
+    <Route path='/valorant/playoff' element={<Playoff />} />
+    <Route path='/valorant/signup' element = {<SignUp />} />
+    <Route path='/valorant/signin' element = {<Login/>} />
+    <Route path='/valorant/dataplayoff' element = {<MatchInfo/>} />
     <Route element={<PrivateRoute />} >
-    <Route path='/profile' element={<Profile />} />
+    <Route path='/valorant/profile' element={<Profile />} />
     </Route>
   </Routes>
 

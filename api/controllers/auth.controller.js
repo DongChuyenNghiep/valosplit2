@@ -6,9 +6,9 @@ import Team from '../models/team.model.js';
 import Match from '../models/match.model.js';
 import mongoose from 'mongoose';
 export const signup = async (req, res, next) => {
-  const { riotID,username, email, password } = req.body;
+  const { riotID, username, email, password } = req.body;
   const hashedPassword = bcryptjs.hashSync(password, 10);
-  const newUser = new User({ riotID,username, email, password: hashedPassword });
+  const newUser = new User({ riotID, username, email, password: hashedPassword });
   try {
     await newUser.save();
     res.status(201).json({ message: 'User created successfully' });
@@ -18,8 +18,8 @@ export const signup = async (req, res, next) => {
 };
 
 export const addteam = async (req, res, next) => {
-  const { team,shortname,player1,player2,player3,player4,player5,player6} = req.body;
-  const newTeam = new Team({ team,shortname,player1,player2,player3,player4,player5,player6 });
+  const { team, logoURL, shortname, player1, player2, player3, player4, player5, player6, player7, player8, player9, player10 } = req.body;
+  const newTeam = new Team({ team, logoURL, shortname, player1, player2, player3, player4, player5, player6, player7, player8, player9, player10 });
   try {
     await newTeam.save();
     res.status(201).json({ message: 'Team created successfully' });
@@ -28,7 +28,7 @@ export const addteam = async (req, res, next) => {
   }
 };
 export const findteam = async (req, res, next) => {
-  const { player} = req.body;
+  const { player } = req.body;
   try {
     const validUser = await Team.findOne({
       $or: [
@@ -54,11 +54,12 @@ export const findteam = async (req, res, next) => {
       .json(rest);
   } catch (error) {
     next(error);
+
   }
 };
 export const addMatch = async (req, res, next) => {
-  const {idmatch,teamNameleft,logoteamleft,logoteamright,scoreteamleft,teamNameright,scoreteamright, infoTeamleft,infoTeamright} = req.body;
-  const newTeam = new Match({idmatch,teamNameleft,teamNameright,infoTeamleft,scoreteamleft,infoTeamright,scoreteamright,logoteamleft,logoteamright});
+  const { idmatch, teamNameleft, logoteamleft, logoteamright, scoreteamleft, teamNameright, scoreteamright, infoTeamleft, infoTeamright } = req.body;
+  const newTeam = new Match({ idmatch, teamNameleft, teamNameright, infoTeamleft, scoreteamleft, infoTeamright, scoreteamright, logoteamleft, logoteamright });
 
   try {
     await newTeam.save();
@@ -70,6 +71,47 @@ export const addMatch = async (req, res, next) => {
 
 
 export const findMatch = async (req, res, next) => {
+  const { idmatch, _id, ign } = req.body;
+  try {
+    const query = {};
+
+    if (idmatch) {
+      query.idmatch = idmatch;
+    }
+
+    if (_id) {
+      query._id = _id;
+    }
+
+    if (ign) {
+      query.$or = [
+        { 'infoTeamleft': { $elemMatch: { IGN: ign } } },
+        { 'infoTeamright': { $elemMatch: { IGN: ign } } }
+      ];
+    }
+
+    const validMatches = await Match.find(query);
+
+    if (validMatches.length === 0) {
+      return next(errorHandler(404, 'User not found'));
+    }
+
+    const tokens = validMatches.map(validMatch => {
+      const token = jwt.sign({ id: validMatch._id }, process.env.JWT_SECRET);
+      return { ...validMatch._doc, token };
+    });
+
+    const expiryDate = new Date(Date.now() + 2629824000); // 1 hour
+
+    res
+      .cookie('access_token', tokens.map(tokenData => tokenData.token), { httpOnly: true, expires: expiryDate })
+      .status(200)
+      .json(tokens.map(({ token, password: hashedPassword, ...rest }) => rest));
+  } catch (error) {
+    next(error);
+  }
+};
+export const findMatchPlayoff = async (req, res, next) => {
   const { idmatch,_id} = req.body;
   try {
     const validMatch = await Match.findOne({
@@ -90,9 +132,31 @@ export const findMatch = async (req, res, next) => {
     next(error);
   }
 };
+export const getAllMatches = async (req, res, next) => {
+  try {
+    const allMatches = await Match.find();
 
+    if (allMatches.length === 0) {
+      return next(errorHandler(404, 'No matches found'));
+    }
+
+    const tokens = allMatches.map(match => {
+      const token = jwt.sign({ id: match._id }, process.env.JWT_SECRET);
+      return { ...match._doc, token };
+    });
+
+    const expiryDate = new Date(Date.now() + 2629824000); // 1 hour
+
+    res
+      .cookie('access_token', tokens.map(tokenData => tokenData.token), { httpOnly: true, expires: expiryDate })
+      .status(200)
+      .json(tokens.map(({ token, password: hashedPassword, ...rest }) => rest));
+  } catch (error) {
+    next(error);
+  }
+};
 export const signin = async (req, res, next) => {
-  const { email,username, password } = req.body;
+  const { email, username, password } = req.body;
   try {
     const validUser = await User.findOne({
       $or: [

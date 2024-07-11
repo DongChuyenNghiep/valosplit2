@@ -148,7 +148,9 @@ svg.facebook,svg.instagram,svg.discord{
 section.text p{
     list-style: none;
     font-size: 20px;
-    width: 90%;
+    width: 95%;
+
+    text-align:justify;
 }
 section.text a{
     text-decoration: none;
@@ -185,27 +187,68 @@ footer p{
     transform: translate(0, 0);
   }
 @media screen and (max-width:992px) {
-    div.welcome{
-        display: block;
-        width: 90%;
+    div.welcome,div.prize-info,div.social-link,div.hightlight,div.why{
+        flex-direction: column;
+        width: 98%;
         justify-content: center;
-        padding-top: 130px;
+        padding-top: 50px;
+    }
+    div.why section.text{
+        margin-left: 10px;
+    }
+    nav.nav1{
+        width: 100%;
+    }
+    div.why img{
+        width: 92%;
+    }
+    div.hightlight Video{
+        width: 100%;
+    }
+    div.hightlight {
+        width: 92%;
+        margin: 0 auto;
+    }
+    div.image1{
+        margin: 0 auto;
+    }
+    section.text p{
+        margin: 0 auto;
     }
     section.text{
         padding-top: 20px;
         width: 100%;
     }
+    section.text h2{
+        font-size: 34px;
+        font-weight: 750;
+        text-align: center;
+        width: 100%;
+    }
+    div.welcome section.text h2{
+        margin-top: 100px;
+    }
     h2{
         font-size: 35px;
         font-weight: 750;
+        padding-bottom: 20px;
     }
-    
-    section.text p{
-        list-style: none;
-        font-size: 17px;
-        width: 100%;
+    div.welcome, div.prize-info, div.social-media, div.hightlight{
+        padding:10px 0 20px 0;
+        margin-top: 0;
     }
     div.image1{
         padding: 5px 0 20px 0;
+    }
+    .navbar-toggler-icon{
+        color: white !important;
+    }
+    div.social-link{
+        margin-top: 0px;
+    }
+    div.social-link .facebook,div.social-link .instagram,div.social-link .discord{
+        margin:10px auto;
+
+        
     }
 }

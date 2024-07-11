@@ -330,7 +330,7 @@ a.w3-bar-item {
 .row2 {
     align-items: center;
     border: 1px solid #ccc;
-    width: 100%;
+    width: 95%;
     margin: 10px auto 70px;
     justify-content: space-between;
 
@@ -345,15 +345,15 @@ div.button-play-off{
     gap: 15px;
     margin: 20px 0;
 }
-div.button-play-off button{
+div.button-play-off a{
     padding: 10px 20px;
     background-color: #08142c;
     border: white 3px solid;
     border-radius: 10px;
     width: 180px;
-    cursor: pointer;
+    text-align: center;
 }
-div.button-play-off button.active{
+div.button-play-off a.active{
     background-color: #e5871f;
     border: #e5871f 3px solid;
     cursor: pointer;
