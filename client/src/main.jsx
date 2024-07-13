@@ -20,6 +20,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import PrivateRoute from './component/PrivateRouter.jsx';
 import Profile from './pages/profile.jsx';
 import MatchInfo from './pages/playoffmatchdata.jsx';
+import MatchStatsTable from './pages/ranking.jsx';
 
 root.render(
   <>
@@ -39,6 +40,7 @@ root.render(
     <Route path='/valorant/signup' element = {<SignUp />} />
     <Route path='/valorant/signin' element = {<Login/>} />
     <Route path='/valorant/dataplayoff' element = {<MatchInfo/>} />
+    <Route path='/valorant/rank' element = {<MatchStatsTable/>} />
     <Route element={<PrivateRoute />} >
     <Route path='/valorant/profile' element={<Profile />} />
     </Route>

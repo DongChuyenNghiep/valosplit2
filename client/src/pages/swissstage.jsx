@@ -879,7 +879,7 @@ export default function SwissStage() {
     return (
         <>
             <div className="next">
-                <Link to="/playoff">Play-off &gt;</Link>
+                <Link to="/valorant/playoff">Play-off &gt;</Link>
             </div>
             <h2 style={{ textAlign: 'center', fontWeight: 900 }}>SWISS STAGE</h2>
             <section className="swissbracket">

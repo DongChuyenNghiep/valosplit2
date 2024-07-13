@@ -1,22 +1,27 @@
-import React,{useState} from 'react';
-import { Link, BrowserRouter, Router } from "react-router-dom";
-import '../css/bracket.css'
-import '../css/loser-bracket-play-in.css'
-import '../css/valorant.css'
+import React, { useEffect, useState } from 'react';
+import { Link } from "react-router-dom";
+import '../css/bracket.css';
+import '../css/loser-bracket-play-in.css';
+import '../css/valorant.css';
+import UpperBracket from '../js/bracket';
+import LowerBracket from '../js/lower-bracket';
+
 export default function Playoff() {
-    document.title = "Vòng loại trực tiếp"
+    useEffect(() => {
+        UpperBracket();
+        LowerBracket();
+    }, []); // Empty array ensures this runs only on mount and unmount
+    
+    document.title = "Vòng loại trực tiếp";
+
     return (
         <>
             <div className="back">
-                <Link to='/swissstage'> &lt; Swiss-stage</Link>
+                <Link to='/valorant/swissstage'> &lt; Swiss-stage</Link>
             </div>
             <div className='button-play-off'>
-       
-                <Link to='/playoff' className='active'>Nhánh Play-off</Link>
-      
-         
-                <Link to='/dataplayoff'>Match Data</Link>
-           
+                <Link to='/valorant/playoff' className='active'>Nhánh Play-off</Link>
+                <Link to='/valorant/dataplayoff'>Match Data</Link>
             </div>
             <p style={{ textAlign: 'center', fontSize: '30px', fontWeight: 700, marginBottom: '5px', color: 'white' }}>
                 PLAY-OFF
@@ -137,17 +142,12 @@ export default function Playoff() {
                             <div className="matchups">
                                 <div className="matchup">
                                     <div className="participants">
-
-                                        <div className="participant"><img id="advance-grandFinal-team-1" src="" /><span
-                                            id='teamgrandFinal-1'></span><span className="score" id="score-grandFinal-1"></span>
-                                        </div>
-                                        <div className="participant"><img id="advance-grandFinal-team-2" src="" /><span
-                                            id='teamgrandFinal-2'></span><span className="score" id="score-grandFinal-2"></span>
-                                        </div>
+                                        <div className="participant"><img id="advance-grandFinal-team-1" src="" /><span id='teamgrandFinal-1'></span><span className="score" id="score-grandFinal-1"></span></div>
+                                        <div className="participant"><img id="advance-grandFinal-team-2" src="" /><span id='teamgrandFinal-2'></span><span className="score" id="score-grandFinal-2"></span></div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="connector" >
+                            <div className="connector">
                                 <div className="line" style={{ marginTop: '-304px', width: '50px', borderBottom: '2.5px white solid' }}></div>
                             </div>
                         </div>
@@ -157,11 +157,7 @@ export default function Playoff() {
                             <div className="matchups">
                                 <div className="matchup" style={{ marginTop: '-256px', marginRight: '20px' }}>
                                     <div className="participants">
-
-                                        <div className="participant advance"><img id="champion1st" src="" /><span
-                                            id='teamgrandChampion'></span>
-                                        </div>
-
+                                        <div className="participant advance"><img id="champion1st" src="" /><span id='teamgrandChampion'></span></div>
                                     </div>
                                 </div>
                             </div>

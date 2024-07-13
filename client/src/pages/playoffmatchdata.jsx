@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom'; // Make sure you have react-router-dom installed
-import '../css/valorant.css';
+import '../css/playoffdata.css';
 
 const imagesagent = import.meta.glob('../agent/*.{png,jpg,jpeg,gif}');
 
@@ -100,13 +100,13 @@ export default function MatchHistoryPlayoff() {
             <h3 style={{ textAlign: "center"}}>{title}</h3>
             {matches.length > 0 ? (
                 matches.map((match, index) => (
-                    <div key={index}>
+                    <div key={index} className='play-off'>
                         <h3 >{matchTitles[match.id]}</h3>
                         <div className="row2">
                             <div className="row1">
                                 <div className="team">
-                                    <img className="team-logo loser-darker" src={`https://drive.google.com/thumbnail?id=${match.logoteamleft}`} alt="Logo" />
-                                    <span className="team-name loser-darker">{match.teamNameleft}</span>
+                                    <img className="team-logo" src={`https://drive.google.com/thumbnail?id=${match.logoteamleft}`} alt="Logo" />
+                                    <span className="team-name">{match.teamNameleft}</span>
                                 </div>
                                 <div className="score-container">
                                     <span className="score">
@@ -116,8 +116,8 @@ export default function MatchHistoryPlayoff() {
                                     </span>
                                 </div>
                                 <div className="team">
-                                    <span className="team-name winner-brighter">{match.teamNameright}</span>
-                                    <img className="team-logo winner-brighter" src={`https://drive.google.com/thumbnail?id=${match.logoteamright}`} alt="Logo" />
+                                    <span className="team-name">{match.teamNameright}</span>
+                                    <img className="team-logo" src={`https://drive.google.com/thumbnail?id=${match.logoteamright}`} alt="Logo" />
                                 </div>
                             </div>
                             <div className='wordBox1'>
@@ -163,7 +163,7 @@ export default function MatchHistoryPlayoff() {
                     </div>
                 ))
             ) : (
-                <p style={{ textAlign: "center", fontSize: "18px" }}>Kết quả sẽ cập nhật sau khi trận đấu kết thúc.</p>
+                <p style={{ textAlign: "center", fontSize: "18px" }}>Loading...</p>
             )}
         </>
     );
@@ -171,17 +171,17 @@ export default function MatchHistoryPlayoff() {
     return (
         <>
             <div className="back">
-                <Link to='/swissstage'> &lt; Swiss-stage</Link>
+                <Link to='/valorant/swissstage'> &lt; Swiss-stage</Link>
             </div>
             <div className='button-play-off'>
 
-                <Link to='/playoff'>Nhánh Play-off</Link>
+                <Link to='/valorant/playoff'>Nhánh Play-off</Link>
 
 
-                <Link to='/dataplayoff' className='active'>Match Data</Link>
+                <Link to='/valorant/dataplayoff' className='active'>Match Data</Link>
 
             </div>
-            <div style={{ width: "75%", margin: "0 auto" }}>
+            <div style={{ width: "82%", margin: "0 auto" }}>
                 {renderMatches(matches.semiFinal, 'Vòng bán kết')}
                 {renderMatches(matches.finalupper, 'Vòng chung kết nhánh trên')}
                 {renderMatches(matches.semilower, 'Bán kết nhánh dưới')}

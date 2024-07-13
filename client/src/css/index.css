@@ -9,8 +9,9 @@
 }
 
 nav.nav1 {
-    background-color: #08142c !important;
-    padding: 20px 0 20px 0;
+    background-color: rgba(8, 20, 44) !important;
+    
+    padding: 15px 0 15px 0;
     font-size: 17px !important;
     justify-content: space-between;
     font-weight: 500;

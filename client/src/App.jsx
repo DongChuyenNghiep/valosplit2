@@ -42,6 +42,7 @@ export default function TeamInfo() {
   return (
     <>
       <p>Team: {team.team} ({team.shortname})</p>
+      <img src={`https://drive.google.com/thumbnail?id=${team.logoURL}`} style={{width:"45%",aspectRatio:"1/1"}} /> 
     </>
   );
 };

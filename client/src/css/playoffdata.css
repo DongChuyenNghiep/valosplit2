@@ -1,0 +1,7 @@
+.play-off .row2{
+    margin: 0;
+    width: 100%;
+}
+.play-off .row2:last-child{
+    margin-bottom: 30px;
+}
