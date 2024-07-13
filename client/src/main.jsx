@@ -25,7 +25,7 @@ import MatchStatsTable from './pages/ranking.jsx';
 root.render(
   <>
   
-  <Provider store={store}>
+  <Provider store={store} basename='/valosplit2'>
     <PersistGate persistor={persistor} loading={null}>
   <BrowserRouter>
   <Navbar />
