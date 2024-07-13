@@ -16,23 +16,26 @@ mongoose
   .catch((err) => {
     console.log(err);
   });
-
 const __dirname = path.resolve();
-
 const app = express();
 app.use(cors());
-app.use(express.static(path.join(__dirname, 'client', 'dist')));
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
-});
-
 app.use(express.json());
-
 app.use(cookieParser());
 
-app.listen(3000, () => {
-  console.log('Server listening on port 3000');
+// Serve static files from the 'client' directory
+app.use(express.static(path.join(__dirname, '..', 'client')));
+
+app.get('*', (req, res) => {
+  const filePath = path.join(__dirname, '..', 'client', 'index.html');
+  res.sendFile(filePath, (err) => {
+    if (err) {
+      res.status(500).send({
+        success: false,
+        message: `Error serving file: ${err.message}`,
+        statusCode: 500,
+      });
+    }
+  });
 });
 
 app.use('/api/user', userRoutes);
@@ -46,4 +49,9 @@ app.use((err, req, res, next) => {
     message,
     statusCode,
   });
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
 });
