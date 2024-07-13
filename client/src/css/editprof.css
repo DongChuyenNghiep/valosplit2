@@ -29,6 +29,10 @@ span.delete-acc,span.sign-out{
     cursor: pointer;
     margin-bottom: 15px;
 }
-.delete-acc{
-    margin-right: 68%;
+.delete-acc {
+    margin-right: auto;
+}
+
+.sign-out {
+    margin-left: auto;
 }
