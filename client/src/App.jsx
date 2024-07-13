@@ -15,7 +15,7 @@ export default function TeamInfo() {
 
     const fetchTeam = async () => {
       try {
-        const response = await axios.post('/api/auth/findteam', {
+        const response = await axios.post('https://valosplit2-backend.vercel.app/api/auth/findteam', {
           player: currentUser.riotID, // Use the actual player ID
         });
         setTeam(response.data);

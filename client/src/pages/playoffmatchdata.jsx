@@ -27,7 +27,7 @@ export default function MatchHistoryPlayoff() {
             const fetchedMatches = [];
             for (const idmatch of idmatches) {
                 try {
-                    const res = await axios.post('/api/auth/findallmatchplayoff', { idmatch });
+                    const res = await axios.post('https://valosplit2-backend.vercel.app/api/auth/findallmatchplayoff', { idmatch });
                     fetchedMatches.push({ ...res.data, id: idmatch });
                 } catch (err) {
                     console.error(`Failed to fetch match with id ${idmatch}:`, err);

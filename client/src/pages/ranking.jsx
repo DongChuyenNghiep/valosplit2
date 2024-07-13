@@ -10,7 +10,7 @@ const PlayerStatsTable = () => {
   useEffect(() => {
     const fetchAllMatches = async () => {
       try {
-        const response = await axios.post('/api/auth/findallmatch');
+        const response = await axios.post('https://valosplit2-backend.vercel.app/api/auth/findallmatch');
         const matches = response.data;
         const statsMap = {};
         const teamPromises = [];
@@ -61,7 +61,7 @@ const PlayerStatsTable = () => {
 
     const fetchTeamData = async (IGN) => {
       try {
-        const response = await axios.post('/api/auth/findteam', { player: IGN });
+        const response = await axios.post('https://valosplit2-backend.vercel.app/api/auth/findteam', { player: IGN });
         const { team, logoURL } = response.data;
         return { IGN, team, logoURL };
       } catch (error) {

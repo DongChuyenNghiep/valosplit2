@@ -33,7 +33,7 @@ export default function Stat() {
     useEffect(() => {
         const fetchMatches = async () => {
             try {
-                const response = await axios.post('/api/auth/findmatchid', {
+                const response = await axios.post('https://valosplit2-backend.vercel.app/api/auth/findmatchid', {
                     ign: currentUser.riotID,
                 });
                 const matches = response.data;
@@ -93,7 +93,7 @@ export default function Stat() {
 
         const fetchAllMatches = async () => {
             try {
-                const response = await axios.post('/api/auth/findallmatch');
+                const response = await axios.post('https://valosplit2-backend.vercel.app/api/auth/findallmatch');
                 const matches = response.data;
                 
                 const stats = matches.reduce((total, match) => {

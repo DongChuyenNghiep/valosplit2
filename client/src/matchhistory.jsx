@@ -51,7 +51,7 @@ export default function MatchHistory() {
     useEffect(() => {
         const fetchMatches = async () => {
             try {
-                const response = await axios.post('/api/auth/findmatchid', {
+                const response = await axios.post('https://valosplit2-backend.vercel.app/api/auth/findmatchid', {
                     ign: currentUser.riotID,
                 });
                 const matches = response.data;
