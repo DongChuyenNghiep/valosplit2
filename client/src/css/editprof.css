@@ -23,16 +23,21 @@ span.delete-acc,span.sign-out{
     color: rgb(227, 101, 101);
     
 }
-.del-upd{
+
+.del-upd {
     margin-top: 15px;
-    font-size: 17px;
-    cursor: pointer;
     margin-bottom: 15px;
+    font-size: 17px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%; /* Ensure the parent div spans the full width */
 }
+
 .delete-acc {
-    margin-right: auto;
+    flex-grow: 1;
 }
 
 .sign-out {
-    margin-left: auto;
+    flex-grow: 1;
+    text-align: right; /* Align text to the right for the sign-out span */
 }
