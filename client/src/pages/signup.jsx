@@ -30,7 +30,7 @@ export default function SignUp() {
           setError(true);
           return;
         }
-        navigate('/')
+        navigate('/valorant')
       } catch (error) {
         setLoading(false);
         setError(true);
