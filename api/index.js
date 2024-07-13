@@ -5,6 +5,7 @@ import userRoutes from './routes/user.route.js';
 import authRoutes from './routes/auth.route.js';
 import cookieParser from 'cookie-parser';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import cors from 'cors';
 dotenv.config();
 
@@ -16,7 +17,11 @@ mongoose
   .catch((err) => {
     console.log(err);
   });
-const __dirname = path.resolve();
+
+// Use import.meta.url to get the __dirname equivalent
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
 app.use(cors());
 app.use(express.json());
