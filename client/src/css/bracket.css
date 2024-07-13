@@ -3,86 +3,98 @@
 html {
   font-size: 17px;
 }
-h2{
+
+h2 {
   color: white !important;
 }
-.round-16 h2{
+
+.round-16 h2 {
   padding-bottom: 20px;
 }
 
-body{
-  /*
-* Created with https://www.css-gradient.com
-* Gradient link: https://www.css-gradient.com/?c1=08152c&c2=173268&gt=l&gd=dtt
-*/
-background: #08142C;
-background: linear-gradient(180deg, #08142c, #173268);
+body {
+
+  background-color: #08142c;
+
   font-family: 'Nunito' !important;
 }
-.bracket img{
+
+.bracket img {
   height: 30px;
   padding-left: 10px;
 }
- .round .winners>div.matchups .matchup .participants .participant.advance {
+
+.round .winners>div.matchups .matchup .participants .participant.advance {
   color: black;
   background-color: rgba(255, 191, 0, 1.918);
   border-color: rgba(255, 191, 0, 1.918);
 
 }
- .round .winners>div.matchups .matchup .participants .participant.advance .score{
+
+.round .winners>div.matchups .matchup .participants .participant.advance .score {
   color: black;
 }
-div.cac-vong{
+
+div.cac-vong {
   padding: 120px 0px 0 50px;
 }
+
 .back {
   margin-top: 120px;
   margin-left: 60px;
 }
-.back a{
+
+.back a {
   font-size: 20px !important;
   color: white;
   font-weight: 600;
 }
 
-.back a:hover{
+.back a:hover {
   color: rgb(253, 188, 67);
-  
+
   text-decoration: underline;
-  transition: 0.3s ease ;
+  transition: 0.3s ease;
 }
-div.cac-vong li{
+
+div.cac-vong li {
   list-style: none;
   display: inline-flex;
   margin-right: 50px;
   position: relative;
 }
-div.cac-vong a{
+
+div.cac-vong a {
   color: white !important;
   text-decoration: none !important;
   padding-bottom: 8px !important;
 }
-div.cac-vong a::after{
+
+div.cac-vong a::after {
   content: '';
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 0;
-    height: 3px; /* Adjust the height of the border as needed */
-    background-color: rgba(0, 255, 255, 0.762);
-    transition: width 0.3s ease; /* Adjust the duration and timing function as needed */
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 3px;
+  /* Adjust the height of the border as needed */
+  background-color: rgba(0, 255, 255, 0.762);
+  transition: width 0.3s ease;
+  /* Adjust the duration and timing function as needed */
 
 }
-div.cac-vong a:hover::after{
+
+div.cac-vong a:hover::after {
   width: 100%;
 }
+
 .bracket {
   display: inline-block;
   position: relative;
   white-space: nowrap;
   font-size: 0;
   padding: 5px 60px 10px 60px;
-  overflow-x:none;
+  overflow-x: none;
 }
 
 .bracket .round {
@@ -117,11 +129,13 @@ div.cac-vong a:hover::after{
 
 .bracket .round .winners>div.matchups .matchup .participants .participant.winner {
   color: white;
-  border-color: rgb(0, 177, 0) ;
+  border-color: rgb(0, 177, 0);
 }
-.bracket .round .winners>div.matchups .matchup .participants .participant.winner .score{
+
+.bracket .round .winners>div.matchups .matchup .participants .participant.winner .score {
   color: rgba(255, 191, 0, 1.918);
 }
+
 .bracket .round .winners>div.matchups .matchup .participants .participant.loser {
 
   border-color: rgb(251, 71, 71);
@@ -129,10 +143,12 @@ div.cac-vong a:hover::after{
   filter: brightness(60%);
 
 }
-.bracket .round .winners>div.matchups .matchup .participants .participant.loser .score{
+
+.bracket .round .winners>div.matchups .matchup .participants .participant.loser .score {
   color: white;
   filter: brightness(100%) !important;
 }
+
 .bracket .round .winners>div.matchups .matchup .participants .participant:not(:last-child) {
   border-bottom: thin solid #212529;
 }
@@ -143,7 +159,7 @@ div.cac-vong a:hover::after{
 }
 
 .bracket .round .winners>div.matchups .matchup .participants .participant span {
-  padding-left:5px;
+  padding-left: 5px;
   line-height: 3;
   font-size: 16.5px;
   font-family: "Roboto Slab";
@@ -180,11 +196,10 @@ div.cac-vong a:hover::after{
 .bracket .round .winners>div.matchups .matchup .participants .participant #score-final-1,
 .bracket .round .winners>div.matchups .matchup .participants .participant #score-final-2,
 .round .winners>div.matchups .matchup .participants .participant #score-grandFinal-1,
-.round .winners>div.matchups .matchup .participants .participant #score-grandFinal-2
-{
+.round .winners>div.matchups .matchup .participants .participant #score-grandFinal-2 {
   margin-left: auto;
   padding-right: 20px;
-  color: white ;
+  color: white;
 }
 
 .bracket .round .winners>div.connector.filled .line,
@@ -221,10 +236,12 @@ div.cac-vong a:hover::after{
   border: 0 solid;
   border-color: white;
 }
-.bracket .round .winners > div.connector .merger::after{
+
+.bracket .round .winners>div.connector .merger::after {
   border-right: solid white;
   border-bottom: solid white;
 }
+
 .bracket .round .winners>div.connector .merger:before {
   border-right: solid white;
   border-top: solid white;
@@ -238,6 +255,7 @@ div.cac-vong a:hover::after{
 .bracket .round.round-16 .winners:not(:last-child) {
   margin-bottom: 32px;
 }
+
 .bracket .round.round-16 .winners .matchups .matchup:not(:last-child) {
   margin-bottom: 32px;
 }
@@ -253,6 +271,7 @@ div.cac-vong a:hover::after{
 .bracket .round.quarterfinals .winners .connector .merger {
   height: 136px;
 }
+
 .bracket .round.quarterfinals .winners .connector .line {
   height: 68px;
 }
@@ -276,20 +295,23 @@ div.cac-vong a:hover::after{
 }
 
 
-.bracket .round.finals .winners .connector .merger{
-  top:300px;
+.bracket .round.finals .winners .connector .merger {
+  top: 300px;
   height: 650px;
-  
+
 }
-.bracket .round.finals .winners .connector .merger{
-  top:250px;
+
+.bracket .round.finals .winners .connector .merger {
+  top: 250px;
   height: 435px;
-  
+
 }
-.bracket .round.finals .winners .connector .line{
+
+.bracket .round.finals .winners .connector .line {
   height: 504px;
 }
-.grand-final .winners .matchup  {
+
+.grand-final .winners .matchup {
   margin-top: -277px;
   margin-left: 70px;
 }

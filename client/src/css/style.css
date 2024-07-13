@@ -16,7 +16,7 @@ nav.nav1 a,nav.nav2 a{
 }
 body{
     font-family: 'Nunito';
-    background-color: #08142c;
+    background-color: #08142c !important;
     color: white;
 }
 
