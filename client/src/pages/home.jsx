@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faDiscord, faInstagram } from '@fortawesome/free-brands-svg-icons';
 import $ from 'jquery';
 import 'animate.css';
-import Video from '../image/4k hs - blur.mp4'
+import Video from '../image/Loong.mp4'
 
 document.addEventListener('DOMContentLoaded', function() {
     document.body.style.overflow = 'auto'; // Re-enable scrolling
