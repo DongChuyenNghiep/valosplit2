@@ -7,6 +7,7 @@ import RadarChart from '../Chart.jsx';
 import '../css/stat.css';
 import MatchHistory from '../matchhistory.jsx';
 import Image from '../image/waiting.png'
+import { Link } from 'react-router-dom';
 export default function Stat() {
     document.title = "Thông số";
     const [team, setTeam] = useState(null);
@@ -31,6 +32,9 @@ export default function Stat() {
     const [error1, setError1] = useState(null);
     const [win, setWin] = useState(0);
     const { currentUser, loading } = useSelector(state => state.user);
+    if(!currentUser){
+        return <div className='container1'><p>Vui lòng <Link to='/valorant/signin'  style={{color:"rgb(245, 158, 52)"}}>đăng nhập</Link> để coi mục này</p></div>
+    }
     useEffect(() => {
         if (loading || !currentUser) {
             // If user data is still loading or not available, don't make the request
@@ -119,7 +123,6 @@ export default function Stat() {
                 setMK(0);
                 setCountMatch(0);
                 setWin(0);
-                console.error("Error occurred:", err);
                 setError(err);
             }
         };
@@ -181,12 +184,13 @@ export default function Stat() {
         averageACSAll: averageACSAll.toFixed(1),
         averageKASTAll: averageKASTAll.toFixed(1)
     };
+    
     if (error1) {
         return <div className='container1'><img src={Image} width='300px'/><p style={{marginTop:'40px'}}>{currentUser.riotID} chưa đăng kí tên với giải đấu.</p></div>
     }
 
     if (!team1) {
-        return  <div className='container1'><div className='loader'></div></div>;
+        return  <div className='container1'><div className="lds-ring"><div></div><div></div><div></div><div></div></div></div>;
         
     }
 

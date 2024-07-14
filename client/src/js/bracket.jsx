@@ -11,7 +11,6 @@ fetch(FULL_URL_A)
   .then((data) => {
     // Parse the response data
     let jsonData = JSON.parse(data.substring(47).slice(0, -2));
-    console.log(jsonData.table.rows[1]?.c[0]?.v ?? null)
     // Extract values from the response
     //Logo round 16
     let valueA = [

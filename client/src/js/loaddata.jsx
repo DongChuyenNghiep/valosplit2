@@ -384,7 +384,6 @@ function processLienquanAData(data) {
     for (let i = 0; i < 40; i++) {
         let group = getGroup(i);
         let dataBody = document.getElementById('matchid' + group + (i + 1));
-        console.log(i)
         let rowData = data.table.rows[i].c;
         let matchId = group + (i + 1);
         let link = document.createElement('div');

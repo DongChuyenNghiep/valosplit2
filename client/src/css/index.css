@@ -1,7 +1,5 @@
 @import url(//fonts.googleapis.com/css?family=Nunito);
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+
 *{
     padding: 0;
     margin: 0;
@@ -10,25 +8,37 @@
 
 nav.nav1 {
     background-color: rgba(8, 20, 44) !important;
-    
-    padding: 15px 0 15px 0;
+    padding: 25px 0 25px 0;
     font-size: 17px !important;
     justify-content: space-between;
     font-weight: 500;
+
 }
 
-.nav2 {
-    font-size: 17px;
-    background-color: #031840;
-    top: 80px;
-    position: fixed;
-    width: 100%;
-    z-index: 2;
-    padding: 20px 0;
-    font-family: 'Nunito';
-    font-weight: 500;
-}
 
+@media (min-width: 993px) {
+    .image-profile {
+        position: fixed;
+        right: 10px;
+        padding:0 !important;
+    }
+    a.navbar-brand{
+        padding: 0 !important;
+    }
+    .navbar-brand img{
+        margin: 12px 0 10px 0;
+        
+    }
+    #navbarNav1 a{
+        align-self: center;
+        padding: 0;
+        
+    }
+    .navbar-nav{
+        gap: 0 18px;
+    }
+    
+}
 body{
     color: white;
     

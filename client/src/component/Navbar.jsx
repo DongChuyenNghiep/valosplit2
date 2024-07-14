@@ -35,9 +35,7 @@ const Navbar1 = () => {
                         <LinkContainer to="/valorant/rule">
                             <Nav.Link>Rule</Nav.Link>
                         </LinkContainer>
-                    </Nav>
-                    <Nav className="ml-auto">
-                        <LinkContainer to='/valorant/profile'>
+                        <LinkContainer to='/valorant/profile' className="image-profile">
                             <Nav.Link>
                                 {currentUser ? (
                                     <img style={{ width: '50px', borderRadius: '50%' }} src={`https://drive.google.com/thumbnail?id=${currentUser.profilePicture}`} alt="Profile" />
@@ -47,6 +45,9 @@ const Navbar1 = () => {
                             </Nav.Link>
                         </LinkContainer>
                     </Nav>
+                    
+                        
+                    
                 </Navbar.Collapse>
             </Container>
         </Navbar>

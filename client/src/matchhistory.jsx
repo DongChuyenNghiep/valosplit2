@@ -157,7 +157,7 @@ export default function MatchHistory() {
                     );
                 })
             ) : (
-                <p style={{ textAlign: "center", fontSize: "18px" }}>Loading...</p>
+                <div style={{ textAlign: "center", fontSize: "18px" }}><div className="lds-ring"><div></div><div></div><div></div><div></div></div></div>
             )}
         </>
     );
