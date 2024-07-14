@@ -90,7 +90,11 @@ export const findMatch = async (req, res, next) => {
       ];
     }
 
-    const validMatches = await Match.find(query);
+    console.log('Query:', query);
+
+    const validMatches = await Match.find(query).sort({ updatedAt: -1 });
+
+    console.log('Sorted Matches:', validMatches);
 
     if (validMatches.length === 0) {
       return next(errorHandler(404, 'User not found'));
@@ -111,6 +115,8 @@ export const findMatch = async (req, res, next) => {
     next(error);
   }
 };
+
+
 export const findMatchPlayoff = async (req, res, next) => {
   const { idmatch,_id} = req.body;
   try {

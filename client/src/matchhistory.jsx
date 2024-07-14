@@ -55,6 +55,9 @@ export default function MatchHistory() {
                     ign: currentUser.riotID,
                 });
                 const matches = response.data;
+
+                // Ensure matches are sorted by updatedAt in descending order
+                matches.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
                 
                 setMatches(matches);
             } catch (err) {
@@ -62,7 +65,6 @@ export default function MatchHistory() {
                 setError(err);
             }
         };
-
         fetchMatches();
     }, [currentUser.riotID]);
     
@@ -70,8 +72,8 @@ export default function MatchHistory() {
         const totalKills = teamData.reduce((total, player) => total + parseInt(player.K, 10), 0);
         const totalDeaths = teamData.reduce((total, player) => total + parseInt(player.D, 10), 0);
         const totalAssists = teamData.reduce((total, player) => total + parseInt(player.D, 10), 0);
-        return `${totalKills}/${totalDeaths}/${totalAssists}`
-    }
+        return `${totalKills}/${totalDeaths}/${totalAssists}`;
+    };
     
     const determineWinner = (match) => {
         if (match.scoreteamleft > match.scoreteamright) {
@@ -157,7 +159,11 @@ export default function MatchHistory() {
                     );
                 })
             ) : (
-                <div style={{ textAlign: "center", fontSize: "18px" }}><div className="lds-ring"><div></div><div></div><div></div><div></div></div></div>
+                <div style={{ textAlign: "center", fontSize: "18px" }}>
+                    <div className="lds-ring">
+                        <div></div><div></div><div></div><div></div>
+                    </div>
+                </div>
             )}
         </>
     );
