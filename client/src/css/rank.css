@@ -1,0 +1,31 @@
+div.rank-table{
+    display: flex;
+    flex-direction: column;
+
+    margin-top: 20px;
+}
+.dt-layout-row{
+    justify-content: center;
+}
+table.dataTable{
+    width: 1000px !important;
+    text-align: center;
+}
+table.dataTable td:first-child{
+    text-align: left;
+}
+table.dataTable td p{
+    margin: 0;
+    padding: 10px 0;
+}
+table.dataTable td {
+    padding: 10px 0;
+    height: 72px !important;
+}
+table.dataTable td:nth-child(2){
+    width: 300px;
+}
+.dt-layout-row{
+    
+    display:block ;
+}

@@ -200,6 +200,10 @@ export default function Stat() {
 
     return (
         <>
+            <div className='button-stat'>
+            <Link to='/valorant/stat' className='active'>My stat</Link>
+            <Link to='/valorant/rank'>All Stat</Link>
+            </div>
             <div className='my-stat'>
                 <div className='upper'>
                     <div className='info-me'>

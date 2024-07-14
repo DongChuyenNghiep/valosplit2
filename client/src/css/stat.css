@@ -73,15 +73,25 @@ html,#root {
     display: flex;
     gap: 0 3%;
 }
-
+.button-stat{
+    display: flex;
+    margin: 120px auto 20px;
+    gap: 0 15px;
+}
 .my-stat {
     width: 85%;
-    margin: 120px auto 30px;
+    margin: 10px auto 30px;
     display: grid;
     gap: 40px 0;
     grid-template-rows: auto auto;
 }
-
+.button-stat a{
+    padding: 10px 25px;
+    border: 1px white solid;
+}
+.button-stat a.active{
+    background-color: rgb(214, 141, 52);
+}
 .lower {
     display: flex;
     gap: 0 3%;
