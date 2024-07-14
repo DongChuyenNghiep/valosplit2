@@ -3,13 +3,14 @@ import '../css/chart.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import TeamInfo from '../App.jsx';
 import RadarChart from '../Chart.jsx';
 import '../css/stat.css';
 import MatchHistory from '../matchhistory.jsx';
+import Image from '../image/waiting.png'
 export default function Stat() {
     document.title = "Thông số";
     const [team, setTeam] = useState(null);
+    const [team1, setTeam1] = useState(null);
     const [countMatch, setCountMatch] = useState(0);
     const [totalKills, setTotalKills] = useState(0);
     const [totalDeaths, setTotalDeaths] = useState(0);
@@ -27,9 +28,30 @@ export default function Stat() {
     const [FirstKill, setFK] = useState(0);
     const [Multikill, setMK] = useState(0);
     const [error, setError] = useState(null);
+    const [error1, setError1] = useState(null);
     const [win, setWin] = useState(0);
-    const { currentUser } = useSelector(state => state.user);
+    const { currentUser, loading } = useSelector(state => state.user);
+    useEffect(() => {
+        if (loading || !currentUser) {
+            // If user data is still loading or not available, don't make the request
+            return;
+        }
 
+        const fetchTeam = async () => {
+            try {
+                const response = await axios.post('https://valosplit2-backend.vercel.app/api/auth/findteam', {
+                    player: currentUser.riotID, // Use the actual player ID
+                });
+                setTeam1(response.data);
+                
+            } catch (err) {
+                setError1(err);
+                
+            }
+        };
+
+        fetchTeam();
+    }, [currentUser, loading]);
     useEffect(() => {
         const fetchMatches = async () => {
             try {
@@ -37,7 +59,6 @@ export default function Stat() {
                     ign: currentUser.riotID,
                 });
                 const matches = response.data;
-                console.log(matches)
                 const stats = matches.reduce((total, match) => {
                     const players = [...match.infoTeamleft, ...match.infoTeamright]
                         .filter(player => player.IGN === currentUser.riotID);
@@ -86,16 +107,27 @@ export default function Stat() {
                 setWin(stats.playerCount > 0 ? stats.win * 100 / stats.playerCount : 0);
                 setTeam(matches);
             } catch (err) {
+                setKDA(0);
+                setTotalKills(0);
+                setTotalDeaths(0);
+                setTotalAssists(0);
+                setAverageACS(0);
+                setAverageKAST(0);
+                setAverageHS(0);
+                setAverageADR(0);
+                setFK(0);
+                setMK(0);
+                setCountMatch(0);
+                setWin(0);
                 console.error("Error occurred:", err);
                 setError(err);
             }
         };
-
         const fetchAllMatches = async () => {
             try {
                 const response = await axios.post('https://valosplit2-backend.vercel.app/api/auth/findallmatch');
                 const matches = response.data;
-                
+
                 const stats = matches.reduce((total, match) => {
                     const players = [...match.infoTeamleft, ...match.infoTeamright];
 
@@ -125,6 +157,11 @@ export default function Stat() {
                 setAverageKASTAll(stats.playerCount > 0 ? stats.kastSum / stats.playerCount : 0);
             } catch (err) {
                 console.error("Error occurred:", err);
+                setKDAAll(0);
+                setAverageACSAll(0);
+                setAverageADRAll(0);
+                setAverageHSAll(0);
+                setAverageKASTAll(0);
                 setError(err);
             }
         };
@@ -132,15 +169,6 @@ export default function Stat() {
         fetchAllMatches();
         fetchMatches();
     }, [currentUser.riotID]);
-
-    if (error) {
-        return <div>Error: {error.message}</div>;
-    }
-
-    if (!team) {
-        return <div>Loading...</div>;
-    }
-
     const data = {
         KDA: KDA.toFixed(1),
         averageHS: averageHS.toFixed(1),
@@ -153,6 +181,18 @@ export default function Stat() {
         averageACSAll: averageACSAll.toFixed(1),
         averageKASTAll: averageKASTAll.toFixed(1)
     };
+    if (error1) {
+        return <div className='container1'><img src={Image} width='300px'/><p style={{marginTop:'40px'}}>{currentUser.riotID} chưa đăng kí tên với giải đấu.</p></div>
+    }
+
+    if (!team1) {
+        return  <div className='container1'><div className='loader'></div></div>;
+        
+    }
+
+
+
+        // This will log the team state whenever it changes
 
     return (
         <>
@@ -163,7 +203,8 @@ export default function Stat() {
                         <img style={{ width: '100px', borderRadius: "50%", margin: "20px 0" }} src={`https://drive.google.com/thumbnail?id=${currentUser.profilePicture}`} alt="Profile" />
                         <p>{currentUser.username}</p>
                         <p>RiotID: {currentUser.riotID}</p>
-                        <TeamInfo />
+                        <p>Team: {team1.team} ({team1.shortname})</p>
+                        <img src={`https://drive.google.com/thumbnail?id=${team1.logoURL}`} style={{ width: "45%", aspectRatio: "1/1" }} />
                     </div>
                     <div className='main'>
                         {[
@@ -196,7 +237,7 @@ export default function Stat() {
                     </div>
                     <div className='match-history'>
                         <section className='title-match-history'>
-                        <span >Lịch sử đấu</span>
+                            <span >Lịch sử đấu</span>
                         </section>
                         <MatchHistory />
                     </div>

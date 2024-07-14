@@ -7,6 +7,37 @@
     aspect-ratio: 1/1;
 }
 
+body,
+html,#root {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.container1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    /* Added background to visualize full height */
+
+}
+.loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
 .upper {
     display: flex;
     gap: 0 3%;
@@ -122,6 +153,7 @@ div.match-history .wordBox1 .team-right table td:nth-child(1),
 div.match-history .wordBox1 .team-right table th:first-child {
     background-color: #203152;
 }
+
 div.match-history .row2 div.first-col {
     width: 240px;
 }

@@ -157,7 +157,7 @@ export default function MatchHistory() {
                     );
                 })
             ) : (
-                <p style={{ textAlign: "center", fontSize: "18px" }}>Kết quả sẽ cập nhật sau khi trận đấu kết thúc.</p>
+                <p style={{ textAlign: "center", fontSize: "18px" }}>Loading...</p>
             )}
         </>
     );
@@ -165,7 +165,7 @@ export default function MatchHistory() {
     return (
         <>
             {error ? (
-                <p>Error occurred: {error.message}</p>
+                <p style={{ textAlign: "center", fontSize: "20px" }}>Người chơi này chưa đấu trận nào.</p>
             ) : (
                 renderMatches(matches)
             )}
