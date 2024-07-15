@@ -44,17 +44,16 @@ export const findteam = async (req, res, next) => {
         { player10: player }
       ]
     });
-    if (!validUser) return next(errorHandler(404, 'User not found'));
-    const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
+
+    if (!validUser) {
+      return next(errorHandler(404, 'User not found'));
+    }
+
     const { ...rest } = validUser._doc;
-    const expiryDate = new Date(Date.now() + 2629824000); // 1 hour
-    res
-      .cookie('access_token', token, { httpOnly: true, expires: expiryDate })
-      .status(200)
-      .json(rest);
+
+    res.status(200).json(rest);
   } catch (error) {
     next(error);
-
   }
 };
 export const addMatch = async (req, res, next) => {
@@ -100,17 +99,7 @@ export const findMatch = async (req, res, next) => {
       return next(errorHandler(404, 'User not found'));
     }
 
-    const tokens = validMatches.map(validMatch => {
-      const token = jwt.sign({ id: validMatch._id }, process.env.JWT_SECRET);
-      return { ...validMatch._doc, token };
-    });
-
-    const expiryDate = new Date(Date.now() + 2629824000); // 1 hour
-
-    res
-      .cookie('access_token', tokens.map(tokenData => tokenData.token), { httpOnly: true, expires: expiryDate })
-      .status(200)
-      .json(tokens.map(({ token, password: hashedPassword, ...rest }) => rest));
+    res.status(200).json(validMatches.map(({ password: hashedPassword, ...rest }) => rest));
   } catch (error) {
     next(error);
   }
@@ -118,22 +107,22 @@ export const findMatch = async (req, res, next) => {
 
 
 export const findMatchPlayoff = async (req, res, next) => {
-  const { idmatch,_id} = req.body;
+  const { idmatch, _id } = req.body;
   try {
     const validMatch = await Match.findOne({
       $or: [
         { idmatch: idmatch },
-        {_id:_id}
+        { _id: _id }
       ]
     });
-    if (!validMatch) return next(errorHandler(404, 'User not found'));
-    const token = jwt.sign({ id: validMatch._id }, process.env.JWT_SECRET);
+
+    if (!validMatch) {
+      return next(errorHandler(404, 'User not found'));
+    }
+
     const { password: hashedPassword, ...rest } = validMatch._doc;
-    const expiryDate = new Date(Date.now() + 2629824000); // 1 hour
-    res
-      .cookie('access_token', token, { httpOnly: true, expires: expiryDate })
-      .status(200)
-      .json(rest);
+
+    res.status(200).json(rest);
   } catch (error) {
     next(error);
   }
@@ -146,17 +135,7 @@ export const getAllMatches = async (req, res, next) => {
       return next(errorHandler(404, 'No matches found'));
     }
 
-    const tokens = allMatches.map(match => {
-      const token = jwt.sign({ id: match._id }, process.env.JWT_SECRET);
-      return { ...match._doc, token };
-    });
-
-    const expiryDate = new Date(Date.now() + 2629824000); // 1 hour
-
-    res
-      .cookie('access_token', tokens.map(tokenData => tokenData.token), { httpOnly: true, expires: expiryDate })
-      .status(200)
-      .json(tokens.map(({ token, password: hashedPassword, ...rest }) => rest));
+    res.status(200).json(allMatches.map(({ password: hashedPassword, ...rest }) => rest));
   } catch (error) {
     next(error);
   }
@@ -185,7 +164,23 @@ export const signin = async (req, res, next) => {
   }
 };
 
+export const findPlayer = async (req, res, next) => {
+  const { riotID } = req.body;
+  try {
+    const validMatch = await User.findOne({ riotID });
 
+    if (!validMatch) {
+      return next(errorHandler(404, 'User not found'));
+    }
+
+    const userWithoutPassword = { ...validMatch._doc };
+    delete userWithoutPassword.password;
+
+    res.status(200).json(userWithoutPassword);
+  } catch (error) {
+    next(error);
+  }
+};
 
 export const signout = (req, res) => {
   res.clearCookie('access_token').status(200).json('Signout success!');

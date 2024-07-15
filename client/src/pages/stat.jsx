@@ -33,7 +33,12 @@ export default function Stat() {
     const [win, setWin] = useState(0);
     const { currentUser, loading } = useSelector(state => state.user);
     if(!currentUser){
-        return <div className='container1'><p>Vui lòng <Link to='/valorant/signin'  style={{color:"rgb(245, 158, 52)"}}>đăng nhập</Link> để coi mục này</p></div>
+        return <><div className='button-stat'>
+        <Link to='/valorant/stat' className='active'>My stat</Link>
+        <Link to='/valorant/rank'>All Stat</Link>
+        </div>
+        <div className='container1'><p>Vui lòng <Link to='/valorant/signin'  style={{color:"rgb(245, 158, 52)"}}>đăng nhập</Link> để coi mục này</p></div>
+        </>
     }
     useEffect(() => {
         if (loading || !currentUser) {
