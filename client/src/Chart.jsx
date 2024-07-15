@@ -5,11 +5,12 @@ import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler,
 ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
 
 const maxValues = {
-  KDA: 3.2,
+  KDA: 2.8,
   HS: 40,
   ADR: 320,
   ACS: 400,
-  KAST: 100
+  KAST: 100,
+  KPM:30,
 };
 
 const normalizeData = (value, category) => {
@@ -20,12 +21,13 @@ const RadarChart = ({ data }) => {
 
 
   const chartData = {
-    labels: ['KDA', 'HS', 'ADR', 'ACS', 'KAST'],
+    labels: ['KDA',"KPM", 'HS', 'ADR', 'ACS', 'KAST'],
     datasets: [
       {
         label: 'Me',
         data: [
           normalizeData(data.KDA, 'KDA'),
+          normalizeData(data.KPM, 'KPM'),
           normalizeData(data.averageHS, 'HS'),
           normalizeData(data.averageADR, 'ADR'),
           normalizeData(data.averageACS, 'ACS'),
@@ -36,6 +38,7 @@ const RadarChart = ({ data }) => {
         borderWidth: 1,
         originalData: [
           data.KDA,
+          data.KPM,
           data.averageHS,
           data.averageADR,
           data.averageACS,
@@ -46,6 +49,7 @@ const RadarChart = ({ data }) => {
         label: 'Average',
         data: [
           normalizeData(data.KDAAll, 'KDA'),
+          normalizeData(data.KPMAll, 'KPM'),
           normalizeData(data.averageHSAll, 'HS'),
           normalizeData(data.averageADRAll, 'ADR'),
           normalizeData(data.averageACSAll, 'ACS'),
@@ -56,6 +60,7 @@ const RadarChart = ({ data }) => {
         borderWidth: 1,
         originalData: [
           data.KDAAll,
+          data.KPMAll,
           data.averageHSAll,
           data.averageADRAll,
           data.averageACSAll,

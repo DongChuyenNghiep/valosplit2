@@ -123,13 +123,14 @@ export default function MatchHistoryPlayoff() {
                             <div className='wordBox1'>
                                 {['infoTeamleft', 'infoTeamright'].map((team, i) => (
                                     <div key={i} className={i === 0 ? 'team-left' : 'team-right'}>
-                                        <div className='wrapper'>
-                                            <p style={{ textAlign: "center", margin: "15px 0 5px" }}>
+                                        <p style={{ textAlign: "center", padding: "15px 0 0px",margin:"0px" }}>
                                                 {i === 0 ? match.teamNameleft : match.teamNameright}
                                             </p>
                                             <p style={{ textAlign: "center", margin: "12px 0 15px" }}>
                                                 KDA: {calculateKDA(match[team])}
                                             </p>
+                                        <div className='wrapper'>
+                                            
                                             <table className={`team${i + 1}`}>
                                                 <thead>
                                                     <tr className='title'>

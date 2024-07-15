@@ -14,6 +14,8 @@ export default function Stat() {
     const [team1, setTeam1] = useState(null);
     const [countMatch, setCountMatch] = useState(0);
     const [totalKills, setTotalKills] = useState(0);
+    const [totalKPM, setTotalKPM] = useState(0);
+    const [totalKPMAll, setTotalKPMAll] = useState(0);
     const [totalDeaths, setTotalDeaths] = useState(0);
     const [totalAssists, setTotalAssists] = useState(0);
     const [KDAAll, setKDAAll] = useState(0);
@@ -106,6 +108,7 @@ export default function Stat() {
                 setTotalKills(stats.kills);
                 setTotalDeaths(stats.deaths);
                 setTotalAssists(stats.assists);
+                setTotalKPM(stats.playerCount > 0 ? stats.kills / stats.playerCount : 0);
                 setAverageACS(stats.playerCount > 0 ? stats.acsSum / stats.playerCount : 0);
                 setAverageKAST(stats.playerCount > 0 ? stats.kastSum / stats.playerCount : 0);
                 setAverageHS(stats.playerCount > 0 ? stats.hsSum / stats.playerCount : 0);
@@ -118,6 +121,7 @@ export default function Stat() {
             } catch (err) {
                 setKDA(0);
                 setTotalKills(0);
+                setTotalKPM(0);
                 setTotalDeaths(0);
                 setTotalAssists(0);
                 setAverageACS(0);
@@ -159,6 +163,7 @@ export default function Stat() {
                 }, { kills: 0, deaths: 0, assists: 0, acsSum: 0, adrSum: 0, playerCount: 0, hsSum: 0, kastSum: 0 });
 
                 setKDAAll(stats.deaths > 0 ? (stats.kills + stats.assists) / stats.deaths : stats.kills + stats.assists);
+                setTotalKPMAll(stats.playerCount > 0 ? stats.kills / stats.playerCount : 0);
                 setAverageACSAll(stats.playerCount > 0 ? stats.acsSum / stats.playerCount : 0);
                 setAverageADRAll(stats.playerCount > 0 ? stats.adrSum / stats.playerCount : 0);
                 setAverageHSAll(stats.playerCount > 0 ? stats.hsSum / stats.playerCount : 0);
@@ -166,6 +171,7 @@ export default function Stat() {
             } catch (err) {
                 console.error("Error occurred:", err);
                 setKDAAll(0);
+                setTotalKPMAll(0);
                 setAverageACSAll(0);
                 setAverageADRAll(0);
                 setAverageHSAll(0);
@@ -179,11 +185,13 @@ export default function Stat() {
     }, [currentUser.riotID]);
     const data = {
         KDA: KDA.toFixed(1),
+        KPM:totalKPM.toFixed(1),
         averageHS: averageHS.toFixed(1),
         averageADR: averageADR.toFixed(1),
         averageACS: averageACS.toFixed(1),
         averageKAST: averageKAST.toFixed(1),
         KDAAll: KDAAll.toFixed(1),
+        KPMAll:totalKPMAll.toFixed(1),
         averageHSAll: averageHSAll.toFixed(1),
         averageADRAll: averageADRAll.toFixed(1),
         averageACSAll: averageACSAll.toFixed(1),
@@ -195,7 +203,11 @@ export default function Stat() {
     }
 
     if (!team1) {
-        return  <div className='container1'><div className="lds-ring"><div></div><div></div><div></div><div></div></div></div>;
+        return  <><div style={{display:'flex',flexDirection:'column'}}><div className='button-stat'>
+        <Link to='/valorant/stat' className='active'>My stat</Link>
+        <Link to='/valorant/rank'>All Stat</Link>
+        <div className='container1'><div className="lds-ring"><div></div><div></div><div></div><div></div></div></div>
+        </div></div></>
         
     }
 

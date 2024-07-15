@@ -77,16 +77,7 @@ button.filter-table {
     justify-content: space-between;
 }
 
-.bxh table tbody tr:first-child, .bxh table tbody tr:first-child td{
-    background-color: #D2AF26 !important;
-    border: none;
-}
-.bxh table tbody tr:first-child, .bxh table tbody tr:nth-child(2) td{
-    background-color: #BFBDBC !important;
-}
-.bxh table tbody tr:first-child, .bxh table tbody tr:nth-child(3) td{
-    background-color:  #a05822 !important;
-}
+
 .nav2 {
     background-color: #031840;
     top: 80px;
@@ -176,7 +167,6 @@ table.my-table {
 }
 .bxh table {
     margin: 0 auto ;
-    width: 95%;
     text-align: center;
     justify-content: center;
 
@@ -294,7 +284,7 @@ img.agent-pick{
     margin: 3px 20px 3px 15px;
 }
 table.my-table tr{
-    border-bottom: 1px solid rgba(252, 252, 252, 0.334);
+    border-bottom: 1px solid white;
 }
 table.my-table img{
     margin: 10px 0;
@@ -398,13 +388,19 @@ span.score {
     font-size: 16px;
 }
 .bxh{
-    width: 90%;
+    width: 50%;
     margin: 0 auto;
     border: 0.5px white solid;
 }
 .bxh table {
-    width: 170%;
+    width:100%;
     
+}
+.bxh table#leaderboard td,.bxh table#leaderboard th{
+    width: 25%;
+}
+.bxh table#leaderboard td:first-child,.bxh table#leaderboard th:first-child{
+    width: 15%;
 }
 
 span.score-left,
@@ -422,15 +418,7 @@ span.gach {
     position: relative;
 }
 
-.team-left td:first-child ::after,.wordBox1 .team-left table th:first-child::after ,.team-right td:first-child ::after, .wordBox1 .team-right table th:first-child::after,.bxh table#leaderboard th:nth-child(1)::after,.bxh table#leaderboard td:nth-child(1)::after{
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 10px; /* Adjust the shadow width as needed */
-    background: linear-gradient(to right, rgba(0, 0, 0, 0.2), transparent);
-}
+
 
 span.winner {
     font-size: 14px;
@@ -492,20 +480,31 @@ h3 {
     position: sticky;
 
 }
-.bxh table#leaderboard td:nth-child(1),.bxh table#leaderboard th:nth-child(1) {
-    left: 0%;
+
+.bxh table#leaderboard th:nth-child(1){
     position: sticky;
-    width: 11%;
     text-align: left;
-    background-color: #08142c;
+    width: 25%;
+    left: 10px;
+}
+.bxh table#leaderboard td{
+    background-color: rgba(128, 128, 128, 0.4) !important;
+    border-bottom: white 1px solid;
+    
 }
 .bxh table#leaderboard td:nth-child(2){
-    text-align: center;
+    width: 30%;
+    border: none;
+    justify-content: center;
+}
+.bxh table#leaderboard td:nth-child(2) p{
+    margin: 0 ;
+    align-self: center;
+    
 }
 .wordBox1 .team-right table td:nth-child(1),.wordBox1 .team-right table th:first-child {
     background-color: rgb(199, 95, 81);
     left: 0%;
-    position: sticky;
 
 }
  div.first-col {
