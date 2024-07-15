@@ -99,7 +99,7 @@ export const findMatch = async (req, res, next) => {
       return next(errorHandler(404, 'User not found'));
     }
 
-    res.status(200).json(validMatches.map(({ password: hashedPassword, ...rest }) => rest));
+    res.status(200).json(validMatches);
   } catch (error) {
     next(error);
   }
@@ -135,7 +135,7 @@ export const getAllMatches = async (req, res, next) => {
       return next(errorHandler(404, 'No matches found'));
     }
 
-    res.status(200).json(allMatches.map(({ password: hashedPassword, ...rest }) => rest));
+    res.status(200).json(allMatches);
   } catch (error) {
     next(error);
   }
@@ -174,7 +174,6 @@ export const findPlayer = async (req, res, next) => {
     }
 
     const userWithoutPassword = { ...validMatch._doc };
-    delete userWithoutPassword.password;
 
     res.status(200).json(userWithoutPassword);
   } catch (error) {
