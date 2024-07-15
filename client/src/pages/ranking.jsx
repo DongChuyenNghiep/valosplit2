@@ -80,7 +80,6 @@ const PlayerStatsTable = () => {
         const { team, logoURL } = response.data;
         return { IGN, team, logoURL };
       } catch (error) {
-        console.error(`Error fetching team data for ${IGN}`, error);
         return { IGN, team: 'Unknown', logoURL: '' };
       }
     };
@@ -91,8 +90,7 @@ const PlayerStatsTable = () => {
         const { profilePicture } = response.data;
         return { IGN, profilePicture };
       } catch (error) {
-        console.error(`Error fetching profile data for ${IGN}`, error);
-        return { IGN, profilePicture: '' };
+        return { IGN, profilePicture: '1dJXC3sq1fK3XKrRsTq3AfPUtalLrzds1' };
       }
     };
 
