@@ -226,7 +226,7 @@ export default function Stat() {
                 <div className='upper'>
                     <div className='info-me'>
 
-                        <img style={{ width: '100px', borderRadius: "50%", margin: "20px 0" }} src={`https://drive.google.com/thumbnail?id=${currentUser.profilePicture}`} alt="Profile" />
+                        <img style={{  width: '100px',height:"100px", borderRadius: "50%", margin: "20px 0" }} src={`https://drive.google.com/thumbnail?id=${currentUser.profilePicture}`} alt="Profile" />
                         <p>{currentUser.username}</p>
                         <p>RiotID: {currentUser.riotID}</p>
                         <p>Team: {team1.team} ({team1.shortname})</p>

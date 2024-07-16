@@ -38,7 +38,7 @@ const Navbar1 = () => {
                         <LinkContainer to='/valorant/profile' className="image-profile">
                             <Nav.Link>
                                 {currentUser ? (
-                                    <img style={{ width: '50px', borderRadius: '50%' }} src={`https://drive.google.com/thumbnail?id=${currentUser.profilePicture}`} alt="Profile" />
+                                    <img style={{  width: '50px',height:"50px", borderRadius: "50%", margin: "20px 0" }} src={`https://drive.google.com/thumbnail?id=${currentUser.profilePicture}`} alt="Profile" />
                                 ) : (
                                     'Đăng Nhập'
                                 )}
