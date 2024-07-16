@@ -176,7 +176,7 @@ const PlayerStatsTable = () => {
               <tr key={index}>
                 <td style={{textAlign:'left',borderColor:"white"}}>
                   {player.profilePicture && <img src={`https://drive.google.com/thumbnail?id=${player.profilePicture}`} alt={`${player.IGN} profile`} style={{ height: '50px', width: "50px", borderRadius: "50%", marginRight: "10px" }} />}
-                  {player.IGN}
+                  <Link to={`/valorant/stat/${player.IGN}`}>{player.IGN}</Link>
                 </td>
                 <td style={{textAlign:'left'}}>
                   {player.logoURL && <img src={`https://drive.google.com/thumbnail?id=${player.logoURL}`} alt={`${player.team} logo`} style={{ width: '50px', height: '50px',marginRight: "10px" }} />}

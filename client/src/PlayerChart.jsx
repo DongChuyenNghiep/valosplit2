@@ -1,7 +1,7 @@
 import React from 'react';
 import { Radar } from 'react-chartjs-2';
 import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend } from 'chart.js';
-
+import { useParams } from 'react-router-dom';
 ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
 
 const maxValues = {
@@ -17,14 +17,15 @@ const normalizeData = (value, category) => {
   return (value / maxValues[category]) * 100;
 };
 
-const RadarChart = ({ data }) => {
+const PlayerRadarChart = ({ data }) => {
 
-
+    const { ign } = useParams();
   const chartData = {
+   
     labels: ['KDA',"KPM", 'HS', 'ADR', 'ACS', 'KAST'],
     datasets: [
       {
-        label: 'Me',
+        label: ign ,
         data: [
           normalizeData(data.KDA, 'KDA'),
           normalizeData(data.KPM, 'KPM'),
@@ -46,7 +47,7 @@ const RadarChart = ({ data }) => {
         ],
       },
       {
-        label: 'Average',
+        label: "Tôi",
         data: [
           normalizeData(data.KDAAll, 'KDA'),
           normalizeData(data.KPMAll, 'KPM'),
@@ -116,4 +117,4 @@ const RadarChart = ({ data }) => {
   return <Radar data={chartData} options={options} />;
 };
 
-export default RadarChart;
+export default PlayerRadarChart;

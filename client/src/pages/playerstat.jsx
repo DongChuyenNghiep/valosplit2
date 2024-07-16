@@ -3,15 +3,19 @@ import '../css/chart.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import RadarChart from '../Chart.jsx';
+import PlayerRadarChart from '../PlayerChart.jsx';
 import '../css/stat.css';
-import MatchHistory from '../matchhistory.jsx';
-import Image from '../image/waiting.png'
+import PlayerMatchHistory from '../playermatchhistory.jsx';
+import Image from '../image/waiting.png';
 import { Link } from 'react-router-dom';
-export default function Stat() {
+import { useParams } from 'react-router-dom';
+
+export default function PlayerStat() {
     document.title = "Thông số";
+    const { ign } = useParams();
     const [team, setTeam] = useState(null);
     const [team1, setTeam1] = useState(null);
+    const [user, setUser] = useState(null);
     const [countMatch, setCountMatch] = useState(0);
     const [totalKills, setTotalKills] = useState(0);
     const [totalKPM, setTotalKPM] = useState(0);
@@ -32,47 +36,48 @@ export default function Stat() {
     const [Multikill, setMK] = useState(0);
     const [error, setError] = useState(null);
     const [error1, setError1] = useState(null);
+    const [error2, setError2] = useState(null);
     const [win, setWin] = useState(0);
     const { currentUser, loading } = useSelector(state => state.user);
-    if(!currentUser){
-        return <><div className='button-stat'>
-        <Link to='/valorant/stat' className='active'>My stat</Link>
-        <Link to='/valorant/rank'>All Stat</Link>
-        </div>
-        <div className='container1'><p>Vui lòng <Link to='/valorant/signin'  style={{color:"rgb(245, 158, 52)"}}>đăng nhập</Link> để coi mục này</p></div>
-        </>
-    }
+    
     useEffect(() => {
-        if (loading || !currentUser) {
-            // If user data is still loading or not available, don't make the request
-            return;
-        }
-
         const fetchTeam = async () => {
             try {
                 const response = await axios.post('https://valosplit2-backend.vercel.app/api/auth/findteam', {
-                    player: currentUser.riotID, // Use the actual player ID
+                    player: ign // Use the actual player ID from useParams
                 });
+                console.log(response.data);
                 setTeam1(response.data);
-                
             } catch (err) {
                 setError1(err);
-                
+            }
+        };
+
+        const findPlayer = async () => {
+            try {
+                const response = await axios.post('https://valosplit2-backend.vercel.app/api/auth/findplayer', {
+                    riotID: ign, // Use the actual player ID
+                });
+                setUser(response.data);
+            } catch (err) {
+                setError2(err);
             }
         };
 
         fetchTeam();
-    }, [currentUser, loading]);
+        findPlayer();
+    }, [ign]);
+
     useEffect(() => {
         const fetchMatches = async () => {
             try {
                 const response = await axios.post('https://valosplit2-backend.vercel.app/api/auth/findmatchid', {
-                    ign: currentUser.riotID,
+                    player: ign,
                 });
                 const matches = response.data;
                 const stats = matches.reduce((total, match) => {
                     const players = [...match.infoTeamleft, ...match.infoTeamright]
-                        .filter(player => player.IGN === currentUser.riotID);
+                        .filter(player => player.IGN === ign);
 
                     const kills = players.reduce((sum, player) => sum + parseInt(player.K, 10), 0);
                     const deaths = players.reduce((sum, player) => sum + parseInt(player.D, 10), 0);
@@ -85,8 +90,8 @@ export default function Stat() {
                     const mkSum = players.reduce((sum, player) => sum + parseFloat(player.MK), 0);
 
                     const win = total.win + (
-                        (match.infoTeamleft.some(player => player.IGN === currentUser.riotID) && match.scoreteamleft > match.scoreteamright) ||
-                            (match.infoTeamright.some(player => player.IGN === currentUser.riotID) && match.scoreteamright > match.scoreteamleft) ? 1 : 0
+                        (match.infoTeamleft.some(player => player.IGN === ign) && match.scoreteamleft > match.scoreteamright) ||
+                            (match.infoTeamright.some(player => player.IGN === ign) && match.scoreteamright > match.scoreteamleft) ? 1 : 0
                     );
 
                     return {
@@ -137,11 +142,13 @@ export default function Stat() {
         };
         const fetchAllMatches = async () => {
             try {
-                const response = await axios.post('https://valosplit2-backend.vercel.app/api/auth/findallmatch');
+                const response = await axios.post('https://valosplit2-backend.vercel.app/api/auth/findmatchid', {
+                    player: currentUser.riotID,
+                });
                 const matches = response.data;
 
                 const stats = matches.reduce((total, match) => {
-                    const players = [...match.infoTeamleft, ...match.infoTeamright];
+                    const players = [...match.infoTeamleft, ...match.infoTeamright].filter(player => player.IGN === currentUser.riotID);
 
                     const kills = players.reduce((sum, player) => sum + parseInt(player.K, 10), 0);
                     const deaths = players.reduce((sum, player) => sum + parseInt(player.D, 10), 0);
@@ -160,29 +167,40 @@ export default function Stat() {
                         kastSum: total.kastSum + kastSum,
                         playerCount: total.playerCount + players.length,
                     };
-                }, { kills: 0, deaths: 0, assists: 0, acsSum: 0, adrSum: 0, playerCount: 0, hsSum: 0, kastSum: 0 });
+                }, { kills: 0, deaths: 0, assists: 0, acsSum: 0, playerCount: 0, adrSum: 0, hsSum: 0, kastSum: 0 });
 
                 setKDAAll(stats.deaths > 0 ? (stats.kills + stats.assists) / stats.deaths : stats.kills + stats.assists);
                 setTotalKPMAll(stats.playerCount > 0 ? stats.kills / stats.playerCount : 0);
                 setAverageACSAll(stats.playerCount > 0 ? stats.acsSum / stats.playerCount : 0);
-                setAverageADRAll(stats.playerCount > 0 ? stats.adrSum / stats.playerCount : 0);
-                setAverageHSAll(stats.playerCount > 0 ? stats.hsSum / stats.playerCount : 0);
                 setAverageKASTAll(stats.playerCount > 0 ? stats.kastSum / stats.playerCount : 0);
+                setAverageHSAll(stats.playerCount > 0 ? stats.hsSum / stats.playerCount : 0);
+                setAverageADRAll(stats.playerCount > 0 ? stats.adrSum / stats.playerCount : 0);
             } catch (err) {
-                console.error("Error occurred:", err);
                 setKDAAll(0);
                 setTotalKPMAll(0);
                 setAverageACSAll(0);
-                setAverageADRAll(0);
-                setAverageHSAll(0);
                 setAverageKASTAll(0);
+                setAverageHSAll(0);
+                setAverageADRAll(0);
                 setError(err);
             }
         };
-
         fetchAllMatches();
         fetchMatches();
-    }, [currentUser.riotID]);
+    }, [ign]);
+    if (!team1) {
+        return  <><div className='container1' style={{display:'flex',flexDirection:"column"}}><div className='button-stat'>
+        <Link to='/valorant/stat' className='active'>My stat</Link>
+        <Link to='/valorant/rank'>All Stat</Link>
+        </div>
+        <div className='container1'><div className="lds-ring"><div></div><div></div><div></div><div></div></div></div>
+        </div></>
+        
+    }
+    if(!user){
+        return <>
+        <div className='container1'><p>Người chơi này chưa đăng kí tài khoản</p></div></>
+    }
     const data = {
         KDA: KDA.toFixed(1),
         KPM:totalKPM.toFixed(1),
@@ -198,39 +216,24 @@ export default function Stat() {
         averageKASTAll: averageKASTAll.toFixed(1)
     };
     
-    if (error1) {
-        return <div className='container1'><img src={Image} width='300px'/><p style={{marginTop:'40px'}}>{currentUser.riotID} chưa đăng kí tên với giải đấu.</p></div>
-    }
-
-    if (!team1) {
-        return  <><div className='container1' style={{display:'flex',flexDirection:"column"}}><div className='button-stat'>
-        <Link to='/valorant/stat' className='active'>My stat</Link>
-        <Link to='/valorant/rank'>All Stat</Link>
-        </div>
-        <div className='container1'><div className="lds-ring"><div></div><div></div><div></div><div></div></div></div>
-        </div></>
-        
-    }
-
-
-
-        // This will log the team state whenever it changes
-
     return (
         <>
             <div className='button-stat'>
-            <Link to='/valorant/stat' className='active'>My stat</Link>
-            <Link to='/valorant/rank'>All Stat</Link>
+                <Link to='/valorant/stat' className='active'>My stat</Link>
+                <Link to='/valorant/rank'>All Stat</Link>
             </div>
             <div className='my-stat'>
                 <div className='upper'>
                     <div className='info-me'>
-
-                        <img style={{ width: '100px', borderRadius: "50%", margin: "20px 0" }} src={`https://drive.google.com/thumbnail?id=${currentUser.profilePicture}`} alt="Profile" />
-                        <p>{currentUser.username}</p>
-                        <p>RiotID: {currentUser.riotID}</p>
-                        <p>Team: {team1.team} ({team1.shortname})</p>
-                        <img src={`https://drive.google.com/thumbnail?id=${team1.logoURL}`} style={{ width: "45%", aspectRatio: "1/1" }} />
+                        <img style={{ width: '100px',height:"100px", borderRadius: "50%", margin: "20px 0" }} src={`https://drive.google.com/thumbnail?id=${user.profilePicture}`} alt="Profile" />
+                        <p>{user.username}</p>
+                        <p>RiotID: {ign}</p>
+                        {team1 && (
+                            <>
+                                <p>Team: {team1.team} ({team1.shortname})</p>
+                                <img src={`https://drive.google.com/thumbnail?id=${team1.logoURL}`} style={{ width: "45%", aspectRatio: "1/1" }} alt="Team Logo" />
+                            </>
+                        )}
                     </div>
                     <div className='main'>
                         {[
@@ -253,22 +256,20 @@ export default function Stat() {
                             </div>
                         ))}
                     </div>
-
                 </div>
                 <div className='lower'>
                     <div className='stat-graph'>
                         <div className='radar-chart'>
-                            <RadarChart data={data} />
+                            <PlayerRadarChart data={data} />
                         </div>
                     </div>
                     <div className='match-history'>
                         <section className='title-match-history'>
-                            <span >Lịch sử đấu</span>
+                            <span>Lịch sử đấu</span>
                         </section>
-                        <MatchHistory />
+                        <PlayerMatchHistory />
                     </div>
                 </div>
-
             </div>
         </>
     );
