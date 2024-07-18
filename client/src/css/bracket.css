@@ -112,7 +112,6 @@ div.cac-vong a:hover::after {
 }
 
 .bracket .round .winners>div.matchups .matchup .participants {
-  border-radius: 4px;
   overflow: hidden;
 }
 
@@ -124,12 +123,17 @@ div.cac-vong a:hover::after {
   width: 290px;
   height: 48px;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12);
-
+  border-top: 1px white solid;
+  border-right: 1px white solid;
+  border-bottom: 1px white solid;
+  
 }
-
+.bracket .round .winners>div.matchups .matchup .participants .participant:nth-child(1){
+  border-bottom: 1px white solid;
+}
 .bracket .round .winners>div.matchups .matchup .participants .participant.winner {
   color: white;
-  border-color: rgb(0, 177, 0);
+  border-left-color: gold;
 }
 
 .bracket .round .winners>div.matchups .matchup .participants .participant.winner .score {
@@ -150,9 +154,11 @@ div.cac-vong a:hover::after {
 }
 
 .bracket .round .winners>div.matchups .matchup .participants .participant:not(:last-child) {
-  border-bottom: thin solid #212529;
+  border-bottom: 1px solid rgb(0, 0, 0);
 }
-
+.bracket .round .winners>div.matchups .matchup .participants .participant:not(:last-child) .winners{
+  border-left-color: gold;
+}
 .bracket .round .winners>div.matchups .matchup .participants .participant {
   display: flex;
   align-items: center;
@@ -217,7 +223,7 @@ div.cac-vong a:hover::after {
 }
 
 .bracket .round .winners>div.connector .line {
-  border-bottom: solid white;
+
   height: 64px;
 }
 
@@ -237,22 +243,21 @@ div.cac-vong a:hover::after {
   border-color: white;
 }
 
-.bracket .round .winners>div.connector .merger::after {
+.round .winners .div.connector .merger::after {
   border-right: solid white;
   border-bottom: solid white;
 }
-
-.bracket .round .winners>div.connector .merger:before {
+.round .winners>div.connector .merger:before {
   border-right: solid white;
   border-top: solid white;
 }
 
-.bracket .round .winners>div.connector .merger:after {
+ .round .winners>div.connector .merger:after {
   border-right-width: solid white;
   border-bottom-width: solid white;
 }
 
-.bracket .round.round-16 .winners:not(:last-child) {
+ .round.round-16 .winners:not(:last-child) {
   margin-bottom: 32px;
 }
 
@@ -277,7 +282,7 @@ div.cac-vong a:hover::after {
 }
 
 
-.bracket .round.semifinals .winners .matchups .matchup:not(:last-child) {
+ .round.semifinals .winners .matchups .matchup:not(:last-child) {
   margin-bottom: 196px;
 }
 
@@ -303,15 +308,15 @@ div.cac-vong a:hover::after {
 
 .bracket .round.finals .winners .connector .merger {
   top: 250px;
-  height: 435px;
+  height: 395px;
 
 }
 
 .bracket .round.finals .winners .connector .line {
-  height: 504px;
+  height: 460px;
 }
 
 .grand-final .winners .matchup {
-  margin-top: -277px;
+  margin-top: -280px;
   margin-left: 70px;
 }

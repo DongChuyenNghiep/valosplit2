@@ -52,10 +52,7 @@ div.cac-vong a:hover::after{
   padding-bottom: 50px;
   padding-left: 60px;
 }
-h2{
 
-  padding-bottom: 40px;
-}
 .loser-bracket .round {
   display: inline-block;
   vertical-align: middle;
@@ -69,7 +66,6 @@ h2{
 
 
 .loser-bracket .round .winners>div.matchups .matchup .participants {
-  border-radius: 4px;
   overflow: hidden;
 }
 
@@ -81,12 +77,12 @@ h2{
   width: 290px;
   height: 48px;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12);
-
+  border: 1px white solid;
 }
 
 .loser-bracket .round .winners>div.matchups .matchup .participants .participant.winner {
   color: white;
-  border-color: rgba(255, 191, 0, 0.918);
+  border-left: rgba(255, 191, 0, 0.918) 4px solid;
 }
 .loser-bracket .round .winners>div.matchups .matchup .participants .participant.winner .score{
   color: rgba(255, 191, 0, 0.918);
@@ -111,7 +107,7 @@ h2{
   filter: brightness(100%) !important;
 }
 .loser-bracket .round .winners>div.matchups .matchup .participants .participant:not(:last-child) {
-  border-bottom: thin solid #212529;
+  border-bottom: thin solid white;
 }
 
 .loser-bracket .round .winners>div.matchups .matchup .participants .participant {

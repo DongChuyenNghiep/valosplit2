@@ -33,7 +33,7 @@ export default function Home() {
                 <div className='intro'>
                     <div className="welcome animate__animated animate__fadeIn">
                         <section className="text">
-                            <h2>CHÀO MỪNG TỚI GIẢI VALORANT THPT PHÚ NHUẬN</h2>
+                            <p style={{fontSize:'40px',fontWeight:"900"}}>CHÀO MỪNG TỚI GIẢI <span style={{color:"orange"}}>VALORANT</span> THPT PHÚ NHUẬN</p>
                             <p>Mục đích tụi mình tạo ra giải này để giúp các bạn có thể giải trí sau giờ học căng thẳng. Các thông tin
                                 trận đấu sẽ được cập nhật trên này và trên kênh <a href="https://discord.gg/QbtBzVDq3Z">Discord của
                                 trường THPT Phú Nhuận</a>.</p>

@@ -28,13 +28,13 @@ export default function Playoff() {
             </p>
             <div className="all" style={{ paddingRight: '30px !important' }}>
                 <div className="bracket">
-                    <h2 style={{ margin: 0, padding: 0 }}>Upper Bracket (Nhánh thắng)</h2>
+                    <h2 style={{ margin: 0, padding: 0 }}>Nhánh thắng</h2>
                     <section className="round semifinals">
                         <div className="winners">
                             <div className="matchups">
                                 <div className="matchup">
                                     <div className="participants">
-                                        <div className="participant">
+                                        <div className="participant winner">
                                             <img id="teamSemi1" src="" />
                                             <span id="semi-team-1"></span>
                                             <span className="score" id="semi-score-1"></span>
@@ -48,7 +48,7 @@ export default function Playoff() {
                                 </div>
                                 <div className="matchup">
                                     <div className="participants">
-                                        <div className="participant">
+                                        <div className="participant winner">
                                             <img id="teamSemi3" src="" />
                                             <span id="semi-team-3"></span>
                                             <span className="score" id="semi-score-3"></span>
@@ -63,7 +63,7 @@ export default function Playoff() {
                             </div>
                             <div className="connector">
                                 <div className="merger"></div>
-                                <div className="line"></div>
+                                <div className="line" style={{border:"none"}}></div>
                             </div>
                         </div>
                     </section>
@@ -77,7 +77,7 @@ export default function Playoff() {
                                             <span id="teamfinal-1"></span>
                                             <span className="score" id="score-final-1"></span>
                                         </div>
-                                        <div className="participant">
+                                        <div className="participant winner">
                                             <img id="teamfinal2" src="" />
                                             <span id="teamfinal-2"></span>
                                             <span className="score" id="score-final-2"></span>
@@ -85,21 +85,22 @@ export default function Playoff() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="connector total-final">
-                                <div className="merger"></div>
-                                <div className="line"></div>
-                            </div>
+                            
                         </div>
+                        <div className="connector total-final">
+                                <div className="merger"></div>
+                                <div className="line" style={{border:"none"}}></div>
+                            </div>
                     </section>
                 </div>
                 <div className="loser-bracket">
-                    <h2>Lower Bracket (Nhánh thua)</h2>
+                    <h2>Nhánh thua</h2>
                     <section className="round loser1">
                         <div className="winners">
                             <div className="matchups">
                                 <div className="matchup">
                                     <div className="participants">
-                                        <div className="participant">
+                                        <div className="participant winner">
                                             <img id="teamLower1" src="" />
                                             <span id="team-lower-1"></span>
                                             <span className="score" id="score-lower-1"></span>
@@ -113,7 +114,7 @@ export default function Playoff() {
                                 </div>
                             </div>
                             <div className="connector">
-                                <div className="line"></div>
+                                <div className="line" style={{border:"none"}}></div>
                             </div>
                         </div>
                     </section>
@@ -122,7 +123,7 @@ export default function Playoff() {
                             <div className="matchups">
                                 <div className="matchup">
                                     <div className="participants">
-                                        <div className="participant">
+                                        <div className="participant winner">
                                             <img id="teamSemilower1" src="" />
                                             <span id="semi-lower-1"></span>
                                             <span className="score" id="semi-lowerscore-1"></span>
@@ -148,14 +149,14 @@ export default function Playoff() {
                                 </div>
                             </div>
                             <div className="connector">
-                                <div className="line" style={{ marginTop: '-304px', width: '50px', borderBottom: '2.5px white solid' }}></div>
+                                <div className="line" style={{ marginTop: '-304px', width: '50px', borderBottom: 'none' }}></div>
                             </div>
                         </div>
                     </section>
                     <section className="round champion">
                         <div className="winners">
                             <div className="matchups">
-                                <div className="matchup" style={{ marginTop: '-256px', marginRight: '20px' }}>
+                                <div className="matchup" style={{ marginTop: '-256px', marginRight: '40px' }}>
                                     <div className="participants">
                                         <div className="participant advance"><img id="champion1st" src="" /><span id='teamgrandChampion'></span></div>
                                     </div>

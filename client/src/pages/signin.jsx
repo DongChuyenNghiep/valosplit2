@@ -41,8 +41,9 @@ export default function SignIn() {
     };
     return (
         <>
+        <div className='container1'>
         <div className='sign'>
-            <h1 style={{ marginTop: '100px' }} className='text-3xl text-center font-semibold'>Sign In</h1>
+            <h1 style={{fontWeight:"700" }} className='text-3xl text-center font-semibold'>Đăng Nhập</h1>
             <form onSubmit={handleSubmit} className='signup'>
                 <input
                     type='text'
@@ -67,6 +68,7 @@ export default function SignIn() {
 
             </div>
             <p style={{color:'red'}}>{error ? error.message|| 'Something went wrong!' : ''}</p>
+            </div>
             </div>
         </>
     )

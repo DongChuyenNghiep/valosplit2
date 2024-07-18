@@ -6,6 +6,7 @@ import '../css/rank.css';
 const PlayerStatsTable = () => {
   const [playerStats, setPlayerStats] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
   const itemsPerPage = 5;
   const tableRef = useRef(null);
   const paginationContainerRef = useRef(null);
@@ -74,12 +75,16 @@ const PlayerStatsTable = () => {
           ADR: (stats.ADR / stats.matchCount).toFixed(1),
         }));
 
-        // Sort the statsArray by ACS in descending order
         statsArray.sort((a, b) => parseFloat(b.ACS) - parseFloat(a.ACS));
 
         setPlayerStats(statsArray);
+        setLoading(false);
+
+        localStorage.setItem('playerStats', JSON.stringify(statsArray));
+        localStorage.setItem('lastFetch', Date.now());
       } catch (error) {
         console.error('Error fetching match data', error);
+        setLoading(false);
       }
     };
 
@@ -103,7 +108,21 @@ const PlayerStatsTable = () => {
       }
     };
 
-    fetchAllMatches();
+    const loadData = () => {
+      const cachedData = localStorage.getItem('playerStats');
+      const lastFetch = localStorage.getItem('lastFetch');
+      const now = Date.now();
+      const oneHour = 60 * 60 * 1000;
+
+      if (cachedData && lastFetch && (now - lastFetch) < oneHour) {
+        setPlayerStats(JSON.parse(cachedData));
+        setLoading(false);
+      } else {
+        fetchAllMatches();
+      }
+    };
+
+    loadData();
   }, []);
 
   useEffect(() => {
@@ -157,39 +176,49 @@ const PlayerStatsTable = () => {
 
   return (
     <>
-      <div className='button-stat'>
+      <div className='button-stat' style={{ position: "absolute" }}>
         <Link to='/valorant/stat'>My stat</Link>
         <Link to='/valorant/rank' className='active'>All Stat</Link>
       </div>
-      <h3>Top ACS</h3>
-      <div className='bxh'>
-        <table className="my-table" id="leaderboard" ref={tableRef}>
-          <thead className="title">
-            <tr>
-              <th>Player Name</th>
-              <th>Team</th>
-              <th>ACS</th>
-            </tr>
-          </thead>
-          <tbody>
-            {playerStats.map((player, index) => (
-              <tr key={index}>
-                <td style={{textAlign:'left',borderColor:"white"}}>
-                  {player.profilePicture && <img src={`https://drive.google.com/thumbnail?id=${player.profilePicture}`} alt={`${player.IGN} profile`} style={{ height: '50px', width: "50px", borderRadius: "50%", marginRight: "10px" }} />}
-                  <Link to={`/valorant/stat/${player.IGN}`}>{player.IGN}</Link>
-                </td>
-                <td style={{textAlign:'left'}}>
-                  {player.logoURL && <img src={`https://drive.google.com/thumbnail?id=${player.logoURL}`} alt={`${player.team} logo`} style={{ width: '50px', height: '50px',marginRight: "10px" }} />}
-                  {player.team}
-                </td>
-                <td>{player.ACS}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <div id="pagination-container" ref={paginationContainerRef}>
-        <ul className="pagination"></ul>
+      <div className='container1' style={{ margin: "180px auto 40px", justifyContent: "flex-start" }}>
+        {loading ? (
+          <div className='container1'><div className="lds-ring"><div></div><div></div><div></div><div></div></div></div>
+        ) : (
+          <>
+            <h3>Top ACS</h3>
+            <div className='bxh' style={{ justifyContent: "flex-start" }}>
+              <table className="my-table" id="leaderboard" ref={tableRef}>
+                <thead className="title">
+                  <tr>
+                    <th>Rank</th>
+                    <th>Player Name</th>
+                    <th>Team</th>
+                    <th>ACS</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {playerStats.map((player, index) => (
+                    <tr key={index}>
+                      <td>{index + 1}</td>
+                      <td style={{ textAlign: 'left', borderColor: "white" }}>
+                        {player.profilePicture && <img src={`https://drive.google.com/thumbnail?id=${player.profilePicture}`} alt={`${player.IGN} profile`} style={{ height: '50px', width: "50px", borderRadius: "50%", marginRight: "10px" }} />}
+                        <Link to={`/valorant/stat/${player.IGN}`}>{player.IGN}</Link>
+                      </td>
+                      <td style={{ textAlign: 'left' }}>
+                        {player.logoURL && <img src={`https://drive.google.com/thumbnail?id=${player.logoURL}`} alt={`${player.team} logo`} style={{ width: '50px', height: '50px', marginRight: "10px" }} />}
+                        {player.team}
+                      </td>
+                      <td>{player.ACS}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div id="pagination-container" ref={paginationContainerRef}>
+              <ul className="pagination"></ul>
+            </div>
+          </>
+        )}
       </div>
     </>
   );

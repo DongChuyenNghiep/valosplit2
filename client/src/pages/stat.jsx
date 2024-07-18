@@ -35,7 +35,7 @@ export default function Stat() {
     const [win, setWin] = useState(0);
     const { currentUser, loading } = useSelector(state => state.user);
     if(!currentUser){
-        return <><div className='button-stat'>
+        return <><div className='button-stat' style={{position:"absolute"}}>
         <Link to='/valorant/stat' className='active'>My stat</Link>
         <Link to='/valorant/rank'>All Stat</Link>
         </div>
@@ -139,7 +139,7 @@ export default function Stat() {
             try {
                 const response = await axios.post('https://valosplit2-backend.vercel.app/api/auth/findallmatch');
                 const matches = response.data;
-
+    
                 const stats = matches.reduce((total, match) => {
                     const players = [...match.infoTeamleft, ...match.infoTeamright];
 

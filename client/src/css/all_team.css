@@ -7,7 +7,7 @@
 body{
     font-family: 'Nunito' !important;
     font-size: 17.5px;
-    background-color: #08142c;
+    background-color: black !important;
     color: white;
 }
 
@@ -166,9 +166,7 @@ td.name{
         display: flex;
         width: 100%;
     }
-    body{
-        width: 100%;
-    }
+
     div.image-logo:hover + div.table-player {
         display: inline-block; /* Show the table-player when hovering its preceding image-logo */
         
@@ -243,9 +241,7 @@ td.name{
         display: flex;
         width: 100%;
     }
-    body{
-        width: 100%;
-    }
+
     div.image-logo:hover + div.table-player {
         display: inline-block; /* Show the table-player when hovering its preceding image-logo */
         
@@ -329,9 +325,7 @@ td.name{
         display: flex;
         width: 100%;
     }
-    body{
-        width: 100%;
-    }
+
     div.image-logo:hover + div.table-player {
         display: inline-block; /* Show the table-player when hovering its preceding image-logo */
         
@@ -427,9 +421,7 @@ td.name{
         display: flex;
         width: 100%;
     }
-    body{
-        width: 100%;
-    }
+
     div.image-logo:hover + div.table-player {
         display: inline-block; /* Show the table-player when hovering its preceding image-logo */
         
@@ -520,9 +512,7 @@ td.name{
         display: flex;
         width: 100%;
     }
-    body{
-        width: 100%;
-    }
+
     div.image-logo:hover + div.table-player {
         display: inline-block; /* Show the table-player when hovering its preceding image-logo */
         
@@ -613,9 +603,7 @@ td.name{
         display: flex;
         width: 100%;
     }
-    body{
-        width: 100%;
-    }
+
     div.image-logo:hover + div.table-player {
         display: inline-block; /* Show the table-player when hovering its preceding image-logo */
         
@@ -711,9 +699,7 @@ td.name{
         display: flex;
         width: 100%;
     }
-    body{
-        width: 100%;
-    }
+
     div.image-logo:hover + div.table-player {
         display: inline-block; /* Show the table-player when hovering its preceding image-logo */
         
@@ -804,9 +790,6 @@ td.name{
         display: flex;
         width: 100%;
     }
-    body{
-        width: 100%;
-    }
     div.image-logo:hover + div.table-player {
         display: inline-block; /* Show the table-player when hovering its preceding image-logo */
         
@@ -883,9 +866,7 @@ td.name{
         display: flex;
         width: 100%;
     }
-    body{
-        width: 100%;
-    }
+
     div.image-logo:hover + div.table-player {
         display: inline-block; /* Show the table-player when hovering its preceding image-logo */
         
@@ -970,9 +951,7 @@ td.name{
         display: flex;
         width: 100%;
     }
-    body{
-        width: 100%;
-    }
+
     div.image-logo:hover + div.table-player {
         display: inline-block; /* Show the table-player when hovering its preceding image-logo */
         

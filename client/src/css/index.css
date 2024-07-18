@@ -7,7 +7,7 @@
 }
 
 nav.nav1 {
-    background-color: rgba(8, 20, 44) !important;
+    background-color: black!important;
     padding: 30px 0 30px 0;
     font-size: 17px !important;
     justify-content: space-between;
@@ -41,8 +41,6 @@ nav.nav1 {
 }
 body{
     color: white;
-    
-    background-color: #08142c;
 }
 
 div.welcome,div.prize-info,div.social-media,div.hightlight{ 
@@ -85,7 +83,7 @@ div.prize-info img{
 }
 section.text{
     padding-top: 20px;
-    width: 80%;
+    width: 70%;
 }
 div.why section.text{
     margin-left: 50px;
@@ -170,13 +168,25 @@ section.text a{
     transition: 0.3s color;
 
 }
+a .log-in-button{
+    padding: 10px 15px;
+    border-radius: 10px ;
+    border: white 3px solid;
+    color: white;
+}
+a .log-in-button:hover{
+    background-color: #f5921d;
+    color: white;
+}
 section.text a:hover{
-    color: #f5921d;
+    background-color: #f5921d;
+    
+
 }
 footer{
     text-align: center;
     width: 100%;
-    background-color: black;
+    background-color:#08102a;
     color: white;
     padding:12px 0;
 
@@ -242,7 +252,6 @@ footer p{
     h2{
         font-size: 35px;
         font-weight: 750;
-        padding-bottom: 20px;
     }
     div.welcome, div.prize-info, div.social-media, div.hightlight{
         padding:10px 0 20px 0;

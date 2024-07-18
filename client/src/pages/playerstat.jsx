@@ -190,7 +190,7 @@ export default function PlayerStat() {
     }, [ign]);
     if (!team1) {
         return  <><div className='container1' style={{display:'flex',flexDirection:"column"}}><div className='button-stat'>
-        <Link to='/valorant/stat' className='active'>My stat</Link>
+        <Link to='/valorant/stat'>My stat</Link>
         <Link to='/valorant/rank'>All Stat</Link>
         </div>
         <div className='container1'><div className="lds-ring"><div></div><div></div><div></div><div></div></div></div>
@@ -199,6 +199,7 @@ export default function PlayerStat() {
     }
     if(!user){
         return <>
+        <div className='back' style={{margin:"120px 0 0 30px",position:"absolute"}}><Link to='/valorant/rank' >&lt; Quay lại</Link></div>
         <div className='container1'><p>Người chơi này chưa đăng kí tài khoản</p></div></>
     }
     const data = {
@@ -219,7 +220,7 @@ export default function PlayerStat() {
     return (
         <>
             <div className='button-stat'>
-                <Link to='/valorant/stat' className='active'>My stat</Link>
+                <Link to='/valorant/stat'>My stat</Link>
                 <Link to='/valorant/rank'>All Stat</Link>
             </div>
             <div className='my-stat'>
