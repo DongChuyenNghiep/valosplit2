@@ -36,9 +36,9 @@ router.post('/responses',async (req, res) => {
     await response.save();
     res.status(201).json(response);
 });
-router.post('/responses/:userId',async (req, res) => {
-    const { userId } = req.params;
-    const responses = await Response.find({ userId }).populate('questionId');
+router.post('/findrespond',async (req, res) => {
+    const { userId } = req.body;
+    const responses = await Response.find({ userId });
     res.json(responses);
 });
 export default router;
