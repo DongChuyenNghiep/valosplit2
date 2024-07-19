@@ -1,44 +1,66 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import QuizForm from '../quizform';
-import { useSelector } from "react-redux";
-
-const Quiz = () => {
-    const { currentUser, loading } = useSelector(state => state.user);
+import { useSelector } from 'react-redux';
+function Quiz() {
     const [questions, setQuestions] = useState([]);
-    const [userResponses, setUserResponses] = useState([]);
+    const [responses, setResponses] = useState({});
+    const { currentUser, loading } = useSelector(state => state.user);
+    const userId = currentUser.username; // This would typically be dynamic
 
     useEffect(() => {
-        axios.post('/api/auth/showquestion')
-            .then(response => setQuestions(response.data))
-            .catch(error => console.error('Error fetching questions:', error));
-
-        if (currentUser && currentUser.username) {
-            axios.get(`/api/auth/userresponse/${currentUser.username}`)
-                .then(response => {
-                    if (response.data && response.data.responses) {
-                        setUserResponses(response.data.responses);
-                    }
-                })
-                .catch(error => console.error('Error fetching user responses:', error));
+        async function fetchData() {
+            const questionResult = await axios.post('/api/auth/findquestions');
+            setQuestions(questionResult.data);
+            console.log(questions)
+            const responseResult = await axios.post(`/api/auth/responses/${userId}`);
+            const userResponses = responseResult.data.reduce((acc, response) => {
+                acc[response.questionId._id] = response.selectedOption;
+                return acc;
+            }, {});
+            setResponses(userResponses);
         }
-    }, [currentUser]);
+        fetchData();
+    }, []);
 
-    const handleSubmit = (responses) => {
-        axios.post('/api/auth/userresponse', { userId: currentUser.username, responses })
-            .then(response => {
-                console.log('Responses submitted:', response.data);
-                setUserResponses(responses); // Update state to reflect saved responses
-            })
-            .catch(error => console.error('Error submitting responses:', error));
+    const handleOptionChange = (questionId, selectedOption) => {
+        setResponses({ ...responses, [questionId]: selectedOption });
+    };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        for (const questionId of Object.keys(responses)) {
+            await axios.post('/api/auth/responses', {
+                userId,
+                questionId,
+                selectedOption: responses[questionId]
+            });
+        }
     };
 
     return (
-        <div>
-            <h1 style={{ marginTop: "100px" }}>Quiz</h1>
-            <QuizForm questions={questions} onSubmit={handleSubmit} userResponses={userResponses} />
+        <div className="App">
+            <form onSubmit={handleSubmit}>
+                {questions.map((question) => (
+                    <div key={question._id}>
+                        <h3>{question.questionText}</h3>
+                        {question.options.map((option, index) => (
+                            <div key={index}>
+                                <input
+                                    type="radio"
+                                    name={question._id}
+                                    value={option}
+                                    checked={responses[question._id] === option}
+                                    onChange={() => handleOptionChange(question._id, option)}
+                                />
+                                <label>{option}</label>
+                            </div>
+                        ))}
+                    </div>
+                ))}
+                <button type="submit">Submit</button>
+            </form>
         </div>
     );
-};
+}
 
 export default Quiz;

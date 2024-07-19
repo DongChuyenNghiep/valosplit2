@@ -21,6 +21,7 @@ import Profile from './pages/profile.jsx';
 import MatchInfo from './pages/playoffmatchdata.jsx';
 import MatchStatsTable from './pages/ranking.jsx';
 import PlayerStat from './pages/playerstat.jsx';
+import Quiz from './pages/quiz.jsx';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -43,6 +44,7 @@ root.render(
             <Route path='/valorant/signin' element={<Login />} />
             <Route path='/valorant/dataplayoff' element={<MatchInfo />} />
             <Route path='/valorant/rank' element={<MatchStatsTable />} />
+            <Route path='/valorant/quiz' element={<Quiz />} />
             <Route element={<PrivateRoute />}>
               <Route path='/valorant/profile' element={<Profile />} />
             </Route>
