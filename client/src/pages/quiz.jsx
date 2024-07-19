@@ -13,19 +13,20 @@ function Quiz() {
             try {
                 const questionResult = await axios.post('https://valosplit2-backend.vercel.app/api/auth/findquestions');
                 setQuestions(questionResult.data);
-            
+                console.log('Questions fetched:', questionResult.data);
                 
-                const responseResult = await axios.post(`https://valosplit2-backend.vercel.app/api/auth/findrespond`);
+                const responseResult = await axios.post('https://valosplit2-backend.vercel.app/api/auth/findrespond', { userId: currentUser.username });
                 const userResponses = responseResult.data.reduce((acc, response) => {
-                    acc[response.questionId._id] = response.selectedOption;
+                    acc[response.questionId] = response.selectedOption;
                     return acc;
                 }, {});
                 setResponses(userResponses);
+                console.log(userResponses);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         }
-        console.log(responses)
+
         fetchData();
     }, [userId]);
 
@@ -47,33 +48,29 @@ function Quiz() {
                     selectedOption: responses[questionId]
                 });
             }
-            console.log("Suubmit successfully")
         } catch (error) {
             console.error('Error submitting responses:', error);
         }
     };
-    console.log(responses)
+
+    const logChecked = (questionId, option) => {
+        return responses[questionId] === option;
+    };
+
+    console.log(questions.choice);
+
     return (
-        <div className="App" style={{marginTop:"150px"}}>
+        <div className="App" style={{ marginTop: "150px" }}>
             <form onSubmit={handleSubmit}>
                 {questions.map((question) => (
                     <div key={question._id}>
                         <h3>{question.question}</h3>
-                        {question.choice.map((option, index) => {
-                            console.log('Current response for question:', question._id, responses[question._id]);
-                            return (
-                                <div key={index}>
-                                    <input
-                                        type="radio"
-                                        name={question._id}
-                                        value={option}
-                                        checked={responses[question._id] === option}
-                                        onChange={() => handleOptionChange(question._id, option)}
-                                    />
-                                    <label>{option}</label>
-                                </div>
-                            );
-                        })}
+                        {question.choice.map((option, index) => (
+                            <div key={index} onClick={() => handleOptionChange(question._id, option.logoid)} style={{ cursor: 'pointer', border: logChecked(question._id, option.logoid) ? '2px solid blue' : 'none' }}>
+                                <img src={`https://drive.google.com/uc?id=${option.logoid}`} alt={option.teamname} style={{ width: '100px', height: '100px' }} />
+                                <p>{option.teamname}</p>
+                            </div>
+                        ))}
                     </div>
                 ))}
                 <button type="submit">Submit</button>

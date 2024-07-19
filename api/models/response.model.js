@@ -1,6 +1,6 @@
 import mongoose from "mongoose"; 
 const ResponseSchema = new mongoose.Schema({
-    userId: { type: String, required: true },
+    userId: { type: String, required: true,unique:true},
     questionId: { type: mongoose.Schema.Types.ObjectId, ref: 'Question', required: true },
     selectedOption: { type: String, required: true }
 });
