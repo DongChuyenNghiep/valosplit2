@@ -35,7 +35,10 @@ router.post('/findrespond', async (req, res) => {
   const response = await Response.findOne({ userId });
   res.json(response);
 });
-
+router.post('/findallrespond', async (req, res) => {
+  const response = await Response.find();
+  res.json(response);
+});
 router.post('/responses', async (req, res) => {
   const { userId, responses } = req.body;
 

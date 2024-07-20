@@ -43,7 +43,7 @@ function Quiz() {
                 selectedOption: responses[questionId]
             }));
 
-            await axios.post('https://valosplit2-backend.vercel.app/api/auth/api/auth/responses', {
+            await axios.post('https://valosplit2-backend.vercel.app/api/auth/responses', {
                 userId,
                 responses: responsePayload
             });
