@@ -30,15 +30,31 @@ router.post('/findquestions',async (req, res) => {
     const questions = await QuestionPickem.find();
     res.status(200).json(questions);
 });
-router.post('/responses',async (req, res) => {
-    const { userId, questionId, selectedOption } = req.body;
-    const response = new Response({ userId, questionId, selectedOption });
-    await response.save();
-    res.status(201).json(response);
+router.post('/findrespond', async (req, res) => {
+  const { userId } = req.body;
+  const response = await Response.findOne({ userId });
+  res.json(response);
 });
-router.post('/findrespond',async (req, res) => {
-    const { userId } = req.body;
-    const responses = await Response.find({ userId });
-    res.json(responses);
+
+router.post('/responses', async (req, res) => {
+  const { userId, responses } = req.body;
+
+  let userResponse = await Response.findOne({ userId });
+  if (!userResponse) {
+      userResponse = new Response({ userId, userresponse: [] });
+  }
+
+  responses.forEach(({ questionId, selectedOption }) => {
+      const responseIndex = userResponse.userresponse.findIndex((resp) => resp.questionId.toString() === questionId);
+      if (responseIndex !== -1) {
+          userResponse.userresponse[responseIndex].selectedOption = selectedOption;
+      } else {
+          userResponse.userresponse.push({ questionId, selectedOption });
+      }
+  });
+
+  await userResponse.save();
+  res.status(200).json(userResponse);
 });
+
 export default router;

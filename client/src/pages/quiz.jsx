@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 function Quiz() {
     const [questions, setQuestions] = useState([]);
     const [responses, setResponses] = useState({});
-    const { currentUser, loading } = useSelector(state => state.user);
+    const { currentUser } = useSelector(state => state.user);
     const userId = currentUser.username; // This would typically be dynamic
 
     useEffect(() => {
@@ -13,15 +13,17 @@ function Quiz() {
             try {
                 const questionResult = await axios.post('https://valosplit2-backend.vercel.app/api/auth/findquestions');
                 setQuestions(questionResult.data);
-                console.log('Questions fetched:', questionResult.data);
                 
                 const responseResult = await axios.post('https://valosplit2-backend.vercel.app/api/auth/findrespond', { userId: currentUser.username });
-                const userResponses = responseResult.data.reduce((acc, response) => {
-                    acc[response.questionId] = response.selectedOption;
-                    return acc;
-                }, {});
-                setResponses(userResponses);
-                console.log(userResponses);
+
+                if (responseResult.data && responseResult.data[0].userresponse) {
+                    const userResponses = responseResult.data[0].userresponse.reduce((acc, response) => {
+                        acc[response.questionId] = response.selectedOption;
+                        return acc;
+                    }, {});
+                    setResponses(userResponses);
+                }
+                console.log('Responses fetched:', responseResult.data);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -30,10 +32,6 @@ function Quiz() {
         fetchData();
     }, [userId]);
 
-    useEffect(() => {
-        console.log('Updated questions:', questions);
-    }, [questions]);
-
     const handleOptionChange = (questionId, selectedOption) => {
         setResponses({ ...responses, [questionId]: selectedOption });
     };
@@ -41,23 +39,23 @@ function Quiz() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            for (const questionId of Object.keys(responses)) {
-                await axios.post('https://valosplit2-backend.vercel.app/api/auth/responses', {
-                    userId,
-                    questionId,
-                    selectedOption: responses[questionId]
-                });
-            }
+            const responsePayload = Object.keys(responses).map(questionId => ({
+                questionId,
+                selectedOption: responses[questionId]
+            }));
+
+            await axios.post('https://valosplit2-backend.vercel.app/api/auth/api/auth/responses', {
+                userId,
+                responses: responsePayload
+            });
         } catch (error) {
             console.error('Error submitting responses:', error);
         }
     };
 
     const logChecked = (questionId, option) => {
-        return responses[questionId] === option;
+        return responses[questionId] === option.teamname;
     };
-
-    console.log(questions.choice);
 
     return (
         <div className="App" style={{ marginTop: "150px" }}>
@@ -66,8 +64,8 @@ function Quiz() {
                     <div key={question._id}>
                         <h3>{question.question}</h3>
                         {question.choice.map((option, index) => (
-                            <div key={index} onClick={() => handleOptionChange(question._id, option.logoid)} style={{ cursor: 'pointer', border: logChecked(question._id, option.logoid) ? '2px solid blue' : 'none' }}>
-                                <img src={`https://drive.google.com/uc?id=${option.logoid}`} alt={option.teamname} style={{ width: '100px', height: '100px' }} />
+                            <div key={index} onClick={() => handleOptionChange(question._id, option.teamname)} style={{ cursor: 'pointer', border: logChecked(question._id, option) ? '2px solid blue' : 'none' }}>
+                                <img src={`https://drive.google.com/thumbnail?id=${option.logoid}`} alt={option.teamname} style={{ width: '100px', height: '100px' }} />
                                 <p>{option.teamname}</p>
                             </div>
                         ))}
