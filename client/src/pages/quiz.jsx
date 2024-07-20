@@ -15,15 +15,14 @@ function Quiz() {
                 setQuestions(questionResult.data);
                 
                 const responseResult = await axios.post('https://valosplit2-backend.vercel.app/api/auth/findrespond', { userId: currentUser.username });
-
-                if (responseResult.data && responseResult.data[0].userresponse) {
-                    const userResponses = responseResult.data[0].userresponse.reduce((acc, response) => {
+                
+                if (responseResult.data && responseResult.data.userresponse) {
+                    const userResponses = responseResult.data.userresponse.reduce((acc, response) => {
                         acc[response.questionId] = response.selectedOption;
                         return acc;
                     }, {});
                     setResponses(userResponses);
                 }
-                console.log('Responses fetched:', responseResult.data);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
