@@ -43,13 +43,28 @@ router.post('/responses', async (req, res) => {
 
   try {
       // Find the existing user response document
+      let userDoc = await Response.findOne({ userId });
 
+      if (userDoc) {
+          // Update existing responses
+          userresponse.forEach(newResponse => {
+              const existingResponse = userDoc.userresponse.find(response =>
+                  response.idquestionset === newResponse.idquestionset && response.questionIndex === newResponse.questionIndex
+              );
 
-      // Create a new document if no existing one
-          const userDoc = new Response({
+              if (existingResponse) {
+                  existingResponse.selectedOption = newResponse.selectedOption;
+              } else {
+                  userDoc.userresponse.push(newResponse);
+              }
+          });
+      } else {
+          // Create a new document if no existing one
+          userDoc = new Response({
               userId,
               userresponse
           });
+      }
 
       // Save the document
       await userDoc.save();
@@ -59,6 +74,7 @@ router.post('/responses', async (req, res) => {
       res.status(500).json({ message: 'Failed to submit responses.' });
   }
 });
+
 
 
 export default router;
