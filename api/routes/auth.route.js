@@ -39,32 +39,46 @@ router.post('/findallrespond', async (req, res) => {
   const response = await Response.find();
   res.json(response);
 });
-router.post('/responses', async (req, res) => {
-  const { userId, responses } = req.body;
+router.post('/responses', async (req, res, next) => {
+  try {
+    const { userId, userresponse } = req.body;
 
-  // Find or create a user response document
-  let userResponse = await Response.findOne({ userId });
-  if (!userResponse) {
-    userResponse = new Response({ userId, userresponse: [] });
-  }
-
-  responses.forEach(({ idquestionset, question, selectedOption }) => {
-    // Check if the response already exists
-    const responseIndex = userResponse.userresponse.findIndex(
-      (resp) => resp.idquestionset === idquestionset && resp.question === question
-    );
-
-    if (responseIndex !== -1) {
-      // Update existing response
-      userResponse.userresponse[responseIndex].selectedOption = selectedOption;
-    } else {
-      // Add new response
-      userResponse.userresponse.push({ idquestionset, question, selectedOption });
+    // Ensure userresponse is an array
+    if (!Array.isArray(userresponse)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid data format: userresponse should be an array.',
+        statusCode: 400
+      });
     }
-  });
 
-  // Save the updated document
-  await userResponse.save();
-  res.status(200).json(userResponse);
+    // Find or create a user response document
+    let userResponse = await Response.findOne({ userId });
+    if (!userResponse) {
+      userResponse = new Response({ userId, userresponse: [] });
+    }
+
+    userresponse.forEach(({ idquestionset, questionIndex, selectedOption }) => {
+      // Check if the response already exists
+      const responseIndex = userResponse.userresponse.findIndex(
+        (resp) => resp.idquestionset === idquestionset && resp.questionIndex === questionIndex
+      );
+
+      if (responseIndex !== -1) {
+        // Update existing response
+        userResponse.userresponse[responseIndex].selectedOption = selectedOption;
+      } else {
+        // Add new response
+        userResponse.userresponse.push({ idquestionset, questionIndex, selectedOption });
+      }
+    });
+
+    // Save the updated document
+    await userResponse.save();
+    res.status(200).json(userResponse);
+  } catch (error) {
+    next(error); // Passes the error to the next middleware (error handler)
+  }
 });
+
 export default router;
