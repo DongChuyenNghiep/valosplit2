@@ -46,7 +46,7 @@ router.post('/responses', async (req, res) => {
 
 
       // Create a new document if no existing one
-          userDoc = new Response({
+          const userDoc = new Response({
               userId,
               userresponse
           });
