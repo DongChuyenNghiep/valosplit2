@@ -43,7 +43,7 @@ router.post('/responses', async (req, res) => {
 
   try {
       // Find the existing user response document
-      let userDoc = await Response.findOne({ userId });
+
 
       // Create a new document if no existing one
           userDoc = new Response({
