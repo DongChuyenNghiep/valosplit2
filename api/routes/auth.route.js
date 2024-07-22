@@ -25,7 +25,15 @@ router.post('/addquestions', async (req, res, next) => {
     next(error);
   }
 });
-
+router.post('/findrespond', async (req, res) => {
+  const { userId } = req.body;
+  const response = await Response.findOne({ userId });
+  res.json(response);
+});
+router.post('/findallrespond', async (req, res) => {
+  const response = await Response.find();
+  res.json(response);
+});
 router.post('/findquestions', async (req, res) => {
   const questions = await QuestionPickem.find();
   res.status(200).json(questions);
