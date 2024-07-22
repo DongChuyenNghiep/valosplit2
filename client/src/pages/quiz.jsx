@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import QuizResults from './percentpick';
 
 function Quiz() {
     const [questions, setQuestions] = useState([]);
@@ -18,7 +19,7 @@ function Quiz() {
                 
                 if (responseResult.data && responseResult.data.userresponse) {
                     const userResponses = responseResult.data.userresponse.reduce((acc, response) => {
-                        acc[response.questionId] = response.selectedOption;
+                        acc[response.question] = response.selectedOption;
                         return acc;
                     }, {});
                     setResponses(userResponses);
@@ -29,43 +30,54 @@ function Quiz() {
         }
 
         fetchData();
-    }, [userId]);
+    }, [userId, currentUser.username]);
 
-    const handleOptionChange = (questionId, selectedOption) => {
-        setResponses({ ...responses, [questionId]: selectedOption });
+    const handleOptionChange = (questionId, questionIndex, selectedOption) => {
+        const uniqueQuestionId = `${questionId}-${questionIndex}`;
+        setResponses({ ...responses, [uniqueQuestionId]: selectedOption });
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const responsePayload = Object.keys(responses).map(questionId => ({
-                questionId,
-                selectedOption: responses[questionId]
-            }));
+            const responsePayload = Object.keys(responses).map(uniqueQuestionId => {
+                const [questionSetId, questionIndex] = uniqueQuestionId.split('-');
+                return {
+                    idquestionset: questionSetId,
+                    questionIndex,
+                    selectedOption: responses[uniqueQuestionId]
+                };
+            });
 
-            await axios.post('https://valosplit2-backend.vercel.app/api/auth/responses', {
+            await axios.post('/api/auth/responses', {
                 userId,
-                responses: responsePayload
+                userresponse: responsePayload
             });
         } catch (error) {
             console.error('Error submitting responses:', error);
         }
     };
 
-    const logChecked = (questionId, option) => {
-        return responses[questionId] === option.teamname;
+    const logChecked = (questionId, questionIndex, option) => {
+        const uniqueQuestionId = `${questionId}-${questionIndex}`;
+        return responses[uniqueQuestionId] === option.teamname;
     };
 
     return (
         <div className="App" style={{ marginTop: "150px" }}>
             <form onSubmit={handleSubmit}>
-                {questions.map((question) => (
-                    <div key={question._id}>
-                        <h3>{question.question}</h3>
-                        {question.choice.map((option, index) => (
-                            <div key={index} onClick={() => handleOptionChange(question._id, option.teamname)} style={{ cursor: 'pointer', border: logChecked(question._id, option) ? '2px solid blue' : 'none' }}>
-                                <img src={`https://drive.google.com/thumbnail?id=${option.logoid}`} alt={option.teamname} style={{ width: '100px', height: '100px' }} />
-                                <p>{option.teamname}</p>
+                {questions.map((questionSetObject) => (
+                    <div key={questionSetObject._id}>
+                        <h2>Question Set: {questionSetObject.idquestionset}</h2>
+                        {questionSetObject.questionSet.map((question, index) => (
+                            <div key={index}>
+                                <h3>{question.question}</h3>
+                                {question.choice.map((option, idx) => (
+                                    <div key={idx} onClick={() => handleOptionChange(questionSetObject._id, index, option.teamname)} style={{ cursor: 'pointer', border: logChecked(questionSetObject._id, index, option) ? '2px solid blue' : 'none' }}>
+                                        <img src={`https://drive.google.com/thumbnail?id=${option.imageid}`} alt={option.teamname} style={{ width: '100px', height: '100px' }} />
+                                        <p>{option.teamname}</p>
+                                    </div>
+                                ))}
                             </div>
                         ))}
                     </div>

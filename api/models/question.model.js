@@ -1,31 +1,36 @@
 import mongoose from 'mongoose';
+
 const choiceSchema = new mongoose.Schema(
   {
-    logoid: {
-      type: String,
-      required: true,
-    },
-    teamname:{
-      type:String,
-    },
-    riotidplayer:{
-      type:String,
-    }
+    imageid: { type: String, required: true },
+    teamname: { type: String },
+    playername: { type: String },
   },
-  { _id: false } // This option is to prevent creating an _id field for each choice
-);
-const userSchema = new mongoose.Schema(
-  {
-    question:{
-        type:String,
-        required: true,
-        unique:true
-    },
-    choice:[choiceSchema]
-  },
-  { timestamps: true }
+  { _id: false } // Prevents creation of an `_id` field in subdocuments
 );
 
-const QuestionPickem = mongoose.model('QuestionPickem', userSchema,'QuestionPickem');
+const questionSchema = new mongoose.Schema(
+  {
+    question: { type: String, required: true },
+    choice: [choiceSchema]
+  },
+  { _id: false } // Prevents creation of an `_id` field in subdocuments
+);
+
+const questionPickemSchema = new mongoose.Schema(
+  {
+    idquestionset: {
+      required: true,
+      type: String,
+      unique: true // Ensure idquestionset is unique
+    },
+    questionSet: [questionSchema]
+  },
+  {
+    timestamps: true, // Add timestamps for creation and update times
+  }
+);
+
+const QuestionPickem = mongoose.model('QuestionPickem', questionPickemSchema, 'QuestionPickem');
 
 export default QuestionPickem;
