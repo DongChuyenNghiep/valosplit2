@@ -49,7 +49,7 @@ function Quiz() {
                 };
             });
 
-            await axios.post('/api/auth/responses', {
+            await axios.post('https://valosplit2-backend.vercel.app/api/auth/responses', {
                 userId,
                 userresponse: responsePayload
             });
