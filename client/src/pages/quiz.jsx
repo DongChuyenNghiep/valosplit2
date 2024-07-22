@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import QuizResults from './percentpick';
 
 function Quiz() {
     const [questions, setQuestions] = useState([]);
@@ -14,15 +13,16 @@ function Quiz() {
             try {
                 const questionResult = await axios.post('https://valosplit2-backend.vercel.app/api/auth/findquestions');
                 setQuestions(questionResult.data);
-                
-                const responseResult = await axios.post('https://valosplit2-backend.vercel.app/api/auth/findrespond', { userId: currentUser.username });
-                
+
+                const responseResult = await axios.post('https://valosplit2-backend.vercel.app/api/auth/findrespond', { userId });
+                console.log("Fetched responses:", responseResult.data.userresponse);
                 if (responseResult.data && responseResult.data.userresponse) {
                     const userResponses = responseResult.data.userresponse.reduce((acc, response) => {
-                        acc[response.question] = response.selectedOption;
+                        acc[`${response.idquestionset}-${response.questionIndex}`] = response.selectedOption;
                         return acc;
                     }, {});
                     setResponses(userResponses);
+                    console.log("User responses set:", userResponses);
                 }
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -30,11 +30,15 @@ function Quiz() {
         }
 
         fetchData();
-    }, [userId, currentUser.username]);
+    }, [userId]);
 
     const handleOptionChange = (questionId, questionIndex, selectedOption) => {
         const uniqueQuestionId = `${questionId}-${questionIndex}`;
-        setResponses({ ...responses, [uniqueQuestionId]: selectedOption });
+        setResponses(prevResponses => {
+            const newResponses = { ...prevResponses, [uniqueQuestionId]: selectedOption };
+            console.log("Option changed:", newResponses);
+            return newResponses;
+        });
     };
 
     const handleSubmit = async (event) => {
@@ -44,15 +48,23 @@ function Quiz() {
                 const [questionSetId, questionIndex] = uniqueQuestionId.split('-');
                 return {
                     idquestionset: questionSetId,
-                    questionIndex,
+                    questionIndex: parseInt(questionIndex, 10), // Convert to integer
                     selectedOption: responses[uniqueQuestionId]
                 };
+            });
+
+            console.log("Submitting responses:", {
+                userId,
+                userresponse: responsePayload
             });
 
             await axios.post('https://valosplit2-backend.vercel.app/api/auth/responses', {
                 userId,
                 userresponse: responsePayload
             });
+
+            // No need to clear responses after submitting
+            // setResponses({});
         } catch (error) {
             console.error('Error submitting responses:', error);
         }
