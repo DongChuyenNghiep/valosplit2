@@ -59,7 +59,7 @@ function Quiz() {
                 const [questionSetId, questionIndex] = uniqueQuestionId.split('-');
                 return {
                     idquestionset: questionSetId,
-                    questionIndex: parseInt(questionIndex), // Convert to integer
+                    questionIndex: questionIndex, // Convert to integer
                     selectedOption: responses[uniqueQuestionId]
                 };
             });
