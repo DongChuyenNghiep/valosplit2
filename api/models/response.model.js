@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 const UserResponseSchema = new mongoose.Schema({
     idquestionset: { type: String, required: true }, // idquestionset from questionPickemSchema
     questionIndex: { type: String, required: true }, // question field from questionSchema
-    selectedOption: { type: String, required: true } // This should match the teamname or playername in choiceSchema
+    selectedOption: { type: String } // This should match the teamname or playername in choiceSchema
 }, { _id: false });
 
 // Define the overall response schema

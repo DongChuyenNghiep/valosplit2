@@ -1,0 +1,11 @@
+div.pickem{
+    width: 70%;
+    margin: 0 auto;
+}
+
+div.each-question{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0 30px;
+}
