@@ -16,14 +16,14 @@ function Quiz() {
                 setQuestions(questionResult.data);
 
                 const responseResult = await axios.post('https://valosplit2-backend.vercel.app/api/auth/findrespond', { userId });
-                console.log("Fetched responses:", responseResult.data.userresponse);
+            
                 if (responseResult.data && responseResult.data.userresponse) {
                     const userResponses = responseResult.data.userresponse.reduce((acc, response) => {
                         acc[`${response.idquestionset}-${response.questionIndex}`] = response.selectedOption;
                         return acc;
                     }, {});
                     setResponses(userResponses);
-                    console.log("User responses set:", userResponses);
+                    
                 }
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -108,10 +108,10 @@ function Quiz() {
                                 <h3>{question.question}</h3>
                                 <div className='each-question'>
                                 {question.choice.map((option, idx) => (
-                                    <div key={idx} onClick={() => !isOptionDisabled(questionSetObject._id, index) && handleOptionChange(questionSetObject._id, index, option.teamname)} style={{ cursor: 'pointer', border: logChecked(questionSetObject._id, index, option) ? '2px solid blue' : 'none', pointerEvents: isOptionDisabled(questionSetObject._id, index) ? 'none' : 'auto' }}>
-                                        <img src={`https://drive.google.com/thumbnail?id=${option.imageid}`} alt={option.teamname} style={{ width: '100px', height: '100px' }} />
-                                        <p>{option.teamname}</p>
-                                    </div>
+                                    <div key={idx} onClick={() => !isOptionDisabled(questionSetObject._id, index, option) && handleOptionChange(questionSetObject._id, index, option.teamname)} style={{ cursor: 'pointer', border: logChecked(questionSetObject._id, index, option) ? '2px solid blue' : 'none', pointerEvents: isOptionDisabled(questionSetObject._id, index, option) ? 'none' : 'auto', opacity: isOptionDisabled(questionSetObject._id, index, option) ? 0.5 : 1 }}>
+                                    <img src={`https://drive.google.com/thumbnail?id=${option.imageid}`} alt={option.teamname} style={{ width: '100px', height: '100px' }} />
+                                    <p>{option.teamname}</p>
+                                </div>
                                 ))}
                                 </div>
                             </div>

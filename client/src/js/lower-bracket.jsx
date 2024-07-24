@@ -91,10 +91,10 @@ fetch(FULL_URL_LOWER)
         grandFinalteam2.classList.add('winner');
       }
       let groupP = [
-        jsonData.table.rows[0]?.c[15]?.v ?? null
+        jsonData.table.rows[0]?.c[9]?.v ?? null
       ]
       let groupQ = [
-        jsonData.table.rows[0]?.c[16]?.v ?? null
+        jsonData.table.rows[0]?.c[10]?.v ?? null
       ]
       let teamImageChampion = document.getElementById("champion1st");
       let teamnameChampion = document.getElementById("teamgrandChampion");

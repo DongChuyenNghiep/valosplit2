@@ -120,6 +120,7 @@ div.cac-vong a:hover::after{
   line-height: 3;
   font-size: 16.5px;
   font-family: "Roboto Slab";
+  color:white;
 }
 
 .loser-bracket .round .winners>div.matchups .matchup .participants .participant #score-lower-1,
