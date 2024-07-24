@@ -388,19 +388,19 @@ span.score {
     font-size: 16px;
 }
 .bxh{
-    width: 50%;
+    width: 90%;
     margin: 0 auto;
     border: 0.5px white solid;
 }
 .bxh table {
-    width:100%;
+    width:150%;
     
 }
 .bxh table#leaderboard td,.bxh table#leaderboard th{
-    width: 33%;
+    width: 6%;
 }
 .bxh table#leaderboard td:first-child,.bxh table#leaderboard th:first-child{
-    width: 8% !important;
+    width: 6.5% !important;
 }
 
 span.score-left,
@@ -485,17 +485,25 @@ h3 {
     position: sticky;
     text-align: left;
     width: 25%;
-    left: 10px;
+
 }
 .bxh table#leaderboard td{
     background-color: rgba(128, 128, 128, 0.4) !important;
     border-bottom: white 1px solid;
     
 }
-.bxh table#leaderboard td:nth-child(2){
-    width: 30%;
+.bxh table#leaderboard td:nth-child(1){
+    width: 1% !important;
     border: none;
     justify-content: center;
+}
+.bxh table#leaderboard td:nth-child(2){
+    width: 12%;
+    border: none;
+    justify-content: center;
+}
+.bxh table#leaderboard td:nth-child(3){
+    width: 12%;
 }
 .bxh table#leaderboard td:nth-child(2) p{
     margin: 0 ;

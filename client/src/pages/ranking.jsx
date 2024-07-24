@@ -22,15 +22,19 @@ const PlayerStatsTable = () => {
         matches.forEach(match => {
           const players = [...match.infoTeamleft, ...match.infoTeamright];
           players.forEach(player => {
-            const { IGN, K, D, A, ACS, ADR } = player;
+            const { IGN, K, D, A, ACS, ADR ,HS,KAST,FK,MK} = player;
             if (!statsMap[IGN]) {
-              statsMap[IGN] = { K: 0, D: 0, A: 0, ACS: 0, ADR: 0, matchCount: 0, team: '', logoURL: '', profilePicture: '' };
+              statsMap[IGN] = { K: 0, D: 0, A: 0, ACS: 0, ADR: 0,HS:0,KAST:0,FK:0,MK:0, matchCount: 0, team: '', logoURL: '', profilePicture: '' };
             }
             statsMap[IGN].K += parseInt(K, 10);
             statsMap[IGN].D += parseInt(D, 10);
             statsMap[IGN].A += parseInt(A, 10);
             statsMap[IGN].ACS += parseInt(ACS, 10);
             statsMap[IGN].ADR += parseInt(ADR, 10);
+            statsMap[IGN].HS += parseInt(HS, 10);
+            statsMap[IGN].KAST += parseInt(KAST, 10);
+            statsMap[IGN].FK += parseInt(FK, 10);
+            statsMap[IGN].MK += parseInt(MK, 10);
             statsMap[IGN].matchCount += 1;
             playerSet.add(IGN);
           });
@@ -67,12 +71,17 @@ const PlayerStatsTable = () => {
           team: stats.team,
           logoURL: stats.logoURL,
           profilePicture: stats.profilePicture,
+          match:stats.matchCount,
           ACS: (stats.ACS / stats.matchCount).toFixed(1),
           K: stats.K,
           D: stats.D,
           A: stats.A,
           KDA: ((stats.K + stats.A) / stats.D).toFixed(1),
           ADR: (stats.ADR / stats.matchCount).toFixed(1),
+          HS: (stats.HS / stats.matchCount).toFixed(1),
+          KAST: (stats.KAST / stats.matchCount).toFixed(1),
+          FK: stats.FK,
+          MK: stats.MK
         }));
 
         statsArray.sort((a, b) => parseFloat(b.ACS) - parseFloat(a.ACS));
@@ -185,15 +194,25 @@ const PlayerStatsTable = () => {
           <div className='container1'><div className="lds-ring"><div></div><div></div><div></div><div></div></div></div>
         ) : (
           <>
-            <h3>Top ACS</h3>
-            <div className='bxh' style={{ justifyContent: "flex-start" }}>
+            <h3>Thông số mọi người chơi</h3>
+            <div className='bxh wrapper' style={{ justifyContent: "flex-start" }}>
               <table className="my-table" id="leaderboard" ref={tableRef}>
                 <thead className="title">
                   <tr>
                     <th>Rank</th>
                     <th>Player Name</th>
                     <th>Team</th>
+                    <th>Match Played</th>
                     <th>ACS</th>
+                    <th>K</th>
+                    <th>D</th>
+                    <th>A</th>
+                    <th>KDA</th>
+                    <th>ADR</th>
+                    <th>HS (%)</th>
+                    <th>KAST (%)</th>
+                    <th>FB</th>
+                    <th>MK</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -208,7 +227,18 @@ const PlayerStatsTable = () => {
                         {player.logoURL && <img src={`https://drive.google.com/thumbnail?id=${player.logoURL}`} alt={`${player.team} logo`} style={{ width: '50px', height: '50px', marginRight: "10px" }} />}
                         {player.team}
                       </td>
+                      <td>{player.match}</td>
                       <td>{player.ACS}</td>
+                      <td>{player.K}</td>
+                      <td>{player.D}</td>
+                      <td>{player.A}</td>
+                      <td>{player.KDA}</td>
+                      <td>{player.ADR}</td>
+                      <td>{player.HS}</td>
+                      <td>{player.KAST}</td>
+                      <td>{player.FK}</td>
+                      <td>{player.MK}</td>
+                      
                     </tr>
                   ))}
                 </tbody>
