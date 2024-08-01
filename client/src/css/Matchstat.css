@@ -1,0 +1,57 @@
+.player-stats-container{
+    display: flex;
+    flex-direction: row;
+    gap: 1.25rem;
+    justify-content: center;
+}
+.player-stats-container img{
+    height: 30px;
+    aspect-ratio: 1/1;
+}
+.player-stats-container .teamname{
+    display: flex;
+    gap:0 0.5rem;
+    align-items: center;
+}
+table.player-stats-table{
+    width: 100%;
+    border-collapse: collapse;
+    --tw-text-opacity: 1;
+     color: rgb(210 206 209 / var(--tw-text-opacity));
+}
+table.player-stats-table thead{
+    --tw-bg-opacity: 1;
+    background-color: rgb(42 24 37 / var(--tw-bg-opacity));
+    border: none;
+}
+table.player-stats-table td , table.player-stats-table th:not(:first-child){
+    padding: .75rem;
+    text-align: center;
+}
+@media (1400px >= width){
+    .hidden{
+        display: none;
+    }
+    .player-stats-container{
+        flex-direction: column;
+    }
+    table.player-stats-table th:first-child,table.player-stats-table td:first-child{
+        position: sticky;
+        left: 0;
+        width: 60px !important;
+    }
+    table.player-stats-table th:first-child{
+        --tw-bg-opacity: 1;
+        background-color: rgb(42 24 37 / var(--tw-bg-opacity));
+    }
+    table.player-stats-table td{
+        background-color: black !important;
+    }
+    table.player-stats-table td:first-child span{
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 14px;
+
+    }
+}

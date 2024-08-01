@@ -4,6 +4,7 @@ import { errorHandler } from '../utils/error.js';
 import jwt from 'jsonwebtoken';
 import Team from '../models/team.model.js';
 import Match from '../models/match.model.js';
+import BanPick from '../models/veto.model.js';
 import mongoose from 'mongoose';
 export const signup = async (req, res, next) => {
   const { riotID, username, email, password } = req.body;
@@ -56,47 +57,138 @@ export const findteam = async (req, res, next) => {
     next(error);
   }
 };
+// Assuming your Match model is in a file called matchModel.js
+
 export const addMatch = async (req, res, next) => {
-  const { idmatch, teamNameleft, logoteamleft, logoteamright, scoreteamleft, teamNameright, scoreteamright, infoTeamleft, infoTeamright } = req.body;
-  const newTeam = new Match({ idmatch, teamNameleft, teamNameright, infoTeamleft, scoreteamleft, infoTeamright, scoreteamright, logoteamleft, logoteamright });
+  const { idmatch, group, timestartmatch, league, type, teamleft, teamright, maps, stage } = req.body;
+
+  // Initialize scores
+  let scoreteamA = 0;
+  let scoreteamB = 0;
+
+  // Check if maps is defined and is an array
+  if (Array.isArray(maps)) {
+    // Calculate scores for each team based on the maps' scores
+    maps.forEach(map => {
+      const scoreLeft = map.infoTeamleft?.score;
+      const scoreRight = map.infoTeamright?.score;
+
+      if (scoreLeft !== undefined && scoreRight !== undefined) {
+        if (scoreLeft > scoreRight) {
+          scoreteamA += 1;
+        } else if (scoreLeft < scoreRight) {
+          scoreteamB += 1;
+        }
+      }
+    });
+  } else {
+    return res.status(400).json({ message: 'Maps data is missing or not properly formatted' });
+  }
 
   try {
-    await newTeam.save();
-    res.status(201).json({ message: 'Match added successfully' });
+    // Check if match with the given idmatch already exists
+    const existingMatch = await Match.findOne({ idmatch, stage });
+
+    if (existingMatch) {
+      // Update existing match
+      existingMatch.timestartmatch = timestartmatch;
+      existingMatch.league = league;
+      existingMatch.type = type;
+      existingMatch.teamleft = teamleft;
+      existingMatch.teamright = teamright;
+      existingMatch.maps = maps;
+      existingMatch.group = group;
+      existingMatch.scoreteamA = scoreteamA;
+      existingMatch.scoreteamB = scoreteamB;
+
+      await existingMatch.save();
+      res.status(200).json({ message: 'Match updated successfully' });
+    } else {
+      // Create new match
+      const newMatch = new Match({
+        idmatch,
+        timestartmatch,
+        league,
+        type,
+        teamleft,
+        teamright,
+        maps,
+        group,
+        scoreteamA,
+        scoreteamB,
+        stage
+      });
+
+      await newMatch.save();
+      res.status(201).json({ message: 'Match added successfully' });
+    }
   } catch (error) {
     next(error);
   }
 };
 
+export const addBanPickVeto = async (req, res) => {
+  try {
 
+      const { id,group, veto } = req.body;
+
+      // Ensure veto is an array and not empty
+      if (!Array.isArray(veto) || veto.length === 0) {
+          return res.status(400).json({ error: 'Veto should be a non-empty array' });
+      }
+
+      const newBanPick = new BanPick({
+          id,group,
+          veto
+      });
+
+      await newBanPick.save();
+
+      res.status(201).json(newBanPick);
+  } catch (err) {
+      res.status(400).json({ error: err.message });
+  }
+};
+export const findBanPickVeto = async (req, res) => {
+  try {
+ // Add logging to debug
+
+      const { id,group } = req.body;
+
+      const newBanPick = await BanPick.findOne({
+        id,group
+      });
+
+
+
+      res.status(200).json(newBanPick);
+  } catch (err) {
+      res.status(400).json({ error: err.message });
+  }
+};
 export const findMatch = async (req, res, next) => {
-  const { idmatch, _id, ign } = req.body;
+  const { idmatch, stage } = req.body; // Removed _id and ign
   try {
     const query = {};
 
+    // Only add to query if idmatch and stage are provided
     if (idmatch) {
       query.idmatch = idmatch;
     }
 
-    if (_id) {
-      query._id = _id;
+    if (stage) {
+      query.stage = stage;
     }
 
-    if (ign) {
-      query.$or = [
-        { 'infoTeamleft': { $elemMatch: { IGN: ign } } },
-        { 'infoTeamright': { $elemMatch: { IGN: ign } } }
-      ];
+    // Ensure both idmatch and stage are present in the query
+    if (!idmatch || !stage) {
+      return next(errorHandler(400, 'Both idmatch and stage are required'));
     }
-
-    console.log('Query:', query);
 
     const validMatches = await Match.find(query).sort({ updatedAt: -1 });
 
-    console.log('Sorted Matches:', validMatches);
-
     if (validMatches.length === 0) {
-      return next(errorHandler(404, 'User not found'));
+      return next(errorHandler(404, 'No matches found'));
     }
 
     res.status(200).json(validMatches);

@@ -22,7 +22,9 @@ import MatchInfo from './pages/playoffmatchdata.jsx';
 import MatchStatsTable from './pages/ranking.jsx';
 import PlayerStat from './pages/playerstat.jsx';
 import Quiz from './pages/quiz.jsx';
-
+import StatSpecificMatch from './pages/testpage.jsx';
+import BanPick from './pages/banpick.jsx';
+import ABC from './pages/test.jsx';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
@@ -45,6 +47,8 @@ root.render(
             <Route path='/valorant/dataplayoff' element={<MatchInfo />} />
             <Route path='/valorant/rank' element={<MatchStatsTable />} />
             <Route path='/valorant/quiz' element={<Quiz />} />
+            <Route path='/valorant/match/:stage/:matchid' element={<StatSpecificMatch />}/>
+            <Route path='/valorant/banpick/:stage/:matchid' element={<BanPick />} />
             <Route element={<PrivateRoute />}>
               <Route path='/valorant/profile' element={<Profile />} />
             </Route>

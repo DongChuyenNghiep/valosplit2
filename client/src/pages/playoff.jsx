@@ -143,7 +143,7 @@ export default function Playoff() {
                             <div className="matchups">
                                 <div className="matchup">
                                     <div className="participants">
-                                        <div className="participant"><img id="advance-grandFinal-team-1" src="" /><span id='teamgrandFinal-1'></span><span className="score" id="score-grandFinal-1"></span></div>
+                                        <div className="participant winner"><img id="advance-grandFinal-team-1" src="" /><span id='teamgrandFinal-1'></span><span className="score" id="score-grandFinal-1"></span></div>
                                         <div className="participant"><img id="advance-grandFinal-team-2" src="" /><span id='teamgrandFinal-2'></span><span className="score" id="score-grandFinal-2"></span></div>
                                     </div>
                                 </div>

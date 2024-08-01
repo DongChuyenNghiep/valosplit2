@@ -11,6 +11,9 @@ const PlayerStatsTable = () => {
   const tableRef = useRef(null);
   const paginationContainerRef = useRef(null);
 
+  const teamCache = useRef({});
+  const profileCache = useRef({});
+
   useEffect(() => {
     const fetchAllMatches = async () => {
       try {
@@ -22,9 +25,9 @@ const PlayerStatsTable = () => {
         matches.forEach(match => {
           const players = [...match.infoTeamleft, ...match.infoTeamright];
           players.forEach(player => {
-            const { IGN, K, D, A, ACS, ADR ,HS,KAST,FK,MK} = player;
+            const { IGN, K, D, A, ACS, ADR, HS, KAST, FK, MK } = player;
             if (!statsMap[IGN]) {
-              statsMap[IGN] = { K: 0, D: 0, A: 0, ACS: 0, ADR: 0,HS:0,KAST:0,FK:0,MK:0, matchCount: 0, team: '', logoURL: '', profilePicture: '' };
+              statsMap[IGN] = { K: 0, D: 0, A: 0, ACS: 0, ADR: 0, HS: 0, KAST: 0, FK: 0, MK: 0, matchCount: 0, team: '', logoURL: '', profilePicture: '' };
             }
             statsMap[IGN].K += parseInt(K, 10);
             statsMap[IGN].D += parseInt(D, 10);
@@ -44,25 +47,21 @@ const PlayerStatsTable = () => {
         const teamPromises = playerList.map(player => fetchTeamData(player));
         const profilePromises = playerList.map(player => fetchProfileData(player));
 
-        const teamData = await Promise.allSettled(teamPromises);
-        const profileData = await Promise.allSettled(profilePromises);
+        const teamData = await Promise.all(teamPromises);
+        const profileData = await Promise.all(profilePromises);
 
         teamData.forEach((result, index) => {
-          if (result.status === 'fulfilled') {
-            const { IGN, team, logoURL } = result.value;
+          if (result) {
+            const { IGN, team, logoURL } = result;
             statsMap[IGN].team = team;
             statsMap[IGN].logoURL = logoURL;
-          } else {
-            console.error(`Error fetching team data for ${playerList[index]}`, result.reason);
           }
         });
 
         profileData.forEach((result, index) => {
-          if (result.status === 'fulfilled') {
-            const { IGN, profilePicture } = result.value;
+          if (result) {
+            const { IGN, profilePicture } = result;
             statsMap[IGN].profilePicture = profilePicture;
-          } else {
-            console.error(`Error fetching profile data for ${playerList[index]}`, result.reason);
           }
         });
 
@@ -71,7 +70,7 @@ const PlayerStatsTable = () => {
           team: stats.team,
           logoURL: stats.logoURL,
           profilePicture: stats.profilePicture,
-          match:stats.matchCount,
+          match: stats.matchCount,
           ACS: (stats.ACS / stats.matchCount).toFixed(1),
           K: stats.K,
           D: stats.D,
@@ -88,9 +87,6 @@ const PlayerStatsTable = () => {
 
         setPlayerStats(statsArray);
         setLoading(false);
-
-        localStorage.setItem('playerStats', JSON.stringify(statsArray));
-        localStorage.setItem('lastFetch', Date.now());
       } catch (error) {
         console.error('Error fetching match data', error);
         setLoading(false);
@@ -98,40 +94,38 @@ const PlayerStatsTable = () => {
     };
 
     const fetchTeamData = async (IGN) => {
+      if (teamCache.current[IGN]) {
+        return teamCache.current[IGN];
+      }
       try {
         const response = await axios.post('https://valosplit2-backend.vercel.app/api/auth/findteam', { player: IGN });
         const { team, logoURL } = response.data;
-        return { IGN, team, logoURL };
+        const result = { IGN, team, logoURL };
+        teamCache.current[IGN] = result;  // Cache the result
+        return result;
       } catch (error) {
-        throw new Error(`Failed to fetch team data for ${IGN}`);
+        console.error(`Error fetching team data for ${IGN}`, error);
+        return null;
       }
     };
 
     const fetchProfileData = async (IGN) => {
+      if (profileCache.current[IGN]) {
+        return profileCache.current[IGN];
+      }
       try {
         const response = await axios.post('https://valosplit2-backend.vercel.app/api/auth/findplayer', { riotID: IGN });
         const { profilePicture } = response.data;
-        return { IGN, profilePicture };
+        const result = { IGN, profilePicture };
+        profileCache.current[IGN] = result;  // Cache the result
+        return result;
       } catch (error) {
+        console.error(`Error fetching profile data for ${IGN}`, error);
         return { IGN, profilePicture: '1dJXC3sq1fK3XKrRsTq3AfPUtalLrzds1' };
       }
     };
 
-    const loadData = () => {
-      const cachedData = localStorage.getItem('playerStats');
-      const lastFetch = localStorage.getItem('lastFetch');
-      const now = Date.now();
-      const oneHour = 60 * 60 * 1000;
-
-      if (cachedData && lastFetch && (now - lastFetch) < oneHour) {
-        setPlayerStats(JSON.parse(cachedData));
-        setLoading(false);
-      } else {
-        fetchAllMatches();
-      }
-    };
-
-    loadData();
+    fetchAllMatches();
   }, []);
 
   useEffect(() => {
@@ -238,7 +232,6 @@ const PlayerStatsTable = () => {
                       <td>{player.KAST}</td>
                       <td>{player.FK}</td>
                       <td>{player.MK}</td>
-                      
                     </tr>
                   ))}
                 </tbody>

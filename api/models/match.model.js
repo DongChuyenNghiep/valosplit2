@@ -1,94 +1,149 @@
-import mongoose, { isValidObjectId } from 'mongoose';
+import mongoose from 'mongoose';
 
 const agentSchema = new mongoose.Schema(
-    {
-        Agent: {
-            type: String,
-            required: true
-        },
-        IGN: {
-            type: String,
-            required: true
-        },
-        ACS: {
-            type: String,
-            required: true
-        },
-        K: {
-            type: String,
-            required: true
-        },
-        D: {
-            type: String,
-            required: true
-        },
-        A: {
-            type: String,
-            required: true
-        },
-        KD: {
-            type: String,
-            required: true
-        },
-        ADR: {
-            type: String,
-            required: true
-        },
-        HS: {
-            type: String,
-            required: true
-        },
-        KAST: {
-            type: String,
-            required: true
-        },
-        FK: {
-            type: String,
-            required: true
-        },
-        MK: {
-            type: String,
-            required: true
-        }
+  {
+    Agent: {
+      type: String,
+      
     },
-    { _id: false } // Prevents creation of an `_id` field in subdocuments
+    IGN: {
+      type: String,
+      
+    },
+    ACS: {
+      type: String,
+      
+    },
+    K: {
+      type: String,
+      
+    },
+    D: {
+      type: String,
+      
+    },
+    A: {
+      type: String,
+      
+    },
+    KD: {
+      type: String,
+      
+    },
+    ADR: {
+      type: String,
+      
+    },
+    HS: {
+      type: String,
+      
+    },
+    KAST: {
+      type: String,
+      
+    },
+    FK: {
+      type: String,
+      
+    },
+    MK: {
+      type: String,
+      
+    },
+  },
+  { _id: false } // Prevents creation of an `_id` field in subdocuments
+);
+
+const teamInfoSchema = new mongoose.Schema(
+  {
+    score: {
+      type: Number,
+      required: true,
+    },
+    data: [agentSchema], // List of agents
+  },
+  { _id: false } // Prevents creation of an `_id` field in subdocuments
+);
+
+export const teamSchema = new mongoose.Schema(
+  {
+    logoURL: {
+      type: String,
+      required: true,
+    },
+    teamname: {
+      type: String,
+      required: true,
+    },
+  },
+  { _id: false } // Prevents creation of an `_id` field in subdocuments
+);
+
+const mapSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String
+    },
+    pick: {
+      type: String,
+    },
+    infoTeamleft: {
+      type: teamInfoSchema,
+
+    },
+    infoTeamright: {
+      type: teamInfoSchema,
+
+    },
+  },
+  { _id: false } // Prevents creation of an `_id` field in subdocuments
 );
 
 const matchSchema = new mongoose.Schema(
-    {
-        idmatch:{
-            required : true,
-            type: String,
-            unique: true
-        },
-        logoteamleft:{
-            required : true,
-            type: String
-        },
-        teamNameleft: {
-            type: String,
-            required: true
-        },
-        scoreteamleft:{
-            type:Number,
-            required:true
-        },
-        teamNameright: {
-            type: String,
-            required: true
-        },
-        logoteamright:{
-            type:String,
-            required: true
-        },
-        scoreteamright:{
-            type:Number,
-            required:true
-        },
-        infoTeamleft: [agentSchema],
-        infoTeamright: [agentSchema]
+  {
+    idmatch: {
+      type: String,
+      required: true
     },
-    { timestamps: true }
+    timestartmatch: {
+      type: Date,
+      required: true,
+    },
+    league: {
+      type: String,
+      required: true,
+    },
+    type: {
+      type: String,
+      required: true,
+    },
+    group: {
+      type: String,
+      required: true,
+    },
+    stage:{
+      type:String,
+      required: true
+    },
+    teamleft: {
+      type: teamSchema,
+      required: true,
+    },
+    teamright: {
+      type: teamSchema,
+      required: true,
+    },
+    maps: [mapSchema],
+    scoreteamA: {
+      type: Number,
+      default: 0,
+    },
+    scoreteamB: {
+      type: Number,
+      default: 0,
+    },
+  },
+  { timestamps: true }
 );
 
 const Match = mongoose.model('Match', matchSchema, 'MatchInfo');

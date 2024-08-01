@@ -23,9 +23,7 @@ nav.nav1 a,nav.nav2 a{
     text-decoration: none;
     color: white;
 }
-*{
-    font-family: 'Nunito' !important;
-}
+
 .fc-toolbar h2,.fc-ltr .fc-basic-view .fc-day-top .fc-day-number{
     color: white;
     text-decoration: none;

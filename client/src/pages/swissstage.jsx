@@ -187,7 +187,7 @@ export default function SwissStage() {
             return mymodelid; // Return the created modal
         }
         
-        function createMatchup(i, valueA, valueB, rowData, containerClass, group, amountplus, col) {
+        function createMatchup(i, valueA, valueB, rowData, containerClass, group, amountplus, col,groupstage) {
             const container = document.querySelector(containerClass);
             const matchupsContainer = document.createElement('div');
             matchupsContainer.classList.add('matchups');
@@ -196,8 +196,9 @@ export default function SwissStage() {
             matchupsContainer.appendChild(modal); // Append modal to matchupsContainer
         
             const link_info_match = document.createElement('a');
+            // Update the href to use Math.floor(i / 2) + 1
             link_info_match.classList.add('link-match-info');
-            link_info_match.onclick = function () { openModal(i, group); };
+            link_info_match.href = '/valorant/match/'+groupstage+"/match" + (Math.floor(i / 2) + 1);
         
             const matchupDiv = document.createElement('div');
             matchupDiv.classList.add('matchup');
@@ -222,17 +223,17 @@ export default function SwissStage() {
         }
         
         for (let i = 0; i < 8; i += 2) {
-            createMatchup(i, valueA, valueB, rowData, '.w0-l0', "A", 0, 0);
+            createMatchup(i, valueA, valueB, rowData, '.w0-l0', "A", 0, 0,"round0-0");
         }
         for (let i = 0; i < 4; i += 2) {
-            createMatchup(i, valueC, valueD, rowData, '.w1-l0', "B", 4, 1);
+            createMatchup(i, valueC, valueD, rowData, '.w1-l0', "B", 4, 1,"round1-0");
         }
         for (let i = 4; i < 8; i += 2) {
-            createMatchup(i, valueC, valueD, rowData, '.w0-l1', "B", 4, 1);
+            createMatchup(i, valueC, valueD, rowData, '.w0-l1', "B", 4, 1,"round0-1");
         }
         
         for (let i = 0; i < 3; i += 2) {
-            createMatchup(i, valueE, valueF, rowData, '.w1-l1', "C", 8, 2);
+            createMatchup(i, valueE, valueF, rowData, '.w1-l1', "C", 8, 2,"round1-1");
         }
         // Create eliminate-teams container
         const eli = document.querySelector('.eliminate');

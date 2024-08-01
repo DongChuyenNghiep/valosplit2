@@ -3,7 +3,7 @@
 *{
     padding: 0;
     margin: 0;
-    font-family: 'Nunito' !important;
+
 }
 
 nav.nav1 {
@@ -219,6 +219,7 @@ footer p{
     }
     nav.nav1{
         width: 100%;
+        padding: 5px 0;
     }
     div.why img{
         width: 92%;
