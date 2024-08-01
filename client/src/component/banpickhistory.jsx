@@ -13,7 +13,7 @@ export default function BanPickHistory() {
     useEffect(() => {
         const fetchMatches = async () => {
             try {
-                const response = await axios.post('/api/auth/findbanpick', {
+                const response = await axios.post('https://valosplit2-backend.vercel.app/api/auth/findbanpick', {
                     id: matchid,
                     group:stage
                 });
