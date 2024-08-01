@@ -24,7 +24,7 @@ import PlayerStat from './pages/playerstat.jsx';
 import Quiz from './pages/quiz.jsx';
 import StatSpecificMatch from './pages/testpage.jsx';
 import BanPick from './pages/banpick.jsx';
-import ABC from './pages/test.jsx';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
