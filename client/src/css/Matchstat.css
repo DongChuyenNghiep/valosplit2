@@ -28,7 +28,7 @@ table.player-stats-table td , table.player-stats-table th:not(:first-child){
     padding: .75rem;
     text-align: center;
 }
-@media (1400px >= width){
+@media screen and (1400px >= width){
     .hidden{
         display: none;
     }
