@@ -29,7 +29,7 @@ export default function ScoreMap({ maps, matchinfo, imageUrls }) {
                 {isDraw ? '-' : (scoreLeft !== undefined ? scoreLeft : 'N/A')}
               </span>
               {map.pick === matchinfo[0].teamleft.teamname && pickLabel}
-              {isTeamAWin === true && !isDraw && <img style={{ width: "10px", height: "30px", margin: "0 15px" }} src="https://drive.google.com/thumbnail?id=1FcrWdlic5RWZjGCPWgPg9xVuUr4p0Ha3" alt="Winner" className="winner-image" />}
+              
             </div>
             <div className='mapname'>
               <span>{map.name}</span>
@@ -40,7 +40,7 @@ export default function ScoreMap({ maps, matchinfo, imageUrls }) {
                 {isDraw ? '-' : (scoreRight !== undefined ? scoreRight : 'N/A')}
               </span>
               {map.pick === matchinfo[0].teamright.teamname && pickLabel}
-              {isTeamAWin === false && !isDraw && <img style={{ width: "10px", height: "30px", margin: "0 15px" }} src="https://drive.google.com/thumbnail?id=1FcrWdlic5RWZjGCPWgPg9xVuUr4p0Ha3" alt="Winner" className="winner-image" />}
+              
             </div>
           </div>
         );

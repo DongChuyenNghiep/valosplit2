@@ -118,7 +118,7 @@ export default function StatSpecificMatch() {
     }
 
     if (!matchinfo) {
-        return <div>Loading...</div>;
+        return <div className='container1'><div className="lds-ring"><div></div><div></div><div></div><div></div></div></div>;
     }
 
     return (

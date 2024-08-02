@@ -55,7 +55,7 @@ const renderPlayerStats = (players, teamName, logoURL) => {
                                     {imageUrls[player.Agent] ? (
                                         <img src={imageUrls[player.Agent]} alt={`${player.Agent} Logo`} />
                                     ) : (
-                                        <span>Image not available</span>
+                                        <span>Loading...</span>
                                     )}
                                     <span>{player.IGN}</span>
                                 </div>
