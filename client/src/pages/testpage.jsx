@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import '../css/matchinfo.css';
 import BanPickHistory from '../component/banpickhistory';
 import ScoreMap from '../component/ScoreMap.jsx'
@@ -107,7 +107,8 @@ export default function StatSpecificMatch() {
         }
     };
 
-    const handleMapChange = (index) => {
+    const handleMapChange = (index, event) => {
+        event.preventDefault();
         setSelectedMapIndex(index);
     };
 
@@ -172,7 +173,7 @@ export default function StatSpecificMatch() {
                     {maps.map((map, index) => (
                         <a
                             key={index}
-                            onClick={() => handleMapChange(index)}
+                            onClick={(e) => handleMapChange(index, e)}
                             className={index === selectedMapIndex ? 'active' : ''}
                         >
                             {map.name}
