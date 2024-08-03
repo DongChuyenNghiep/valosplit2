@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import '../css/matchinfo.css';
 import BanPickHistory from '../component/banpickhistory';
-import ScoreMap from '../component/ScoreMap.jsx'
+import ScoreMap from '../component/ScoreMap.jsx';
 import PlayerStats from '../component/MatchStat.jsx';
-import '../css/Matchstat.css'
+import '../css/Matchstat.css';
 
 export default function StatSpecificMatch() {
     const images = import.meta.glob('../image/*.{png,jpg,jpeg,gif}');
@@ -17,6 +17,7 @@ export default function StatSpecificMatch() {
     const [maps, setMaps] = useState([]);
     const [selectedMapIndex, setSelectedMapIndex] = useState(0);
     const [imageUrls, setImageUrls] = useState({});
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchMatches = async () => {
@@ -29,13 +30,15 @@ export default function StatSpecificMatch() {
                 if (response.data.length > 0) {
                     setMaps(response.data[0].maps);
                 }
+                setLoading(false);
             } catch (err) {
                 setError(err);
+                setLoading(false);
             }
         };
 
         fetchMatches();
-    }, [matchid]);
+    }, [matchid, stage]);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -67,10 +70,8 @@ export default function StatSpecificMatch() {
 
     const formatDate = (dateStr) => {
         const date = new Date(dateStr);
-
         const offset = 7 * 60;
         const localDate = new Date(date.getTime() + offset * 60 * 1000);
-
         const hour = localDate.getUTCHours().toString().padStart(2, '0');
         const minute = localDate.getUTCMinutes().toString().padStart(2, '0');
         const day = localDate.getUTCDate().toString().padStart(2, '0');
@@ -85,16 +86,13 @@ export default function StatSpecificMatch() {
                 default: return 'TH';
             }
         };
-
         const daySuffix = getDaySuffix(day);
         return <>{hour}:{minute} - {day}{daySuffix} {month} {year}</>;
     };
 
     const TimeComparison = () => {
         if (!matchinfo || !matchinfo[0].timestartmatch) return "TBD";
-
         const formattedDate = formatDate(matchinfo[0].timestartmatch);
-
         if (currentTimeISO < new Date(matchinfo[0].timestartmatch).toISOString()) {
             return <span>{formattedDate}</span>;
         } else {
@@ -112,14 +110,20 @@ export default function StatSpecificMatch() {
         setSelectedMapIndex(index);
     };
 
-    const selectedMap = selectedMapIndex !== null ? maps[selectedMapIndex] : null;
+    const selectedMap = useMemo(() => {
+        return selectedMapIndex !== null ? maps[selectedMapIndex] : null;
+    }, [selectedMapIndex, maps]);
 
     if (error) {
         return <div>Error: {error.message}</div>;
     }
 
-    if (!matchinfo) {
+    if (loading) {
         return <div className='container1'><div className="lds-ring"><div></div><div></div><div></div><div></div></div></div>;
+    }
+
+    if (!matchinfo) {
+        return <div>No match information available.</div>;
     }
 
     return (
@@ -162,24 +166,24 @@ export default function StatSpecificMatch() {
                 </div>
                 <div className='score-and-map'>
                     <ScoreMap maps={maps} matchinfo={matchinfo} imageUrls={imageUrls} />
-
                     <div className='ban-pick-history'>
                         <BanPickHistory />
                     </div>
                 </div>
                 <div className='map-buttons'>
-                <span className='all-title' style={{display:"flex",justifyContent:"center",alignItems:"center"}}>Match stats</span>
-                <div className='button-map'>
-                    {maps.map((map, index) => (
-                        <a
-                            key={index}
-                            onClick={(e) => handleMapChange(index, e)}
-                            className={index === selectedMapIndex ? 'active' : ''}
-                        >
-                            {map.name}
-                        </a>
-                    ))}
-                </div>
+                    <span className='all-title' style={{display:"flex",justifyContent:"center",alignItems:"center"}}>Match stats</span>
+                    <div className='button-map'>
+                        {maps.map((map, index) => (
+                            <a
+                                key={index}
+                                onClick={(e) => handleMapChange(index, e)}
+                                className={index === selectedMapIndex ? 'active' : ''}
+                                href='#'
+                            >
+                                {map.name}
+                            </a>
+                        ))}
+                    </div>
                 </div>
                 <PlayerStats selectedMap={selectedMap} matchinfo={matchinfo} />
             </div>
