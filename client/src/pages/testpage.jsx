@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import '../css/matchinfo.css';
 import BanPickHistory from '../component/banpickhistory';
 import ScoreMap from '../component/ScoreMap.jsx'
@@ -9,13 +9,13 @@ import '../css/Matchstat.css'
 
 export default function StatSpecificMatch() {
     const images = import.meta.glob('../image/*.{png,jpg,jpeg,gif}');
-    const { stage,matchid } = useParams();
+    const { stage, matchid } = useParams();
 
     const [error, setError] = useState(null);
     const [matchinfo, setMatchInfo] = useState(null);
     const [currentTime, setCurrentTime] = useState(new Date());
     const [maps, setMaps] = useState([]);
-    const [selectedMapIndex, setSelectedMapIndex] = useState(0); // Changed initial state to null
+    const [selectedMapIndex, setSelectedMapIndex] = useState(0);
     const [imageUrls, setImageUrls] = useState({});
 
     useEffect(() => {
@@ -170,13 +170,13 @@ export default function StatSpecificMatch() {
                 <span className='all-title' style={{display:"flex",justifyContent:"center",alignItems:"center"}}>Match stats</span>
                 <div className='button-map'>
                     {maps.map((map, index) => (
-                        <button
+                        <a
                             key={index}
                             onClick={() => handleMapChange(index)}
                             className={index === selectedMapIndex ? 'active' : ''}
                         >
                             {map.name}
-                        </button>
+                        </a>
                     ))}
                 </div>
                 </div>
