@@ -43,7 +43,7 @@ const renderPlayerStats = (players, teamName, logoURL) => {
                         <th>ADR</th>
                         <th>HS</th>
                         <th className=''>KAST</th>
-                        <th className='hidden'>FK</th>
+                        <th className='hidden'>FB</th>
                         <th className='hidden'>MK</th>
                     </tr>
                 </thead>
@@ -60,16 +60,16 @@ const renderPlayerStats = (players, teamName, logoURL) => {
                                     <span>{player.IGN}</span>
                                 </div>
                             </td>
-                            <td className='all-title '>{player.ACS}</td>
-                            <td className='all-title '>{player.K}</td>
-                            <td className='all-title '>{player.D}</td>
-                            <td className='all-title '>{player.A}</td>
-                            <td className='all-title hidden'>{player.KD}</td>
-                            <td className='all-title'>{player.ADR}</td>
-                            <td className='all-title'>{player.HS}%</td>
-                            <td className=' all-title'>{player.KAST}%</td>
-                            <td className='all-title hidden'>{player.FK}</td>
-                            <td className='all-title hidden'>{player.MK}</td>
+                            <td className='all-title '>{String(player.ACS)}</td>
+                            <td className='all-title '>{String(player.K)}</td>
+                            <td className='all-title '>{String(player.D)}</td>
+                            <td className='all-title '>{String(player.A)}</td>
+                            <td className='all-title hidden'>{String(player.KD)}</td>
+                            <td className='all-title'>{String(player.ADR)}</td>
+                            <td className='all-title'>{String(player.HS)}%</td>
+                            <td className=' all-title'>{String(player.KAST)}%</td>
+                            <td className='all-title hidden'>{String(player.FK)}</td>
+                            <td className='all-title hidden'>{String(player.MK)}</td>
                         </tr>
                     ))}
                 </tbody>
