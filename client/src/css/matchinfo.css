@@ -300,10 +300,10 @@ div.title span.group{
 .player-stats-container .wrapper{
     width: 100%;
 }
-@media screen and (1200px >= width) {
+@media screen and (max-width: 1200px) {
     .ban-pick-history{
         display: grid;
-        grid-template-columns: auto auto ;
+        grid-template-columns: auto auto;
         width: 50%;
         gap: 5px;
     }
@@ -316,31 +316,30 @@ div.title span.group{
         flex-direction: row;
         width: 100%;
         justify-content: space-between;
-        padding:.75rem;
+        padding: .75rem;
     }
     
-    span.mapname,.banpickmap img{
+    span.mapname, .banpickmap img{
         margin-bottom: 0 !important;
         width: 35px;
     }
     .banpickmap img{
         width: 40px;
         vertical-align: middle;
-
     }
-    span.ban,span.pick,span.decider{
+    span.ban, span.pick, span.decider{
         margin: 0 !important;
         letter-spacing: .8px;
-    
     }
-    .teamright,.teamleft{
+    .teamright, .teamleft{
         gap: 0 .5rem;
     }
     .ban-pick-history > div:nth-child(7) {
         grid-column: span 2; /* This makes the 7th item span both columns */
     }
 }
-@media screen and (1024px >= width) {
+
+@media screen and (max-width: 1024px) {
     div.time{
         display: none;
     }
@@ -349,7 +348,7 @@ div.title span.group{
     }
     .ban-pick-history{
         display: grid;
-        grid-template-columns: auto auto ;
+        grid-template-columns: auto auto;
         width: 100%;
         gap: 5px;
     }
@@ -367,18 +366,17 @@ div.title span.group{
         width: 100%;
         margin-bottom: 10px;
     }
-    div.team.teamleft,div.team.teamright{
+    div.team.teamleft, div.team.teamright{
         flex-direction: column;
         align-items: center;
         justify-content: center !important;  
         gap: .25rem 0;
     }
-    div.teamleft img,div.teamright img{
+    div.teamleft img, div.teamright img{
         width: 25px;
         margin: 0;
     }
-    div.teamleft div.teamname,div.teamright div.teamname{
+    div.teamleft div.teamname, div.teamright div.teamname{
         font-size: 10px;
     }
-    
 }
