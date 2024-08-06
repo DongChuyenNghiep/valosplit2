@@ -163,7 +163,7 @@ div.teamright img{
     width: 33%;
     align-items: center;
 }
-.button-map a{
+.button-map button{
     font-style: normal;
     font-weight: 900;
     text-transform: uppercase;
@@ -178,7 +178,7 @@ div.teamright img{
     border-radius: 4px;
     border-color: transparent;
 }
-.button-map a.active{
+.button-map button.active{
     --tw-text-opacity: 1;
     color: rgb(31 12 25 / var(--tw-text-opacity));
     --tw-bg-opacity: 1;
@@ -308,7 +308,7 @@ div.title span.group{
         gap: 5px;
     }
     .map-buttons{
-        padding: .5rem 1.25rem;
+        padding: 1rem 1.25rem;
     }
     .banpickmap{
         height: 60px;

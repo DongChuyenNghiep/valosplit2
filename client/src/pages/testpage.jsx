@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import '../css/matchinfo.css';
@@ -15,9 +15,9 @@ export default function StatSpecificMatch() {
     const [matchinfo, setMatchInfo] = useState(null);
     const [currentTime, setCurrentTime] = useState(new Date());
     const [maps, setMaps] = useState([]);
-    const [selectedMapIndex, setSelectedMapIndex] = useState(0);
+    const [selectedMapIndex, setSelectedMapIndex] = useState(null);
     const [imageUrls, setImageUrls] = useState({});
-    const [loading, setLoading] = useState(true);
+    const [isLargeScreen, setIsLargeScreen] = useState(true);
 
     useEffect(() => {
         const fetchMatches = async () => {
@@ -30,15 +30,13 @@ export default function StatSpecificMatch() {
                 if (response.data.length > 0) {
                     setMaps(response.data[0].maps);
                 }
-                setLoading(false);
             } catch (err) {
                 setError(err);
-                setLoading(false);
             }
         };
 
         fetchMatches();
-    }, [matchid, stage]);
+    }, [matchid]);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -66,12 +64,27 @@ export default function StatSpecificMatch() {
         loadImageUrls();
     }, [images]);
 
+    useEffect(() => {
+        const handleResize = () => {
+            setIsLargeScreen(window.innerWidth > 1400);
+        };
+
+        window.addEventListener('resize', handleResize);
+        handleResize();
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
     const currentTimeISO = currentTime.toISOString();
 
     const formatDate = (dateStr) => {
         const date = new Date(dateStr);
+
         const offset = 7 * 60;
         const localDate = new Date(date.getTime() + offset * 60 * 1000);
+
         const hour = localDate.getUTCHours().toString().padStart(2, '0');
         const minute = localDate.getUTCMinutes().toString().padStart(2, '0');
         const day = localDate.getUTCDate().toString().padStart(2, '0');
@@ -86,13 +99,16 @@ export default function StatSpecificMatch() {
                 default: return 'TH';
             }
         };
+
         const daySuffix = getDaySuffix(day);
         return <>{hour}:{minute} - {day}{daySuffix} {month} {year}</>;
     };
 
     const TimeComparison = () => {
         if (!matchinfo || !matchinfo[0].timestartmatch) return "TBD";
+
         const formattedDate = formatDate(matchinfo[0].timestartmatch);
+
         if (currentTimeISO < new Date(matchinfo[0].timestartmatch).toISOString()) {
             return <span>{formattedDate}</span>;
         } else {
@@ -105,25 +121,22 @@ export default function StatSpecificMatch() {
         }
     };
 
-    const handleMapChange = (index, event) => {
-        event.preventDefault();
+    const handleMapChange = (index) => {
         setSelectedMapIndex(index);
     };
 
-    const selectedMap = useMemo(() => {
-        return selectedMapIndex !== null ? maps[selectedMapIndex] : null;
-    }, [selectedMapIndex, maps]);
+    const handleAllMatchesClick = () => {
+        setSelectedMapIndex(null);
+    };
+
+    const selectedMap = selectedMapIndex !== null ? maps[selectedMapIndex] : null;
 
     if (error) {
         return <div>Error: {error.message}</div>;
     }
 
-    if (loading) {
-        return <div className='container1'><div className="lds-ring"><div></div><div></div><div></div><div></div></div></div>;
-    }
-
     if (!matchinfo) {
-        return <div>No match information available.</div>;
+        return <div>Loading...</div>;
     }
 
     return (
@@ -166,26 +179,33 @@ export default function StatSpecificMatch() {
                 </div>
                 <div className='score-and-map'>
                     <ScoreMap maps={maps} matchinfo={matchinfo} imageUrls={imageUrls} />
+
                     <div className='ban-pick-history'>
                         <BanPickHistory />
                     </div>
                 </div>
                 <div className='map-buttons'>
-                    <span className='all-title' style={{display:"flex",justifyContent:"center",alignItems:"center"}}>Match stats</span>
+                    <span className='all-title' style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>Match stats</span>
                     <div className='button-map'>
-                        {maps.map((map, index) => (
-                            <a
-                                key={index}
-                                onClick={(e) => handleMapChange(index, e)}
-                                className={index === selectedMapIndex ? 'active' : ''}
-                                href='#'
-                            >
-                                {map.name}
-                            </a>
-                        ))}
+                        {isLargeScreen ? (
+                            maps
+                                .filter(map => map.infoTeamleft.data.length > 0 && map.infoTeamright.data.length > 0)
+                                .map((map, index) => (
+                                    <button
+                                        key={index}
+                                        onClick={() => handleMapChange(index)}
+                                        className={index === selectedMapIndex ? 'active' : ''}
+                                    >
+                                        {map.name}
+                                    </button>
+                                ))
+                        ) : (
+                            <div></div>
+                        )}
                     </div>
                 </div>
-                <PlayerStats selectedMap={selectedMap} matchinfo={matchinfo} />
+
+                <PlayerStats selectedMap={selectedMap} matchinfo={matchinfo} isLargeScreen={isLargeScreen} />
             </div>
         </>
     );
