@@ -15,7 +15,7 @@ export default function StatSpecificMatch() {
     const [matchinfo, setMatchInfo] = useState(null);
     const [currentTime, setCurrentTime] = useState(new Date());
     const [maps, setMaps] = useState([]);
-    const [selectedMapIndex, setSelectedMapIndex] = useState(null);
+    const [selectedMapIndex, setSelectedMapIndex] = useState(0);
     const [imageUrls, setImageUrls] = useState({});
     const [isLargeScreen, setIsLargeScreen] = useState(true);
 
@@ -185,7 +185,12 @@ export default function StatSpecificMatch() {
                     </div>
                 </div>
                 <div className='map-buttons'>
-                    <span className='all-title' style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>Match stats</span>
+                {isLargeScreen ? (
+                            <span className='all-title' style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>Thông số từng map</span>
+                        ) : (
+                            <span className='all-title' style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>Thông số tổng</span>
+                        )}
+                    
                     <div className='button-map'>
                         {isLargeScreen ? (
                             maps
