@@ -24,6 +24,7 @@ import PlayerStat from './pages/playerstat.jsx';
 import Quiz from './pages/quiz.jsx';
 import StatSpecificMatch from './pages/testpage.jsx';
 import BanPick from './pages/banpick.jsx';
+import Test from './pages/test.jsx';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -50,6 +51,7 @@ root.render(
             <Route path='/valorant/match/:stage/:matchid' element={<StatSpecificMatch />}/>
             <Route path='/valorant/banpick/:stage/:matchid' element={<BanPick />} />
             <Route element={<PrivateRoute />}>
+            <Route path='/valorant/test' element={<Test />} />
               <Route path='/valorant/profile' element={<Profile />} />
             </Route>
           </Routes>

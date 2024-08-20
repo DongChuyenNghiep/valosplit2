@@ -29,9 +29,6 @@ const Navbar1 = () => {
                         <LinkContainer to="/valorant/allteam">
                             <Nav.Link>Các đội tham dự</Nav.Link>
                         </LinkContainer>
-                        <LinkContainer to="/valorant/stat">
-                            <Nav.Link>Stat</Nav.Link>
-                        </LinkContainer>
                         <LinkContainer to="/valorant/rule">
                             <Nav.Link>Rule</Nav.Link>
                         </LinkContainer>
