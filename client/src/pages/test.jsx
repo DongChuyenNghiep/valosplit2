@@ -7,7 +7,7 @@ export default function Test() {
     const matchid = '123e456wdw7-e89b-12d3-a456-426614174000';
 
     const fetchMatches = async () => {
-        const url = `https://cors-anywhere.herokuapp.com/https://api.henrikdev.xyz/valorant/v2/match/${matchid}`;
+        const url = `https://api.henrikdev.xyz/valorant/v2/match/${matchid}`;
         console.log('Fetching data from URL:', url);
 
         try {
