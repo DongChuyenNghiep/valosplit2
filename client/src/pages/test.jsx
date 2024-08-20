@@ -7,13 +7,13 @@ export default function Test() {
     const matchid = '123e456wdw7-e89b-12d3-a456-426614174000';
 
     const fetchMatches = async () => {
-        const url = `https://api.henrikdev.xyz/valorant/v2/match/${matchid}`;
+        const url = `https://api.henrikdev.xyz/valorant/v4/match/eu/${matchid}`;
         console.log('Fetching data from URL:', url);
 
         try {
             const response = await fetch(url, {
                 headers: {
-                    'ApiKeyAuth': '123e456wdw7-e89b-12d3-a456-426614174000', // Replace with your actual API key
+                    'Authorization': 'HDEV-c25fa07b-2794-4096-8e4b-e452d228302c', // Replace with your actual API key
                 },
             });
 
